@@ -1,21 +1,47 @@
-# BiCU_personal_repository_template
+# Introduction to Scientific Computing
 
-BiCU repository template
+The Introduction to Scientific Computing course is for CCRI users who want to learn how to utilize the computational infrastructure (the CeMM cluster) to analyze scientific data.
 
-## Rulesets setup - delete when done
+### Required pre-requisites:
+- Intro to Linux (or pre-existing basic knowledge of Linux commands and bash scripting)
+    
+- Visual Studio Code (VSCode)  
+  Newer versions are incompatible with the CeMM cluster so we recommend downloading **version 1.85.2** as a portable version by following the instructions at [https://code.visualstudio.com/docs/supporting/faq#_previous-release-versions](https://code.visualstudio.com/docs/supporting/faq#_previous-release-versions)
+    
+- "Remote - SSH" extension enabled on VSCode  
+  This extension is required to connect to the CeMM cluster - please install and enable it in your VSCode by following these instructions:
+  1. Navigate to the "Extensions" tab in VSCode (`Ctrl + Shift + X` on Windows; `Cmd + Shift + X` on Mac) 
+  2. Search for "Remote - SSH"
+  3. Click "Install"  
+  
+### Recommended pre-requisites:
+- CeMM cluster account  
+  If you don't have one, you can still take the course, but you will be limited to watching during the interactive parts.
 
-GitHub does not copy template directory rulesets automatically. To apply template directory rulesets:
+## Session Contents
 
-1. Locally download JSON files from `.github/rulesets/*.json`
-2. Go to _Repository_ -> _Settings_ -> _Rules_ -> _Rulesets_ -> _New ruleset_ (arrow down) -> _Import a ruleset_
-3. Import each ruleset with the following steps\
-    3.1. Select the associated downloaded ruleset JSON file and click _Open_\
-    3.2. Click _Create_ at the very bottom and save changes
-4. When you're done importing all rulesets, you may delete this section in the README as well as the associated directories `.github/rulesets`, and `.github` (if empty).
+Below you can find a description of the topics that will be covered in each session.
 
-To check the rulesets JSON files are up-to-date, go to the template repository:
+### Session 1
+- Logging onto the CeMM cluster
+- Learning about different node types available on the cluster
+- Learning about the file storage systems on the CeMM cluster - `/nobackup` and `/research`
+- Mounting `/nobackup` and `/research` on a laptop
+- Running simple commands using the command line on a login node
+- Running a simple `.sh` script on a login node
 
-1. Go to the **original template repository**
-2. Go to _Repository_ -> _Settings_ -> _Rules_ -> _Rulesets_
-3. Click the three dots `...` on the right and Export ruleset
-4. Compare the JSON files
+### Session 2 
+- Learning when to use a compute node instead of a login node
+- SBATCH directives
+- SLURM queues
+- Using `srun` to start an interactive job
+- Running simple commands using the command line on a compute node via an interactive job
+- Running a simple `.sbatch` script on a compute node
+- Useful commands to track cluster usage and job status
+
+### Session 3
+- Environment management using the module system
+- Environment management using conda
+- Data transfer to/from the CeMM cluster/Isilon
+- Putting it all together: running an RStudio session on the CeMM cluster
+- Putting it all together: somatic short variant calling analysis
