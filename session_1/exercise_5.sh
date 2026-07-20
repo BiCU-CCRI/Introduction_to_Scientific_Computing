@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "First ten lines of the fastq file:"
-zcat sample.fastq.gz | head -n 10
+cat ./example_data/fastq/SRR7890883.chr17_50k_R1.fastq | head -n 10
 
 echo "Counting the number of reads in the fastq file:"
-zcat sample.fastq.gz | wc -l | awk '{print $1/4}'
+cat ./example_data/fastq/SRR7890883.chr17_50k_R1.fastq | wc -l | awk '{print $1/4}'
