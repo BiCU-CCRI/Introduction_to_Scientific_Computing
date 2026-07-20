@@ -64,7 +64,7 @@ You can now start running commands and scripts on the cluster. How exciting.
 
 ### "Logging onto" a fake cluster for practice
 
-If you do not have a CeMM cluster account or a terminal emulator for Windows, you a still join in! We will use Codespaces, like we did in the Introduction to Linux course, to the login node of a computing cluster. You can use Codespaces to practice running simple commands and scripts on a pretend cluster without needing a CeMM account. Please review [README.md](README.md) for a detailed overview of Codespaces.  
+If you do not have a CeMM cluster account or a terminal emulator for Windows, you a still join in! We will use Codespaces, like we did in the Introduction to Linux course, to the login node of a computing cluster. You can use Codespaces to practice running simple commands and scripts on a pretend cluster without needing a CeMM account. Please review [../README.md](../README.md) for a detailed overview of Codespaces.  
 
 1. Navigate to [https://github.com/BiCU-CCRI/Introduction_to_Scientific_Computing/tree/main](https://github.com/BiCU-CCRI/Introduction_to_Scientific_Computing/tree/main)
 
