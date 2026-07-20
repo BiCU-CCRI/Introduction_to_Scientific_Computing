@@ -84,7 +84,7 @@ You can experiment freely in this environment — if something goes wrong, you c
 > [!TIP]
 > **When you have finished the course:** Remember to delete your Codespace if you no longer need it. Codespaces that are left unused can continue to count towards your storage and usage limits. You can always create a new Codespace from this repository again in the future if needed.
 
-You can view and manage your Codespaces at https://github.com/codespaces. Click the `...` options menu next to a Codespace. There you can find options to stop or delete it. Remember, stopping pauses the environment while keeping your work. Delete a Codespace only when you have finished with it.
+You can view and manage your Codespaces at [https://github.com/codespaces](https://github.com/codespaces). Click the `...` options menu next to a Codespace. There you can find options to stop or delete it. Remember, stopping pauses the environment while keeping your work. Delete a Codespace only when you have finished with it.
 
 ############################## pic ##############################
 
