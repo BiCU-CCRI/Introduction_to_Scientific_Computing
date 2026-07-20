@@ -28,7 +28,7 @@ Below you can find a description of the topics that will be covered in each sess
 - Learning about the file storage systems on the CeMM cluster - `/nobackup` and `/research`
 - Mounting `/nobackup` and `/research` on a laptop
 - Running simple commands using the command line on a login node
-- Running a simple `.sh` script on a login node
+- Running simple `.sh` scripts on a login node
 
 ### Session 2 
 - Learning when to use a compute node instead of a login node
