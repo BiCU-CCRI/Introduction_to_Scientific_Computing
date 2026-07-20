@@ -88,9 +88,9 @@ You can view and manage your Codespaces at https://github.com/codespaces. Click 
 
 ############################## pic ##############################
 
-## A guide to learn-slurm
+## A guide to Learn-Slurm
 
-If you don't have a CeMM cluster account, you can use [learn-slurm](https://learnslurm.com/index) to follow along with the course in Session 2. Learn-slurm is a free online platform that allows you to practice using SLURM commands in a simulated environment. It provides a virtual cluster where you can submit jobs, manage queues, and learn SLURM commands without needing access to the CeMM cluster.  
+If you don't have a CeMM cluster account, you can use [learn-slurm](https://learnslurm.com/index) to follow along with the course in Session 2. LearnSlurm is a free online platform that allows you to practice using SLURM commands in a simulated environment. It provides a virtual cluster where you can submit jobs, manage queues, and learn SLURM commands without needing access to the CeMM cluster.  
 
 ### Setting up LearnSlurm
 
