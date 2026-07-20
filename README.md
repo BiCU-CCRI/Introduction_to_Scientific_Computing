@@ -82,7 +82,7 @@ You can experiment freely in this environment — if something goes wrong, you c
 > GitHub Codespaces is free for individual users within the included monthly usage allowance (currently up to 60 hours per month). This should be sufficient to complete this introductory course. If you leave your Codespace open or stop working for the day, it will automatically stop after 30 minutes of inactivity. Your files will be saved, and you can restart the Codespace when you return.
 
 > [!TIP]
-> **When you have finished the course:** Remember to delete your Codespace if you no longer need it. Codespaces that are left unused can continue to count towards your storage and usage limits. You can always create a new Codespace from this repository again in the future if needed.
+> **When you have finished using Codespaces:** Remember to delete your Codespace if you no longer need it. Codespaces that are left unused can continue to count towards your storage and usage limits. You can always create a new Codespace from this repository again in the future if needed.
 
 You can view and manage your Codespaces at [https://github.com/codespaces](https://github.com/codespaces). Click the `...` options menu next to a Codespace. There you can find options to stop or delete it. Remember, stopping pauses the environment while keeping your work. Delete a Codespace only when you have finished with it.
 
@@ -90,7 +90,7 @@ You can view and manage your Codespaces at [https://github.com/codespaces](https
 
 ## A guide to Learn-Slurm
 
-If you don't have a CeMM cluster account, you can use [learn-slurm](https://learnslurm.com/index) to follow along with the course in Session 2. LearnSlurm is a free online platform that allows you to practice using SLURM commands in a simulated environment. It provides a virtual cluster where you can submit jobs, manage queues, and learn SLURM commands without needing access to the CeMM cluster.  
+If you don't have a CeMM cluster account, you can use [LearnSlurm](https://learnslurm.com/index) to follow along with the course in Session 2. LearnSlurm is a free online platform that allows you to practice using SLURM commands in a simulated environment. It provides a virtual cluster where you can submit jobs, manage queues, and learn SLURM commands without needing access to the CeMM cluster.  
 
 ### Setting up LearnSlurm
 
