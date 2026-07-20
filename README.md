@@ -4,7 +4,11 @@ The Introduction to Scientific Computing course is for CCRI users who want to le
 
 ### Required pre-requisites:
 - Intro to Linux (or pre-existing basic knowledge of Linux commands and bash scripting)
-    
+  
+### Recommended pre-requisites:
+- CeMM cluster account  
+  If you don't have one, you can still take the course, but you will be limited to watching during the interactive parts.
+
 - Visual Studio Code (VSCode)  
   Newer versions are incompatible with the CeMM cluster so we recommend downloading **version 1.85.2** as a portable version by following the instructions at [https://code.visualstudio.com/docs/supporting/faq#_previous-release-versions](https://code.visualstudio.com/docs/supporting/faq#_previous-release-versions)
     
@@ -13,10 +17,6 @@ The Introduction to Scientific Computing course is for CCRI users who want to le
   1. Navigate to the "Extensions" tab in VSCode (`Ctrl + Shift + X` on Windows; `Cmd + Shift + X` on Mac) 
   2. Search for "Remote - SSH"
   3. Click "Install"  
-  
-### Recommended pre-requisites:
-- CeMM cluster account  
-  If you don't have one, you can still take the course, but you will be limited to watching during the interactive parts.
 
 ## Session Contents
 
