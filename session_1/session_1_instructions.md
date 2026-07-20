@@ -36,7 +36,7 @@ The first step to accessing the CeMM cluster, or any high performance computing 
 
 4. Enter your CeMM password when prompted.  
 
-### Logging onto the CeMM cluster using VSCode   
+### Logging onto the CeMM cluster using VSCode  
 
 1. Open VSCode.  
 
@@ -64,9 +64,7 @@ You can now start running commands and scripts on the cluster. How exciting.
 
 ### "Logging onto" a fake cluster for practice
 
-If you do not have a CeMM cluster account or a terminal emulator for Windows, you a still join in! We will use Codespaces, like we did in the Introduction to Linux course, to the login node of a computing cluster. You can use Codespaces to practice running simple commands and scripts on a pretend cluster without needing a CeMM account.  
-
-To set up Codespaces:
+If you do not have a CeMM cluster account or a terminal emulator for Windows, you a still join in! We will use Codespaces, like we did in the Introduction to Linux course, to the login node of a computing cluster. You can use Codespaces to practice running simple commands and scripts on a pretend cluster without needing a CeMM account. Please review [README.md](README.md) for a detailed overview of Codespaces.    
 
 1. Navigate to [https://github.com/BiCU-CCRI/Introduction_to_Scientific_Computing/tree/main](https://github.com/BiCU-CCRI/Introduction_to_Scientific_Computing/tree/main)
 
@@ -74,11 +72,11 @@ To set up Codespaces:
 
 3. Select the "Codespaces" tab.
 
-4. Click on the "Create codespace on main" button. 
+4. Click on the "Create codespace on main" button.  
 
-5. Wait for the environment to build - this can take up to ten minutes the first time.  
+5. Wait for the environment to build - this can take a few minutes the first time.  
 
-Now you can practice running simple commands on a pretend computational cluster without needing a CeMM account. Still exciting.  
+Now you can practice running simple commands and scripts on a pretend computational cluster without needing a CeMM account. Still exciting.  
 
 ## Understanding the CeMM cluster architecture
 
@@ -108,7 +106,7 @@ ls /nobackup/<lab_name>
 
 ### Storage quotas
 
-Both `/nobackup` and `/research` have storage quotas that limit the amount of data that can be stored per group. The storage quota for `/nobackup` is ###### TB per lab, while the storage quota for `/research` is ###### TB per lab. 
+Both `/nobackup` and `/research` have storage quotas that limit the amount of data that can be stored per group. The storage quota for `/nobackup` is 24 TB per lab, while the storage quota for `/research` is 100 GB per lab member.  
 
 Let's check how much storage your lab is currently using by running the following commands on the login node:
 
@@ -196,7 +194,7 @@ How exciting, you have just made your own space on the CeMM cluster! You can now
 git clone https://github.com/BiCU-CCRI/Introduction_to_Scientific_Computing.git
 ```
 
-This will create a new directory called `Introduction_to_Scientific_Computing` in your user directory, and download all the files from this GitHub repository into that directory. 
+This will create a new directory called `Introduction_to_Scientific_Computing` in your user directory, and download all the files from this GitHub repository into that directory.  
 
 5. Navigate into the `Introduction_to_Scientific_Computing/session_1` directory using the `cd` command:
 
@@ -205,8 +203,7 @@ cd Introduction_to_Scientific_Computing/session_1/
 ```
 
 Don't worry if you aren't familiar with `git` - this is the only git command we will use all course. If you want to get more familiar with `git`, you can take the "Introduction to Git" course that BiCU will soon be offering!
-
-
+  
 ## Exercise 4: Running simple `.sh` scripts on a login node
 
 Now that you have learned how to run simple commands on a login node, let's run a simple bash script using the login node. You should be familiar with bash scripting from Intro to Linux.  
@@ -228,23 +225,22 @@ echo 'echo "Hello, CCRI!"' >> hello_ccri.sh
 
 6. Run the script from the login node using the following command:
 
-```bash 
+```bash
 bash hello_ccri.sh
 ```
 
 You should observe the output printed to the terminal:
 
-```
+```bash
 Hello, CCRI!
 ```
 
 ### Running a simple scientific computing script on a login node
 
-Finally, we get to the fun part! Let's run a simple scientific computing script on a login node. This script will view the first ten lines of a gzipped fastq file and count the number of reads in the file. Since it isn't computationally intensive, we can safely run it on the login node without risking an angry email from CeMM IT. 
+Finally, we get to the fun part! Let's run a simple scientific computing script on a login node. This script will view the first ten lines of a gzipped fastq file and count the number of reads in the file. Since it isn't computationally intensive, we can safely run it on the login node without risking an angry email from CeMM IT.  
 
 This exercise is a recap of part of `Introduction to Linux Session 4 Exercise 5: Piping the content of a compressed file`, except we will be executing the commands as a script instead of typing them into the command line.  
-
-
+  
 1. First, we need to understand what the script is doing. It is a bad idea to run a script without understanding its contents! Inspect the contents of the script using the `cat` command:
 
 ```bash
@@ -268,13 +264,13 @@ Can you figure out what each line of the script is doing?
 For spoilers, see below.  
 
 ```bash
-#!/bin/bash                                              # This line specifies that the script should be run using the bash shell.
+#!/bin/bash                                                                   # This line specifies that the script should be run using the bash shell.
 
-echo "First ten lines of the fastq file:"                # This line prints a message to the terminal indicating that the first ten lines of the fastq file will be displayed.
-zcat sample.fastq.gz | head -n 10                        # This line uses the `zcat` command, which is similar to `cat` but allows concatenating of compressed `.gz` files, then pipes the output to the `head` command, which displays the first ten lines of the file.
+echo "First ten lines of the fastq file:"                                     # This line prints a message to the terminal indicating that the first ten lines of the fastq file will be displayed.
+cat ./example_data/fastq/SRR7890883.chr17_50k_R1.fastq | head -n 10           # This line uses the `cat` command to concatenate the `.fastq` file, then pipes the output to the `head` command, which displays the first ten lines of the file.
 
-echo "Counting the number of reads in the fastq file:"   # This line prints a message to the terminal indicating that the number of reads in the fastq file will be counted.
-zcat sample.fastq.gz | wc -l | awk '{print $1/4}'        # This line uses `zcat` again to concatenate the fastq file, then pipes the output to the `wc -l` command, which counts the number of lines in the file. Since each read in a fastq file is represented by four lines, the output is then piped to `awk`, which divides the line count by 4 to get the number of reads.
+echo "Counting the number of reads in the fastq file:"   # This line prints a message to the terminal indicating that the number of reads in the `.fastq` file will be counted.
+zcat sample.fastq.gz | wc -l | awk '{print $1/4}'        # This line uses `cat` again to concatenate the `.fastq` file, then pipes the output to the `wc -l` command, which counts the number of lines in the file. Since each read in a `.fastq` file is represented by four lines, the output is then piped to `awk`, which divides the line count by 4 to get the number of reads.
 ```
 
 2. Now that you understand what the script is doing, let's run it on the login node.  
@@ -282,12 +278,23 @@ zcat sample.fastq.gz | wc -l | awk '{print $1/4}'        # This line uses `zcat`
 ```bash
 bash exercise_5.sh
 ```
-
+  
 You should see the following output:
 
-
-######################################
-
-
-
-Well done, you have made it to the end of the session! You now know how to log onto the CeMM cluster, you understand the cluster architecture and file storage systems, you can mount the file systems on your local machine, you can run simple commands and scripts on a login node, and you an run a simple scientific computing script. See you in Session 2 to learn about using compute nodes and SLURM!  
+```bash
+First ten lines of the fastq file:
+@SRR7890883.5485
+CCCACCTTCCACCCAGCCGCAGTACCCGGCAGCTTCAGCCACTTGGGCACCTTGCCCAGGCTCCTCTTCACGGGCTGGGCCGTCCCTGGGATGGGCTCAGGGGGGACCAGCGCCCCCTCCTCAGC
++
+AAFFFKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKFKKKKKKKKKKKKKKKKFKFAFFKKKFKKKKKKKKKKKKKKKKKKKKKK
+@SRR7890883.5770
+GTCTGACTTCCCAGGGACCGAGGATTCACCTGTGGTTGATGATGCGGTGGACGGTCATCCACTCTGGCTTGATGCCAAAACGATAGTACTTCTCCTCCATCTCAGCATAGTGCGGGTCTTTCACT
++
+AAFFFKKKKKKKKKKKKKKKKKKKKKKKKKKKKFKKKFKKKKKKKKKKKKKKFKKKKKKKKKKKKKKKKKKKKKKKKKFFKKKKKKFKKKKKKKKKKKKKKKKKKKKKKKKKKKFFAFKKKKKKK
+@SRR7890883.6193
+CACATATAGTGTCATGTATGGTCTCCACATGTGAGAGCACGAGGGCATCTTGTGTAAGTGCTGCCTATGGGTAGAGAGCAGTGTGGGGATGTACTCATGGGTCTGAGTGCCCACGAGAGGAGGTG
+Counting the number of reads in the fastq file:
+50000
+```
+  
+Well done, you have made it to the end of the session! You now know how to log onto the CeMM cluster, you understand the cluster architecture and file storage systems, you can mount the file systems on your local machine, you can run simple commands and scripts on a login node, and you an run a simple scientific computing script. See you in Session 2 to learn about using compute nodes and SLURM!
