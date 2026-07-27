@@ -231,7 +231,7 @@ Now that you have learned how to run simple commands on a login node, let's run 
 1. Create a new file called `hello_ccri.sh` using the `touch` command:
 
 ```bash
-touch hello_world.sh
+touch hello_ccri.sh
 ```
 
 2. Add the following lines to your script (see Introduction to Linux Session 1 Exercise 4 for a refresher on writing and appending to files):
@@ -322,5 +322,8 @@ Counting the number of reads in the fastq file:
 **You are done when**:  
 
 - You have successfully run `exercise_5.sh` on the login node and observed the expected output.
-  
+
+
+## End of Session 1
+
 Well done, you have made it to the end of the session! You now know how to log onto the CeMM cluster, you understand the cluster architecture and file storage systems, you can mount the file systems on your local machine, you can run simple commands and scripts on a login node, and you an run a simple scientific computing script. See you in Session 2 to learn about using compute nodes and SLURM!

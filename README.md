@@ -19,7 +19,7 @@ Below you can find a description of the topics that will be covered in each sess
 ### Session 2
 
 1. Learning when to use a compute node instead of a login node
-2. SBATCH directives
+2. SLURM directives
 3. SLURM queues
 4. Using `srun` to start an interactive job
 5. Running simple commands using the command line on a compute node via an interactive job
