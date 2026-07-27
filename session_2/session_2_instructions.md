@@ -99,7 +99,7 @@ You can find a full list of SLURM directives in the SLURM documentation: [https:
 
 You will notice that the `--partition` and `--qos` directives are compulsory. This is because the CeMM cluster has multiple queues, or partitions, that are configured to have different resource limits and priorities. You must choose the appropriate queue for your job based on the resources it requires and the expected runtime. Here is a table of the CeMM cluster queues:  
 
-######################################## queue pic ###########################################
+<img width="715" height="471" alt="job_queues" src="https://github.com/user-attachments/assets/9e013c14-ef3e-4f16-b35a-8e98cbe54ac2" />
 
 On the CeMM cluster, you must specify both `--partition` and `--qos` to choose your queue, and these must be identical.  
 
@@ -115,7 +115,7 @@ Now it's time to put everything together and start running jobs on the compute n
 
 Note: on the CeMM cluster, you cannot run more than one interactive job per user at a time. Interactive jobs are also limited to 12 hours maximum.  
 
-1. Time to see if you were listening in Session 1. Log in to the CeMM cluster.  
+1. Time to see if you were listening in Session 1. Log onto the CeMM cluster.  
 
 If you do not have a CeMM cluster account, navigate to [https://learnslurm.com](https://learnslurm.com) and click "> Launch Trainer".  
 
