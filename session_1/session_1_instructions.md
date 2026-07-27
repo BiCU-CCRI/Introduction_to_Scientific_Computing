@@ -92,7 +92,7 @@ To run more computationally intensive jobs, you should use a **compute node**. C
 
 Here is an overview of the different node types available on the CeMM cluster:
 
-###################### pic from the CeMM sharepoint ##########################
+<img width="1223" height="367" alt="node_types" src="https://github.com/user-attachments/assets/5cac0861-c0e8-48de-8b4b-9476dbc0a062" />
 
 ## Understanding the file storage systems on the CeMM cluster
 
