@@ -105,7 +105,8 @@ On the CeMM cluster, you must specify both `--partition` and `--qos` to choose y
 
 Once you have chosen your queue, the default `--time` and `--mem` limits will be set according to the queue's configuration. You can override these defaults by specifying your own values for `--time` and `--mem`, but you cannot exceed the maximum limits of the queue.  
 
-Note: There are user and group limits for numbers of jobs on the CeMM cluster. Each user can run a maximum of 1 interactive job at a time, and each group can run a maximum of XXXXXXX jobs at a time on any one queue.  
+> [!NOTE]
+> There are user and group limits for numbers of jobs on the CeMM cluster. ##################################### max num jobs pic #################################
 
 ## Exercise 2: Using `srun` to start an interactive job
 
@@ -113,7 +114,8 @@ Note: There are user and group limits for numbers of jobs on the CeMM cluster. E
 
 Now it's time to put everything together and start running jobs on the compute nodes! In this exercise, you will use the `srun` command to start an interactive job on a compute node. This will allow you to access an interactive terminal, similar to the setup we had at the CCRI (RIP).  
 
-Note: on the CeMM cluster, you cannot run more than one interactive job per user at a time. Interactive jobs are also limited to 12 hours maximum.  
+> [!NOTE]
+> On the CeMM cluster, you cannot run more than one interactive job per user at a time. Interactive jobs are also limited to 12 hours maximum.  
 
 1. Time to see if you were listening in Session 1. Log onto the CeMM cluster.  
 
