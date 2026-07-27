@@ -659,7 +659,7 @@ slurmstepd: error: *** JOB 13064631 ON d016 CANCELLED AT 2026-07-27T17:20:36 ***
 ```
 
 > [!TIP]
-> To cancel all of your jobs running on a specific queue, you can use the `scancel $(sq -q tinyq -h -o %i)` command, which will cancel all jobs in the `tinyq` queue. You can replace `tinyq` with the name of any other queue to cancel all jobs in that queue.  
+> To cancel all of your jobs running on a specific queue, you can use the `scancel --me --partition=tinyq` command, which will cancel all jobs in the `tinyq` queue. You can replace `tinyq` with the name of any other queue to cancel all jobs in that queue.  
 
 
 ### Cheatsheet of useful commands
