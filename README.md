@@ -18,13 +18,14 @@ Below you can find a description of the topics that will be covered in each sess
 
 ### Session 2
 
-1. Learning when to use a compute node instead of a login node
-2. SLURM directives
-3. SLURM queues
-4. Using `srun` to start an interactive job
-5. Running simple commands using the command line on a compute node via an interactive job
-6. Running a simple `.sbatch` script on a compute node
-7. Useful commands to track cluster usage and job status
+1. Exercise 1: Learning when to use a compute node instead of a login node  
+2. SLURM basics  
+3. SLURM directives  
+4. SLURM queues  
+5. Exercise 2: Using `srun` to start an interactive job  
+6. Exercise 3: Running simple commands and scripts using the command line on a compute node via an interactive job  
+7. Exercise 4: Running a simple `.sbatch` script on a compute node  
+8. Exercise 5: Useful commands to track cluster usage and job status  
 
 ### Session 3
 
