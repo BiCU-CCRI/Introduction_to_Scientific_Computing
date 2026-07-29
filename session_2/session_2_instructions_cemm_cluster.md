@@ -1,4 +1,4 @@
-# Introduction to Scientific Computing - Session 1  
+# Introduction to Scientific Computing - Session 2  
 
 Welcome to Session 2 of the Introduction to Scientific Computing course! Glad to see you enjoyed Session 1 enough to come back for more.  
 
@@ -23,7 +23,7 @@ Since this session is mostly about learning how to work with SLURM, you will eit
 
 So far, we have been running simple commands on the login node. This is fine for small tasks, but if you want to run more complex or resource-intensive tasks, you will need to use a compute node.  
 
-The CeMM cluster login nodes have limited resources, and running resource-intensive tasks on them can slow down the system for everyone. Compute nodes, on the other hand, are designed to handle more demanding workloads.  
+Login nodes have limited resources, and running resource-intensive tasks on them can slow down the system for everyone. Compute nodes, on the other hand, are designed to handle more demanding workloads.  
 
 To decide whether to use a compute node or a login node, consider the following:
 
@@ -80,7 +80,7 @@ Here are some examples of SLURM directives:
 
 | Option            | Description                                                                                                                                             | Default                                  | Example                      |
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | ---------------------------- |
-| `--job-name`      | Specify a name for your job.                                                                                                                            | Name of the job script                   | `--job-name=genome_analysis` |
+| `--job-name`      | Specify a name for your job.                                                                                                                            | Name of the job script                   | `--job-name=ngs_analysis` |
 | `--time`          | Specify the maximum time your job may run.                                                                                                              | Partition-dependent                      | `--time=02:00:00`            |
 | `--mem`           | Specify the maximum amount of memory your job will require per node.                                                                                    | Partition-dependent                      | `--mem=16G`                  |
 | `--ntasks`        | Specify the number of tasks your job will require. For simple jobs, this is usually `1`.                                                                | `1`                                      | `--ntasks=1`                 |
@@ -89,15 +89,15 @@ Here are some examples of SLURM directives:
 | `--nodelist`      | Specify a node or list of specific compute nodes on which your job will run.                                                                            | Any eligible node selected by Slurm      | `--nodelist=d030`         |
 | `--output`        | Specify the file to which the standard output of your job will be written.                                                                              | `slurm-%j.out`, where `%j` is the job ID | `--output=logs/%x-%j.out`    |
 | `--error`         | Specify the file to which standard error messages will be written.                                                                                      | Same file as `--output`                  | `--error=logs/%x-%j.err`     |
-| `--partition`     | Specify the partition, or queue, to which your job will be submitted.                                                                                   | **No default**                               | `--partition=shortq`            |
-| `--qos`           | Specify the Quality of Service for your job. On the CeMM cluster, this is configured to be the same as the partition. On other clusters, it may differ. | **No default**                               | `--qos=shortq`                  |
+| `--partition`     | Specify the partition, or queue, to which your job will be submitted.                                                                                   | **CeMM cluster: No default**                               | `--partition=shortq`            |
+| `--qos`           | Specify the Quality of Service for your job. On the CeMM cluster, this is configured to be the same as the partition. On other clusters, it may differ. | **CeMM cluster: No default**                               | `--qos=shortq`                  |
 
 
 You can find a full list of SLURM directives in the SLURM documentation: [https://slurm.schedmd.com/sbatch.html#SECTION_DIRECTIVES](https://slurm.schedmd.com/sbatch.html#SECTION_DIRECTIVES).  
 
 ## SLURM queues
 
-You will notice that the `--partition` and `--qos` directives are compulsory. This is because the CeMM cluster has multiple queues, or partitions, that are configured to have different resource limits and priorities. You must choose the appropriate queue for your job based on the resources it requires and the expected runtime. Here is a table of the CeMM cluster queues:  
+You will notice that for the CeMM cluster, the `--partition` and `--qos` directives are compulsory. This is because the CeMM cluster has multiple queues, or partitions, that are configured to have different resource limits and priorities. You must choose the appropriate queue for your job based on the resources it requires and the expected runtime. Here is a table of the CeMM cluster queues:  
 
 <img width="715" height="471" alt="job_queues" src="https://github.com/user-attachments/assets/9e013c14-ef3e-4f16-b35a-8e98cbe54ac2" />
 
@@ -117,57 +117,47 @@ Now it's time to put everything together and start running jobs on the compute n
 > [!NOTE]
 > On the CeMM cluster, you cannot run more than one interactive job per user at a time. Interactive jobs are also limited to 12 hours maximum.  
 
-1. Time to see if you were listening in Session 1. Log onto the CeMM cluster.  
+1. Let's see if you were listening in Session 1. Log onto the CeMM cluster.  
 
-If you do not have a CeMM cluster account, navigate to [https://learnslurm.com](https://learnslurm.com) and click "> Launch Trainer".  
-
-Take a minute to notice the prompt in the terminal. It should look something like this:  
+Take a minute to notice the prompt in the terminal. It should look like this:  
 
 ```bash
-[username@login-node ~]$
+[user@d001 ~]$
 ```
 
-For the CeMM cluster, the login nodes are `d001` and `d002`. For LearnSlurm, the login node is `login-01`.  
+From the prompt, you can see that you are on a login node - for the CeMM cluster, the login nodes are `d001` and `d002`. You can confirm this by running the `hostname` command, which will display the name of the node you are currently on.  
 
-
-2. Once you have opened a terminal on the CeMM cluster, run the following command to start an interactive job on a compute node:  
-
-```bash
-srun --partition=interactiveq --qos=interactiveq --cpus-per-task=1 --mem=1G --time 00:20:00 --pty bash -I
-```
-
-If you are using LearnSlurm, the "fake cluster" requires you to allocate resources using `salloc` before starting an interactive job using `srun`. Also, the queue names are different, so we will omit the `--partition` and `--qos` directives, and let LearnSlurm choose the default queue. Therefore, you should run the following commands:  
+2. Start an interactive session using the following commands:  
 
 ```bash
-salloc --time=00:20:00 --mem=1G --cpus-per-task=1
-srun --pty bash I
+srun --partition=interactiveq --qos=interactiveq --time 00:20:00 --mem=1G --cpus-per-task=1 --pty bash -I
 ```
 
 Test yourself: what does each part of the command do?  
 
 - `srun`
-- `--partition=interactiveq --qos=interactiveq`
-- `--cpus-per-task=1`
-- `--mem=1G`
+- `--partition=interactiveq --qos=interactiveq` 
 - `--time 00:20:00`
+- `--mem=1G`
+- `--cpus-per-task=1`
 - `--pty bash -I` (we haven't covered this, but have a guess)
 
 Answers:
 
 - `srun` : This is the command to start a job on a compute node.  
-- `--partition=interactiveq --qos=interactiveq` : This specifies the queue to which the job will be submitted. In this case, we are using the `interactiveq`, which is designed for interactive jobs.  
-- `--cpus-per-task=1` : This specifies that the job will require 1 CPU core.  
-- `--mem=1G` : This specifies that the job will require 1 GB of memory.  
+- `--partition=interactiveq --qos=interactiveq` : This specifies that the job will be submitted to the `interactiveq` queue, which is configured for interactive jobs.  
 - `--time 00:20:00` : This specifies that the job will have a maximum runtime of 20 minutes.  
+- `--mem=1G` : This specifies that the job will require 1 GB of memory.  
+- `--cpus-per-task=1` : This specifies that the job will require 1 CPU core.  
 - `--pty bash -I` : This is a bit unfair since we haven't covered this yet. `--pty` stands for "pseudo-terminal" and is used to allocate a terminal for the job. `bash -I` specifies that the job will start an interactive Bash shell.  
 
 Now that you have submitted your job, once the resources are allocated, you should observe that the node prompt has changed, indicating that you are now on a compute node:  
 
 ```bash
-[username@compute-node ~]$
+[user@d017 ~]$
 ```
 
-You can confirm this by running the `hostname` command, which will display the name of the compute node you are currently on. For the CeMM cluster, compute nodes are anything other than `d001` and `d002`. For LearnSlurm, the example compute node is `node004`.  
+From this prompt, you can see that you are on compute node `d017`. You can confirm this by running the `hostname` command, which will display the name of the compute node you are currently on.  
 
 **You are done when:** 
 
@@ -180,7 +170,7 @@ You can confirm this by running the `hostname` command, which will display the n
 
 1. Once you are on a compute node, you can run commands just like you would on a login node. To demonstrate this, let's build on some commands from Session 1.  
 
-Navigate into the local copy of this git repository you cloned last time. If you are using LearnSlurm, you can skip this step, and stay in your current working directory.  
+Navigate into the local copy of this git repository you cloned last time.  
 
 ```bash
 cd /nobackup/<lab_name>/<username>/Introduction_to_Scientific_Computing/session_2/
@@ -295,7 +285,7 @@ Hello, CCRI!
 
 However, if your job does not run straight away, for example if the cluster is very busy, then the output files will not appear yet.  
 
-5. Now what? We just submitted a job into the ether, but we need a way to track its status, to understand what is happening if the job is not running as it should be, and to cancel jobs if necessary. It is also useful to track the general usage of the cluster, such as how many jobs are currently running in each queue, so that you can choose which queue to submit your job in accordingly.  
+Now what? We just submitted a job into the ether, but we need a way to track its status, to understand what is happening if the job is not running as it should be, and to cancel jobs if necessary. It is also useful to track the general usage of the cluster, such as how many jobs are currently running in each queue, so that you can choose which queue to submit your job in accordingly.  
 
 We will learn to do this in the next section!  
 
@@ -354,8 +344,9 @@ From this output, you can see the partitions, their availability, time limits, n
 - `alloc`: The node is currently allocated to a job.
 - `mix`: The node is partially allocated to a job, and partially available for use.
 - `drain`: The node is not available for use, and is being drained of jobs. This can happen if the node is being taken offline for maintenance, or if it is experiencing hardware issues.  
+- `down`: The node is not available for use, and is down. This can happen if the node is experiencing hardware issues, or if it has been taken offline for maintenance.  
 
-This output can be helpful in deciding which queue or nodes to submit your job to, as you may want to avoid queues that have a high number of jobs in the `alloc` state, or nodes that are in the `drain` state.  
+This output can be helpful in deciding which queue or nodes to submit your job to, as you may want to avoid queues that have a high number of jobs in the `alloc` state, or nodes that are in the `drain` or `down` states.  
 
 2. Run the `squeue` command. You should see an output similar to:
 
@@ -382,7 +373,7 @@ JOBID    PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
 13064040     tinyq nf-NFCOR    ckohl  R       2:26      1 d016
 ```
 
-Take a look at the `NODELIST(REASON)` column. If a job is running, you can see the name of the compute node that it is running on. If a job is pending, you should see a reason for why it is pending.  
+Take a look at the `NODELIST(REASON)` column. If a job is running, you can see the name of the compute node(s) that it is running on. If a job is pending, you should see a reason for why it is pending.  
 
 Examples of reasons why a job may be pending include:  
 
@@ -392,6 +383,7 @@ Examples of reasons why a job may be pending include:
 - `Dependency` : This means that your job is pending because it is waiting for another job to complete. For example, if you submitted a job that depends on the output of another job, your job will be pending until the other job completes.  
 - `AssocGroupLimit` : This means that your job is pending because your group has reached its limit for the number of jobs that can be running at the same time on that queue.  
 - `AssocMaxJobsLimit` : This means that your job is pending because you have reached the limit for the number of jobs that you can have running at the same time on that queue, for example if you try to submit a second interactive job while you already have one running.  
+- `ReqNodeNotAvail` : This means that your job is pending because the node(s) that you requested are not available. For example, if you requested a specific node that is currently down or in maintenance, your job will be pending until that node becomes available.  
 
 > [!NOTE]
 > The CeMM cluster operates on a "fair share" basis, which means that the more you use the cluster, the lower your priority will be. This is to ensure that all users have fair access to the cluster resources. This is why it is important to choose the appropriate queue for your job, and to reserve the minimum resources necessary for your job to run successfully. **If you reserve more resources than you need, your job will have a lower priority and may take longer to start running.**
@@ -503,33 +495,37 @@ Answers:
 > [!TIP]
 > You can also use `scontrol` to update the resources requested by a job on the fly. For example, try `scontrol update JobId=<job_id> timelimit=00:05:00` to decrease the time limit of your job to 5 minutes. This can come in handy if your job is `PENDING` due to requesting too may resources. However, increasing resources is not always allowed, and you cannot increase the number of CPUs or nodes requested for a job that is already running.  
 
-5. Use the `seff <job_id>` command to show the efficiency of your job. This will show you how much CPU and memory your job used, and how much was allocated to it.  
+### Tracking completed jobs - sacct, seff  
+
+1. If you want to see information about the last jobs you ran, you can use the `sacct` command. 
 
 ```bash
-seff <job_id>
+sacct
 ```
 
 Here is an example output:  
 
 ```bash
-Job ID: 13063801
-Cluster: slurm
-User/Group: ccasey/lab_ccri_bicu
-State: RUNNING
-Cores: 1
-CPU Utilized: 00:00:00
-CPU Efficiency: 0.00% of 00:01:41 core-walltime
-Job Wall-clock time: 00:01:41
-Memory Utilized: 0.00 MB (estimated maximum)
-Memory Efficiency: 0.00% of 1.00 GB (1.00 GB/node)
-WARNING: Efficiency statistics may be misleading for RUNNING jobs.
+JobID           JobName  Partition    Account  AllocCPUS      State ExitCode 
+------------ ---------- ---------- ---------- ---------- ---------- -------- 
+13060402           bash interacti+ lab_ccri_+          1    TIMEOUT      0:0 
+13060402.ex+     extern            lab_ccri_+          1  COMPLETED      0:0 
+13060402.0         bash            lab_ccri_+          1  COMPLETED      0:0 
+13063801          hello      tinyq lab_ccri_+          1  COMPLETED      0:0 
+13063801.ba+      batch            lab_ccri_+          1  COMPLETED      0:0 
+13063801.ex+     extern            lab_ccri_+          1  COMPLETED      0:0 
 ```
 
-This output is useful to track the effiency of the job i.e. how much of the reserved resources the job actually used. However, for running jobs, the efficiency statistics may be misleading, as the job has not yet completed and may still be using resources.  
+This output shows the job ID, job name, partition, account, allocated CPUs, state, and exit code for each job. You can see that the `hello` job has completed successfully with an exit code of `0`. The `interactive` job has timed out, which means that it exceeded the time limit that was set for it. 
 
-### Tracking completed jobs - seff, sacct  
+States that you may see for jobs include:
 
-1. The `seff` command can also be used to display information about completed jobs (within the last 30 days). Once your job has finished, use the `seff` command to display updated information about the job, including its CPU and memory usage, and its efficiency.  
+- `COMPLETED`: The job completed successfully.  
+- `FAILED`: The job failed to complete successfully.  
+- `CANCELLED`: The job was cancelled by the user or by the system.  
+- `TIMEOUT`: The job exceeded the time limit that was set for it.  
+
+2. The `seff` command can be used to display information about completed jobs (within the last 30 days). Pick a job from the `sacct` list that has State `COMPLETED`, and use the `seff` command to display updated information about the job, including its CPU and memory usage, and its efficiency.  
 
 ```bash
 seff <job_id>
@@ -567,34 +563,6 @@ Answers:
 - The efficiency of the job is calculated as the ratio of the resources used by the job to the resources that were allocated to it. In this case, the CPU efficiency is 0.00% because the job did not use any CPU time, and the memory efficiency is 0.06% because the job used only a small fraction of the allocated memory.  
 
 From this output, you can see that the effiency was very low, suggesting that fewer resources should be requested for this job in the future. It is a good idea to check the efficiency of your jobs after they have completed, and to adjust your resource requests accordingly for future jobs.  
-
-2. If you want to see information about multiple jobs at a time, you can use the `sacct` command.  
-
-```bash
-sacct
-```
-
-Here is an example output:  
-
-```bash
-JobID           JobName  Partition    Account  AllocCPUS      State ExitCode 
------------- ---------- ---------- ---------- ---------- ---------- -------- 
-13060402           bash interacti+ lab_ccri_+          1    TIMEOUT      0:0 
-13060402.ex+     extern            lab_ccri_+          1  COMPLETED      0:0 
-13060402.0         bash            lab_ccri_+          1  COMPLETED      0:0 
-13063801          hello      tinyq lab_ccri_+          1  COMPLETED      0:0 
-13063801.ba+      batch            lab_ccri_+          1  COMPLETED      0:0 
-13063801.ex+     extern            lab_ccri_+          1  COMPLETED      0:0 
-```
-
-This output shows the job ID, job name, partition, account, allocated CPUs, state, and exit code for each job. You can see that the `hello` job has completed successfully with an exit code of `0`. The `interactive` job has timed out, which means that it exceeded the time limit that was set for it. 
-
-States that you may see for jobs include:
-
-- `COMPLETED`: The job completed successfully.  
-- `FAILED`: The job failed to complete successfully.  
-- `CANCELLED`: The job was cancelled by the user or by the system.  
-- `TIMEOUT`: The job exceeded the time limit that was set for it.  
 
 ### Cancelling jobs - scancel
 
@@ -684,4 +652,4 @@ slurmstepd: error: *** JOB 13064631 ON d016 CANCELLED AT 2026-07-27T17:20:36 ***
 
 ## End of Session 2
 
-Yay, you have made it to the end of Session 2! You should now have a good understanding of how to submit jobs to SLURM, track their status, and cancel them if necessary. You should also have a good understanding of the different queues on the CeMM cluster, and how to choose the appropriate queue for your job based on its resource requirements and expected runtime. See you in Session 3 to run some real bioinformatics pipelines on the CeMM cluster!  
+Yay, you have made it to the end of Session 2! You should now have a good understanding of how to submit jobs to SLURM, track their status, and cancel them if necessary. You should also have a good understanding of the different queues on the CeMM cluster, and how to choose the appropriate queue for your job based on its resource requirements and expected runtime. See you in Session 3 to run some real bioinformatics tools!  
