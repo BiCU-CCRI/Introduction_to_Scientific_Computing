@@ -275,10 +275,10 @@ You should see the following output:
 #!/bin/bash
 
 echo "First ten lines of the fastq file:"
-zcat sample.fastq.gz | head -n 10
+cat ../example_data/fastq/SRR7890883.chr17_50k_R1.fastq | head -n 10
 
 echo "Counting the number of reads in the fastq file:"
-zcat sample.fastq.gz | wc -l | awk '{print $1/4}'
+cat ../example_data/fastq/SRR7890883.chr17_50k_R1.fastq | wc -l | awk '{print $1/4}'
 ```
 
 Can you figure out what each line of the script is doing?  
@@ -289,10 +289,10 @@ For spoilers, see below.
 #!/bin/bash                                                                               # This line specifies that the script should be run using the bash shell.
 
 echo "First ten lines of the fastq file:"                                                 # This line prints a message to the terminal indicating that the first ten lines of the fastq file will be displayed.
-cat ./example_data/fastq/SRR7890883.chr17_50k_R1.fastq | head -n 10                       # This line uses the `cat` command to concatenate the `.fastq` file, then pipes the output to the `head` command, which displays the first ten lines of the file.
+cat ../example_data/fastq/SRR7890883.chr17_50k_R1.fastq | head -n 10                       # This line uses the `cat` command to concatenate the `.fastq` file in the example data dir, then pipes the output to the `head` command, which displays the first ten lines of the file.
 
 echo "Counting the number of reads in the fastq file:"                                    # This line prints a message to the terminal indicating that the number of reads in the `.fastq` file will be counted.
-cat ./example_data/fastq/SRR7890883.chr17_50k_R1.fastq | wc -l | awk '{print $1/4}'        # This line uses `cat` again to concatenate the `.fastq` file, then pipes the output to the `wc -l` command, which counts the number of lines in the file. Since each read in a `.fastq` file is represented by four lines, the output is then piped to `awk`, which divides the line count by 4 to get the number of reads.
+cat ../example_data/fastq/SRR7890883.chr17_50k_R1.fastq | wc -l | awk '{print $1/4}'        # This line uses `cat` again to concatenate the `.fastq` file in the example data dir, then pipes the output to the `wc -l` command, which counts the number of lines in the file. Since each read in a `.fastq` file is represented by four lines, the output is then piped to `awk`, which divides the line count by 4 to get the number of reads.
 ```
 
 2. Now that you understand what the script is doing, let's run it on the login node.  
