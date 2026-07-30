@@ -3,9 +3,9 @@
 #SBATCH --job-name=mutect2
 #SBATCH --output=./logs/mutect2_%j.out
 #SBATCH --error=./logs/mutect2_%j.err
-#SBATCH --time=00:20:00
+#SBATCH --time=00:10:00
 #SBATCH --cpus-per-task=1
-#SBATCH --mem=10G
+#SBATCH --mem=3G
 #SBATCH --partition=tinyq
 #SBATCH --qos=tinyq
 

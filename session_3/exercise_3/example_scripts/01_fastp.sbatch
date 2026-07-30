@@ -5,7 +5,7 @@
 #SBATCH --error=./logs/fastp_%j.err
 #SBATCH --time=00:05:00
 #SBATCH --cpus-per-task=1
-#SBATCH --mem=4G
+#SBATCH --mem=1G
 #SBATCH --partition=tinyq
 #SBATCH --qos=tinyq
 

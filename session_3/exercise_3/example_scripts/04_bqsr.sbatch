@@ -5,7 +5,7 @@
 #SBATCH --error=./logs/bqsr_%j.err
 #SBATCH --time=00:05:00
 #SBATCH --cpus-per-task=1
-#SBATCH --mem=5G
+#SBATCH --mem=3G
 #SBATCH --partition=tinyq
 #SBATCH --qos=tinyq
 
