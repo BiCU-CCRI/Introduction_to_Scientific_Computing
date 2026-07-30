@@ -1,23 +1,18 @@
 # Introduction to Scientific Computing - Session 3  
 
-Welcome to Session 3 of the Introduction to Scientific Computing course! Now it's time to run some real bioinformatics software. 
+Welcome to Session 3 of the Introduction to Scientific Computing course! Now it's time to run some real bioinformatics software.  
 
 ## Overview
   
 Today we'll cover:  
 
-1. Exercise 1: Environment management using the module system (CeMM cluster only)
+1. Exercise 1: Environment management using the module system  
 2. Exercise 2: Environment management using conda
-3. Exercise 3: Loading environments in job scripts (CeMM cluster only)
-4. Exercise 4: Putting it all together: somatic short variant calling analysis  
-5. Exercise 5: Data transfer to/from the CeMM cluster/Isilon  
-6. Exercise 6: Putting it all together: running an RStudio session on the CeMM cluster
+3. Exercise 3: Putting it all together: somatic short variant calling analysis  
 
-Since this session is focused on running bioinformatics analysis on the CeMM cluster, you will need a CeMM cluster account. If you do not have one, please pair up with someone that does.  
+## Exercise 1: Environment management using the module system  
 
-## Exercise 1: Environment management using the module system (CeMM cluster only)
-
-**Goal:** Learn how to load and unload software modules on the CeMM cluster.
+**Goal:** Learn how to load and unload software modules.
 
 Now that we know how to submit jobs to a computing cluster, we need to learn how to load the software we need for our analyses. Many clusters use a module system to manage software environments. This allows us to easily load and unload different versions of software as needed.  
 
@@ -32,6 +27,14 @@ Here are some basic commands to get you started with the module system:
 | `module list` | List all currently loaded modules in your environment. |
 | `module purge` | Unload all currently loaded modules from your environment. |
 | `module help <module_name>` | Display help information for a specific module. |
+
+#### LearnSlurm users
+
+Try to experiment with the module system available within the LearnSlurm environment. You can use the commands above to load and unload different modules, and to check which modules are currently loaded in your environment.  
+
+For example, try to load the `pytorch/2.1` module and check that it is correctly loaded. Then, unload the module and check that it is no longer loaded.  
+
+#### CeMM cluster users
 
 Let's try to run a simple Python script which loads the `numpy` module and prints its version.  
 
@@ -196,6 +199,45 @@ python check_numpy_version.py
 # 2.3.1
 ```
 
+### Loading modules in a job script  
+
+To load modules in a job script, you can simply use the `module load` command.  
+
+#### LearnSlurm users
+
+Check the contents of the `mpi_job.sh` script. Can you see the line where the `mpi` module is loaded?
+
+Submit the script and observe that it runs successfully. Now, use `nano` to delete the line loading the `mpi` module, and submit the script again. What happens?  
+
+############################################################################################## bug in learn slurm - hopefully fixed soon
+
+#### CeMM cluster users  
+
+Create a new job script called `check_numpy_version_module_job.sh` which loads the `Python/3.10.8-GCCcore-12.2.0` and `SciPy-bundle/2025.06-gfbf-2025a` modules, and then runs the `check_numpy_version.py` script.  
+
+Example script:  
+
+```bash
+#!/bin/bash
+
+#SBATCH --job-name=check_numpy_version_module_job
+#SBATCH --output=check_numpy_version_module_job.out
+#SBATCH --error=check_numpy_version_module_job.err
+#SBATCH --time=00:10:00
+#SBATCH --mem=1G
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=1
+#SBATCH --partition=tinyq
+#SBATCH --qos=tinyq
+
+module load Python/3.10.8-GCCcore-12.2.0
+module load SciPy-bundle/2025.06-gfbf-2025a
+
+python check_numpy_version.py
+```
+
+
 **You are done when:** 
 
 - You are comfortable loading and unloading modules using the module system.  
@@ -356,34 +398,6 @@ Here are some useful commands for managing conda environments (NB for most of th
 - You have installed `pandas` in the `intro_to_sci_comp` environment and successfully run the modified `check_numpy_version.py` script.  
 - You have deactivated the `intro_to_sci_comp` environment and returned to the base environment.  
 
-## Excercise 3: Loading environments in job scripts (CeMM cluster only)
-
-### Loading modules in a job script
-
-To load modules in a job script, you can simply use the `module load` command. Try this out for yourself - create a new job script called `check_numpy_version_module_job.sh` which loads the `Python/3.10.8-GCCcore-12.2.0` and `SciPy-bundle/2025.06-gfbf-2025a` modules, and then runs the `check_numpy_version.py` script.  
-
-Example script:  
-
-```bash
-#!/bin/bash
-
-#SBATCH --job-name=check_numpy_version_module_job
-#SBATCH --output=check_numpy_version_module_job.out
-#SBATCH --error=check_numpy_version_module_job.err
-#SBATCH --time=00:10:00
-#SBATCH --mem=1G
-#SBATCH --nodes=1
-#SBATCH --ntasks=1
-#SBATCH --cpus-per-task=1
-#SBATCH --partition=tinyq
-#SBATCH --qos=tinyq
-
-module load Python/3.10.8-GCCcore-12.2.0
-module load SciPy-bundle/2025.06-gfbf-2025a
-
-python check_numpy_version.py
-```
-
 ### Activating a conda environment in a job script
 
 To activate a conda environment in a job script, you cannot just use `conda activate <env_name>`. Instead, you need to source the `conda.sh` script and then activate the environment. Here is an example of how to do this in a job script:  
@@ -425,7 +439,7 @@ python check_numpy_version.py
 
 - You have successfully run the `check_numpy_version.py` script in a job script using both the module system and the conda environment.  
 
-## Exercise 4: Putting it all together: somatic short variant calling analysis  
+## Exercise 3: Putting it all together: somatic short variant calling analysis  
 
 Finally, we have learnt enough to run a real bioinformatics anlaysis! In this exrcise, we will run a somatic short variant calling analysis using the GATK best practices workflow.  
 

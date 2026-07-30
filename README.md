@@ -29,11 +29,14 @@ Below you can find a description of the topics that will be covered in each sess
 
 ### Session 3
 
-1. Environment management using the module system
-2. Environment management using conda
-3. Data transfer to/from the CeMM cluster/Isilon
-4. Putting it all together: running an RStudio session on the CeMM cluster
-5. Putting it all together: somatic short variant calling analysis
+1. Exercise 1: Environment management using the module system  
+2. Exercise 2: Environment management using conda
+3. Exercise 3: Putting it all together: somatic short variant calling analysis  
+
+### Session 4 (CeMM cluster access required)
+
+1. Exercise 1: Data transfer to/from the CeMM cluster/Isilon  
+2. Exercise 2: Running an RStudio session on the CeMM cluster  
 
 ## Prerequisites
 
@@ -44,7 +47,7 @@ Below you can find a description of the topics that will be covered in each sess
 ### Recommended pre-requisites
 
 - CeMM cluster account  
-  If you don't have one, you can still take the course, but you will be limited to watching during some parts.
+  If you don't have one, you can still take Sessions 1-3, but you might want to skip Session 4 which is tailored specifically to CeMM cluster users.  
 
 If you have a CeMM cluster account:  
 
@@ -59,9 +62,7 @@ If you have a CeMM cluster account:
 
 ## A guide to GitHub Codespaces
 
-If you don't have a CeMM cluster account, you can use Github Codespaces to follow along with the course in Session 1.  
-
-Codespaces is a cloud-based development environment that allows you to run code in a virtual machine. You can access it through your web browser, and it provides a similar experience to using the CeMM cluster.
+For Sessions 1 and 2, we will use Github Codespaces to provide a cloud-based Linux environment that allows you to run code in a virtual machine. You can access it through your web browser, and it provides a similar experience to using the CeMM cluster.
 
 ### Setting up GitHub Codespaces
 
@@ -89,17 +90,15 @@ You can view and manage your Codespaces at [https://github.com/codespaces](https
 
 ############################## pic ##############################
 
-## A guide to Learn-Slurm
+## A guide to LearnSlurm
 
-If you don't have a CeMM cluster account, you can use [LearnSlurm](https://learnslurm.com/index) to follow along with the course in Session 2. LearnSlurm is a free online platform that allows you to practice using SLURM commands in a simulated environment. It provides a virtual cluster where you can submit jobs, manage queues, and learn SLURM commands without needing access to the CeMM cluster.  
+For Sessions 2 and 3, we will use [LearnSlurm](https://learnslurm.com/index), a free online platform that allows you to practice using SLURM commands in a simulated environment. It provides a virtual cluster where you can submit jobs, manage queues, and learn SLURM commands without needing access to the CeMM cluster.  
 
 ### Setting up LearnSlurm
 
 1. Go to [https://learnslurm.com/index](https://learnslurm.com/index)
 
-2. Select "> Launch Trainer" to start the SLURM training environment.
-
-########################### pic ######################################
+2. Select "> Launch Trainer" to start the SLURM training environment.  
 
 You now have a fake high-performance computing cluster running in your browser, including a terminal where you experiment with common SLURM commands. Similarly to Codespaces, LearnSlurm also doesn't have access to your local files, so you can play around without being worried about deleting anything by accident.  
 
