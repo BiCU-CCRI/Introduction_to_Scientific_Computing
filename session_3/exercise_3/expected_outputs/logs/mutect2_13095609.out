@@ -1,0 +1,5 @@
+Activating environment
+Tool returned:
+SUCCESS
+Filtered VCF: /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_3/exercise_3/expected_outputs/results/05_mutect2/SRR7890883.filtered.vcf.gz
+PASS VCF:     /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_3/exercise_3/expected_outputs/results/05_mutect2/SRR7890883.pass.vcf.gz
