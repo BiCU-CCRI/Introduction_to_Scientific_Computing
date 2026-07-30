@@ -359,7 +359,9 @@ python check_numpy_version.py
 mamba install <package_name>
 ```
 
-for example, try installing `pandas`, then edit your `check_numpy_version.py` script to also check the version of `pandas`:  
+You can add multiple packages by separating them with spaces. You can also specify the channel from whcih the package should be installed with `<channel>::<package_name>`, and you can specify the version of the package you want to install by appending `=<version>` to the package name. 
+
+Try installing `pandas==1.5.3` from the channel `conda-forge` in your `intro_to_sci_comp` environment, then edit your `check_numpy_version.py` script to also check the version of `pandas`:  
 
 ```python
 import numpy as np
@@ -371,6 +373,9 @@ print(np.__version__)
 # print pandas version
 print(pd.__version__)
 ```
+
+>[NOTE!]
+>When installing specific versions of Python, use `=` instead of `==`. For example, to install Python 3.10, use `python=3.10` instead of `python==3.10`.  
 
 7. To deactivate your conda enironment and return to the base environment, run the following command:  
 
@@ -414,6 +419,9 @@ conda activate "${conda_env_name}"
 
 Try this out for yourself - create a new job script called `check_numpy_version_conda_job.sh` which activates the `intro_to_sci_comp` conda environment and then runs the `check_numpy_version.py` script.  
 
+>[!NOTE]
+>When you submit the `.sbatch` script, you should not have your `intro_to_sci_comp` conda environment activated in your interactive session. If you do, the job will fail because the job script will not be able to find the conda environment. You must have your `base` conda environment activated in your interactive session when you submit the job script.  
+
 Example script:  
 
 ```bash
@@ -448,7 +456,7 @@ Finally, we have learnt enough to run a real bioinformatics anlaysis! In this ex
 
 This workflow is designed to identify somatic variants (mutations) in tumor samples. The workflow begins with the output of a sequencing experiment, which is typically in the form of **`.fastq`** files. These files contain the raw sequencing reads, which are then aligned to the reference genome to produce **`.cram`** files. The `.cram` files are then processed to identify mismatches with respect to the genome - variants - which are reported in a **`.vcf`** file.  
 
-##################################################################################################################################################
+#############################################################################################################################################################################################
 
 Here is some more detailed information about `.fastq`, `.cram`, and `.vcf` files:
 
@@ -515,13 +523,18 @@ e) **Base Quality Score Recalibration (BQSR)**: The aligned reads are then proce
 
 f) **Variant Calling**: The aligned reads are then processed to identify variants using `mutect2`. This step produces a set of identified variants in `.vcf` format. We will need to install the `gatk` software for this step.  
 
-##################################################################################################################################################
+#############################################################################################################################################################################################
 
-Here are some hints to help you get started with the analysis. For a full set of example scripts and expected outputs, please see the `session_3/exercise_4` folder.  
+Here are some hints to help you get started with the analysis. For a full set of example scripts and expected outputs, please see the `session_3/exercise_3` folder.  
 
-1. First, use `conda` to create a new environment for your analysis named `somatic_variant_calling`. Install the following packages in the environment: `fastp`, `bwa`, `samtools`, and `gatk`. You can also install any other packages you think you might need for your analysis.  
+1. First, use `conda` to create a new environment for your analysis named `somatic_variant_calling`. Install the following packages in the environment: `python=3.10`, `fastp==0.23.4`, `bwa==0.7.17`, `samtools==1.16.1`, and `bioconda::gatk4==4.4.0.0`.  
 
-2. Next, create a working directory for your analysis, and an output directory for your output files.  
+NB. if you are using the CeMM cluster, run the environment creation command on an interactive node. This might take some time to resolve. In the meantime, start working on writing the scripts.  
+
+2. Next, create a working directory for your analysis, and an output directory for your output files. `cd` to your working directory.  
+
+>[REMINDER!]
+>Your working directory is where you will run your analysis, and your output directory is where you will store the output files from your analysis. It is good practice to keep your working directory and output directory separate, so that you can easily find your output files later.  
 
 3. Now, write `.sbatch` job scripts for the different steps in the analysis. For each job script, remember to:
 
@@ -532,201 +545,205 @@ Here are some hints to help you get started with the analysis. For a full set of
 
 4. First, write a job script to run `fastp`. You can use the following command for `fastp`. Remember to change the names of the input and output files to match your own files.  
 
->[NOTE!]
->The comments in the commands below are for your reference only. They should not be included in your job script, as they will cause the command to fail.  
+For more information about the command and arguments, check the [fastp documentation](https://github.com/OpenGene/fastp).
 
 >[TIP!]
 >The example commands use bash variables to store the names of the input and output files, as well as the read group information. This makes it easier to change the names of the files and read group information without having to edit the command itself. For a refresher on bash variables, check your notes or the course content from Introduction to Linux.  
 
 ```bash
+SAMPLE="SRR7890883"                                                             # sample name
+IN_DIR="/path/to/Introduction_to_Scientific_Computing/example_data/fastq"       # input directory for raw fastq files 
+OUT_DIR="/path/to/results/01_fastp"                                             # output directory for trimmed fastq files
+LOG="/path/to/logs/fastp_${SAMPLE}.log"                                         # log file for fastp output
+
+mkdir -p "${OUT_DIR}"                                           # create output directory if it does not exist
+
+RAW_R1="${IN_DIR}/${SAMPLE}.chr17_50k_R1.fastq"                 # input file for raw read 1
+RAW_R2="${IN_DIR}/${SAMPLE}.chr17_50k_R2.fastq"                 # input file for raw read 2
+TRIMMED_R1="${OUT_DIR}/${SAMPLE}.chr17_50k_R1_trimmed.fastq"    # output file for trimmed read 1
+TRIMMED_R2="${OUT_DIR}/${SAMPLE}.chr17_50k_R2_trimmed.fastq"    # output file for trimmed read 2
+FASTP_HTML="${OUT_DIR}/${SAMPLE}.chr17_50k.html"                # output file for fastp HTML report
+FASTP_JSON="${OUT_DIR}/${SAMPLE}.chr17_50k.json"                # output file for fastp JSON report
+
 fastp \
-    --in1 /path/to/Introduction_to_Scientific_Computing/example_data/fastq/SRR7890883.chr17_50k_R1.fastq \  # input file for read 1
-    --in2 /path/to/Introduction_to_Scientific_Computing/example_data/fastq/SRR7890883.chr17_50k_R2.fastq \  # input file for read 2
-    --out1 /path/to/results_dir/01_fastp/SRR7890883.chr17_50k_R1_trimmed.fastq \                            # output file for trimmed read 1
-    --out2 /path/to/results_dir/01_fastp/SRR7890883.chr17_50k_R2_trimmed.fastq \                            # output file for trimmed read 2
-    --detect_adapter_for_pe \                                                                               # detect adapters for paired-end reads
-    --thread 1 \                                                                                            # number of threads to use
-    --html /path/to/results_dir/01_fastp/SRR7890883.chr17_50k.html                                          # output file for HTML report
+    --in1 "${RAW_R1}" \
+    --in2 "${RAW_R2}" \
+    --out1 "${TRIMMED_R1}" \
+    --out2 "${TRIMMED_R2}" \
+    --detect_adapter_for_pe \
+    --thread 1 \
+    --html "${FASTP_HTML}" > "${LOG}" 2>&1
 ```
 
-You should be able to see the trimmed reads in the output files `sample_R1.trimmed.fastq.gz` and `sample_R2.trimmed.fastq.gz`. You can also view the HTML report to see a summary of the trimming process.  
+You should be able to see the trimmed reads in the output files `sample_R1.trimmed.fastq.gz` and `sample_R2.trimmed.fastq.gz`. You can use `zless` to view the trimmed reads. You can also open the HTML report in a browser to see a summary of the trimming process.  
 
 4. Next, write an `sbatch` job script to run `bwa` and to sort and index the resulting alignments using `samtools`. We can do these three steps in one go because the output of `bwa` is piped directly into `samtools sort`, which sorts the alignments and writes them to a `.cram` file. It also makes sense to store the alignment and index files together.  
 
 You can use the following commands for `bwa` and `samtools`. Remember to match the number of threads to the number of CPUs you request in your job script, and to change the names of the input and output files to match your own files.  
 
-```bash
-SAMPLE="SRR7890883"                                                                                             # sample name
-LIBRARY="lib1"                                                                                                  # library name
-PLATFORM="ILLUMINA"                                                                                             # platform name
-FASTP_R1="/path/to/results_dir/01_fastp/SRR7890883.chr17_50k_R1_trimmed.fastq"                                  # input file for trimmed read 1
-FASTP_R2="/path/to/results_dir/01_fastp/SRR7890883.chr17_50k_R2_trimmed.fastq"                                  # input file for trimmed read 2
-OUTPUT_CRAM="/path/to/results_dir/02_bwa/SRR7890883.chr17_50k.cram"                                             # output file for sorted and indexed alignments
-REF="/path/to/Introduction_to_Scientific_Computing/example_data/ref/Homo_sapiens_assembly38.chr17.fasta"        # reference genome file
+For more information about the commands and arguments, check the [bwa manual](https://bio-bwa.sourceforge.net/bwa.shtml) and the [samtools manual](http://www.htslib.org/doc/samtools.html).  
 
-READ_GROUP="@RG\tID:${SAMPLE}.${LIBRARY}\tSM:${SAMPLE}\tLB:${LIBRARY}\tPL:${PLATFORM}\tPU:${SAMPLE}.${LIBRARY}" # read group information
+```bash
+SAMPLE="SRR7890883"                                                         # sample name
+IN_DIR="/path/to/results/01_fastp"                                          # input directory for trimmed fastq files
+OUT_DIR="/path/to/results/02_bwa"                                           # output directory for aligned reads
+REF_DIR="/path/to/Introduction_to_Scientific_Computing/example_data/ref"    # reference genome directory
+LOG="path/to/logs/bwa_${SAMPLE}.log"                                        # log file for bwa output
+
+mkdir -p "${OUT_DIR}"                                           # create output directory if it does not exist
+
+LIBRARY="lib1"                                                  # library name
+PLATFORM="ILLUMINA"                                             # platform name
+FASTP_R1="${IN_DIR}/${SAMPLE}.chr17_50k_R1_trimmed.fastq"       # input file for trimmed read 1
+FASTP_R2="${IN_DIR}/${SAMPLE}.chr17_50k_R2_trimmed.fastq"       # input file for trimmed read 2
+OUT_CRAM="${OUT_DIR}/${SAMPLE}.chr17_50k.cram"                  # output file for aligned reads
+REF="${REF_DIR}/Homo_sapiens_assembly38.chr17.fasta"            # reference genome file
+
+READ_GROUP="@RG\tID:${SAMPLE}.${LIBRARY}\tSM:${SAMPLE}\tLB:${LIBRARY}\tPL:${PLATFORM}\tPU:${SAMPLE}.${LIBRARY}"     # read group information
 
 bwa mem \
-    -t 1 \                                                    # number of threads to use
-    -M \                                                      # mark shorter split hits as secondary
-    -R "${READ_GROUP}" \                                      # read group information              
-    "${REF}" \                                                # reference genome file
-    "${FASTP_R1}" \                                           # input file for trimmed read 1
-    "${FASTP_R2}" \                                           # input file for trimmed read 2
-    2> /path/to/results_dir/02_bwa/SRR7890883.bwa.log |
-samtools sort \                                               # sort the alignments
-    -@ 1 \                                                    # number of threads to use
-    -O CRAM \                                                 # output format CRAM
-    --reference "${REF}" \                                    # reference genome file
-    -o "${OUTPUT_CRAM}" \                                     # output file for sorted alignments
-    -                                                         # input from stdin
+    -t 1 \ 
+    -M \
+    -R "${READ_GROUP}" \
+    "${REF}" \
+    "${FASTP_R1}" \
+    "${FASTP_R2}" \
+    2> "${LOG}" |
+samtools sort \
+    -@ 1 \
+    -O CRAM \
+    --reference "${REF}" \
+    -o "${OUT_CRAM}" \
+    -
 
-samtools index \                                              # index the sorted alignments
-    -@ 1 \                                                    # number of threads to use
-    "${OUTPUT_CRAM}"                                          # input file for sorted alignments
+samtools index \
+    -@ 1 \
+    "${OUT_CRAM}"
 ```
 
 5. Now, write an `sbatch` job script to run `gatk MarkDuplicates`. This step marks PCR duplicates in the aligned reads. We will need to specify the input and output files, as well as the metrics file, which contains information about the number of duplicates found in the input file.  
 
 You can use the following command for `gatk MarkDuplicates`.  
 
-```bash
-INPUT_CRAM="/path/to/results_dir/02_bwa/SRR7890883.chr17_50k.cram"
-OUTPUT_CRAM="/path/to/results_dir/03_mark_dup/SRR7890883.chr17_50k.markdup.cram"
-METRICS="/path/to/results_dir/03_mark_dup/SRR7890883.markdup.metrics.txt"
-REF="/path/to/Introduction_to_Scientific_Computing/example_data/ref/Homo_sapiens_assembly38.chr17.fasta"
+For more information about the command and arguments, check the [GATK MarkDuplicates documentation](https://gatk.broadinstitute.org/hc/en-us/articles/13832748517275-MarkDuplicates-Picard).  
 
-gatk --java-options "-Xmx10g" MarkDuplicates \                # run MarkDuplicates with 10 GB of memory
-    --INPUT "${INPUT_CRAM}" \                                 # input file for aligned reads
-    --OUTPUT "${OUTPUT_CRAM}" \                               # output file for marked duplicates
-    --METRICS_FILE "${METRICS}" \                             # output file for metrics
-    --REFERENCE_SEQUENCE "${REF}" \                           # reference genome file
-    --CREATE_INDEX true \                                     # create index for output file
-    --VALIDATION_STRINGENCY SILENT \                          # validation stringency
-    --OPTICAL_DUPLICATE_PIXEL_DISTANCE 2500                   # optical duplicate pixel distance
+```bash
+SAMPLE="SRR7890883"                                                         # sample name     
+IN_DIR="/path/to/results/02_bwa"                                            # input directory for aligned reads
+OUT_DIR="/path/to/results/03_markdup"                                       # output directory for marked duplicates
+REF_DIR="/path/to/Introduction_to_Scientific_Computing/example_data/ref"    # reference genome directory
+LOG="/path/to/logs/markdup_${SAMPLE}.log"                                   # log file for markdup output
+
+mkdir -p "${OUT_DIR}"                                                       # create output directory if it does not exist
+
+IN_CRAM="${IN_DIR}/${SAMPLE}.chr17_50k.cram"                                # input file for aligned reads
+OUT_CRAM="${OUT_DIR}/${SAMPLE}.chr17_50k.markdup.cram"                      # output file for marked duplicates
+METRICS="${OUT_DIR}/${SAMPLE}.markdup.metrics.txt"                          # metrics file for marked duplicates
+REF="${REF_DIR}/Homo_sapiens_assembly38.chr17.fasta"                        # genome reference file
+
+gatk --java-options "-Xmx10g" MarkDuplicates \
+    --INPUT "${IN_CRAM}" \
+    --OUTPUT "${OUT_CRAM}" \
+    --METRICS_FILE "${METRICS}" \
+    --REFERENCE_SEQUENCE "${REF}" \
+    --CREATE_INDEX true \
+    --VALIDATION_STRINGENCY SILENT \
+    --OPTICAL_DUPLICATE_PIXEL_DISTANCE 2500 > "${LOG}" 2>&1
 ```
 
-6. Next, write a `sbatch` job script to run BQSR. You can use the following command for `gatk BaseRecalibrator` and `gatk ApplyBQSR`. We will also index the recalibrated CRAM as this is required for the variant calling step.  
+6. Next, write a `sbatch` job script to run BQSR. You can use the following command for `gatk BaseRecalibrator` and `gatk ApplyBQSR`. We will also index the recalibrated CRAM as this is required for the variant calling step. For more information about the commands and arguments, check the [GATK BaseRecalibrator documentation](https://gatk.broadinstitute.org/hc/en-us/articles/13832708374939-BaseRecalibrator) and [GATK ApplyBQSR documentation](https://gatk.broadinstitute.org/hc/en-us/articles/13832692459163-ApplyBQSR).  
 
 ```bash
-INPUT_CRAM="/path/to/results_dir/03_mark_dup/SRR7890883.chr17_50k.markdup.cram"
-RECAL_TABLE="/path/to/results_dir/04_bqsr/SRR7890883.recal.table"
-OUTPUT_CRAM="/path/to/results_dir/04_bqsr/SRR7890883.recal.bam"
+SAMPLE="SRR7890883"                     # sample name
+IN_DIR="/path/to/results/03_markdup"    # input directory for marked duplicates
+OUT_DIR="/path/to/results/04_bqsr"      # output directory for base quality score recalibration
+REF_DIR="/path/to/Introduction_to_Scientific_Computing/example_data/ref"        # reference genome directory
+KNOWN_SNPS="/path/to/Introduction_to_Scientific_Computing/example_data/known_sites/dbsnp_146.hg38.chr17.vcf.gz"     # known SNPs file
+KNOWN_INDELS="/path/to/Introduction_to_Scientific_Computing/example_data/known_sites/Mills_and_1000G_gold_standard.indels.hg38.chr17.vcf.gz"        # known indels file
+LOG_BR="/path/to/logs/base_recalibrator_${SAMPLE}.log"      # log file for base recalibrator output
+LOG_BQSR="/path/to/logs/apply_bqsr_${SAMPLE}.log"           # log file for apply bqsr output
 
-INTERVAL_ARGS=()
+mkdir -p "${OUT_DIR}"                                       # create output directory if it does not exist
 
-if [[ -n "${INTERVALS}" ]]; then
-    INTERVAL_ARGS=(-L "${INTERVALS}")
-fi
+IN_CRAM="${IN_DIR}/${SAMPLE}.chr17_50k.markdup.cram"        # input file for marked duplicates
+REF="${REF_DIR}/Homo_sapiens_assembly38.chr17.fasta"        # reference genome file
+RECAL_TABLE="${OUT_DIR}/${SAMPLE}.recal.table"              # output recalibrated table
+OUT_CRAM="${OUT_DIR}/${SAMPLE}.recal.cram"                  # output recalibrated cram file
 
 gatk --java-options "-Xmx10g" BaseRecalibrator \
     -R "${REF}" \
-    -I "${INPUT_CRAM}" \
-    --known-sites "${DBSNP}" \
+    -I "${IN_CRAM}" \
+    --known-sites "${KNOWN_SNPS}" \
     --known-sites "${KNOWN_INDELS}" \
-    "${INTERVAL_ARGS[@]}" \
     -O "${RECAL_TABLE}" \
-    2> "/path/to/results_dir/04_bqsr/SRR7890883.base_recalibrator.log"
+    2> "${LOG_BR}"
 
 gatk --java-options "-Xmx10g" ApplyBQSR \
     -R "${REF}" \
-    -I "${INPUT_CRAM}" \
+    -I "${IN_CRAM}" \
     --bqsr-recal-file "${RECAL_TABLE}" \
-    "${INTERVAL_ARGS[@]}" \
-    -O "${OUTPUT_CRAM}" \
-    2> "${OUTDIR}/logs/${SAMPLE}.apply_bqsr.log"
+    -O "${OUT_CRAM}" \
+    2> "${LOG_BQSR}"
 
 samtools index \
     -@ "${SLURM_CPUS_PER_TASK}" \
-    "${OUTPUT_CRAM}"
+    "${OUT_CRAM}"
 ```
 
 7. Finally, it's time to run `gatk Mutect2` to call somatic variants. You can use the following command for `gatk Mutect2`. For more details about the arguments used, see the [GATK Mutect2 documentation](https://gatk.broadinstitute.org/hc/en-us/articles/360037593851-Mutect2).
 
 ```bash
-OUTDIR="/path/to/results_dir"
 SAMPLE="SRR7890883"
-CRAM="/path/to/results_dir/04_bqsr/SRR7890883.recal.cram"
+IN_DIR="/path/to/Introduction_to_Scientific_Computing/session_3/exercise_3/expected_outputs/results/04_bqsr"        # input directory for base quality score recalibration
+OUT_DIR="/path/to/Introduction_to_Scientific_Computing/session_3/exercise_3/expected_outputs/results/05_mutect2"    # output directory for mutect2 results
+REF_DIR="/path/to/Introduction_to_Scientific_Computing/example_data/ref"                                            # reference genome directory
+GERM_DIR="/path/to/Introduction_to_Scientific_Computing/example_data/germline_resource"                             # germline resource directory
+LOG_DIR="/path/to/logs"
 
-UNFILTERED_VCF="${OUTDIR}/05_mutect2/${SAMPLE}.unfiltered.vcf"
-F1R2="${OUTDIR}/mutect2/${SAMPLE}.f1r2.tar.gz"
-ORIENTATION_MODEL="${OUTDIR}/05_mutect2/${SAMPLE}.read-orientation-model.tar.gz"
+mkdir -p "${OUT_DIR}"                                                                               # create output directory if it does not exist         
 
-PILEUPS="${OUTDIR}/05_mutect2/${SAMPLE}.pileups.table"
-CONTAMINATION="${OUTDIR}/05_mutect2/${SAMPLE}.contamination.table"
-SEGMENTS="${OUTDIR}/05_mutect2/${SAMPLE}.segments.table"
+IN_CRAM="${IN_DIR}/${SAMPLE}.recal.cram"                                                            # input file for base quality score recalibration
+REF="${REF_DIR}/Homo_sapiens_assembly38.chr17.fasta"                                                # reference genome gile
+GERMLINE_RESOURCE="${GERM_DIR}/gnomAD.r2.1.1.GRCh38.chr17.PASS.AC.AF.only.vcf.gz"                   # germline resource file
 
-FILTERED_VCF="${OUTDIR}/05_mutect2/${SAMPLE}.filtered.vcf"
-PASS_VCF="${OUTDIR}/05_mutect2/${SAMPLE}.pass.vcf"
-
-INTERVAL_ARGS=()
-PON_ARGS=()
-
-if [[ -n "${INTERVALS}" ]]; then
-    INTERVAL_ARGS=(-L "${INTERVALS}")
-fi
-
-if [[ -n "${PON}" ]]; then
-    PON_ARGS=(--panel-of-normals "${PON}")
-fi
+UNFILTERED_VCF="${OUT_DIR}/${SAMPLE}.unfiltered.vcf.gz"                                             # output file for unfiltered variants
+FILTERED_VCF="${OUT_DIR}/${SAMPLE}.filtered.vcf.gz"                                                 # output file for filtered variants
+PASS_VCF="${OUT_DIR}/${SAMPLE}.pass.vcf.gz"                                                         # output file for filtered variants passing QC check
 
 gatk --java-options "-Xmx10g" Mutect2 \
     -R "${REF}" \
-    -I "${BAM}" \
+    -I "${IN_CRAM}" \
     --germline-resource "${GERMLINE_RESOURCE}" \
-    "${PON_ARGS[@]}" \
-    "${INTERVAL_ARGS[@]}" \
-    --f1r2-tar-gz "${F1R2}" \
     -O "${UNFILTERED_VCF}" \
-    2> "${OUTDIR}/logs/${SAMPLE}.mutect2.log"
-
-gatk --java-options "-Xmx10g" LearnReadOrientationModel \
-    -I "${F1R2}" \
-    -O "${ORIENTATION_MODEL}" \
-    2> "${OUTDIR}/logs/${SAMPLE}.orientation_model.log"
-
-gatk --java-options "-Xmx10g" GetPileupSummaries \
-    -R "${REF}" \
-    -I "${BAM}" \
-    -V "${CONTAMINATION_SITES}" \
-    -L "${CONTAMINATION_SITES}" \
-    -O "${PILEUPS}" \
-    2> "${OUTDIR}/logs/${SAMPLE}.get_pileup_summaries.log"
-
-gatk --java-options "-Xmx56g" CalculateContamination \
-    -I "${PILEUPS}" \
-    -O "${CONTAMINATION}" \
-    --tumor-segmentation "${SEGMENTS}" \
-    2> "${OUTDIR}/logs/${SAMPLE}.calculate_contamination.log"
+    2> "${LOG_DIR}/mutect2.${SAMPLE}.log"
 
 gatk --java-options "-Xmx56g" FilterMutectCalls \
     -R "${REF}" \
     -V "${UNFILTERED_VCF}" \
-    --contamination-table "${CONTAMINATION}" \
-    --tumor-segmentation "${SEGMENTS}" \
-    --ob-priors "${ORIENTATION_MODEL}" \
-    "${INTERVAL_ARGS[@]}" \
     -O "${FILTERED_VCF}" \
-    2> "${OUTDIR}/logs/${SAMPLE}.filter_mutect_calls.log"
+    2> "${LOG_DIR}/mutect2.filter_mutect_calls.${SAMPLE}.log"
 
 gatk --java-options "-Xmx10g" SelectVariants \
     -R "${REF}" \
     -V "${FILTERED_VCF}" \
     --exclude-filtered true \
     -O "${PASS_VCF}" \
-    2> "${OUTDIR}/logs/${SAMPLE}.select_pass_variants.log"
+    2> "${LOG_DIR}/mutect2.select_pass_variants.${SAMPLE}.log"
 
-gatk IndexFeatureFile \
-    -I "${PASS_VCF}"
-
-echo "Filtered VCF: ${FILTERED_VCF}"           # print the path to the filtered VCF file
-echo "PASS VCF:     ${PASS_VCF}"               # print the path to the final VCF file containing the high-confidence somatic variants
+echo "Filtered VCF: ${FILTERED_VCF}"
+echo "PASS VCF:     ${PASS_VCF}"
 ```
 
-8. Check your output files. You should have a `.vcf` file with the identified variants, as well as several other files containing information about the analysis, such as the metrics file from `gatk MarkDuplicates`, the recalibration table from BQSR, and the contamination table from `gatk CalculateContamination`.
+8. Check your output files. You should have a `pass.vcf.gz` file with the identified variants. Try gunzipping the file and vieweing the contents using `less`. You should see a header section followed by a list of variants.  
 
-Can you identify any high-confidence somatic variants in the final output `.vcf` file?  
+How might we identify high-confidence somatic variants from this `.vcf` file? Do you know what the next steps would be to validate these variants and determine their potential impact on protein function?  
 
 **You are done when:**
 
 - You have successfully run the somatic short variant calling analysis using the GATK best practices workflow.  
+
+## End of Session 3
+
+Congratulations, you have run a real bioinformatics analysis! You have learned how to use the module system and conda to manage software dependencies, and you have gained experience with the GATK best practices workflow for somatic short variant calling.  
+
+Join us in Session 4 to learn how to run a Jupyter Notebook and an Rstudio session on the CeMM cluster, and how to transfer data to/from the CeMM cluster.  
