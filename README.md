@@ -99,7 +99,10 @@ For Sessions 2 and 3, we will use [LearnSlurm](https://learnslurm.com/index), a 
 
 1. Go to [https://learnslurm.com/index](https://learnslurm.com/index)
 
-2. Select "> Launch Trainer" to start the SLURM training environment.  
+2. Select "> Launch Trainer" to start the SLURM training environment.
+
+<img width="966" height="381" alt="learnslurm" src="https://github.com/user-attachments/assets/19e1916c-2db6-4358-ae22-0246071d1358" />
+
 
 You now have a fake high-performance computing cluster running in your browser, including a terminal where you experiment with common SLURM commands. Similarly to Codespaces, LearnSlurm also doesn't have access to your local files, so you can play around without being worried about deleting anything by accident.  
 
