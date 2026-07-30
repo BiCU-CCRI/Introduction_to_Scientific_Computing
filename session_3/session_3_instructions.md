@@ -27,12 +27,15 @@ Here are some basic commands to get you started with the module system:
 | `module list` | List all currently loaded modules in your environment. |
 | `module purge` | Unload all currently loaded modules from your environment. |
 | `module help <module_name>` | Display help information for a specific module. |
+| `module show <module_name>` | Display detailed information about a specific module, including its path and dependencies. | 
 
 #### LearnSlurm users
 
-Try to experiment with the module system available within the LearnSlurm environment. You can use the commands above to load and unload different modules, and to check which modules are currently loaded in your environment.  
+Try to experiment with the module system available within the LearnSlurm environment. You can use the commands above to load and unload different modules, and to check which modules are currently loaded in your environment. Try to answer the following questions:  
 
-For example, try to load the `pytorch/2.1` module and check that it is correctly loaded. Then, unload the module and check that it is no longer loaded.  
+- Which modules are loaded upon startup?  
+- How many different versions of `pytorch` are available?  
+- Where are the modules stored on the system?  
 
 #### CeMM cluster users
 

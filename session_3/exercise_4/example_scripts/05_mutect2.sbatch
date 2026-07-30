@@ -1,8 +1,8 @@
 #!/bin/bash
 
-#SBATCH --job-name=bqsr
-#SBATCH --output=/path/to/results_dir/04_bqsr/bqsr_%j.out
-#SBATCH --error=/path/to/results_dir/04_bqsr/bqsr_%j.err
+#SBATCH --job-name=mutect2
+#SBATCH --output=/path/to/results_dir/05_mutect2/mutect2_%j.out
+#SBATCH --error=/path/to/results_dir/05_mutect2/mutect2_%j.err
 #SBATCH --time=02:00:00
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=10G
@@ -19,20 +19,22 @@ conda activate "${conda_env_name}"
 # CeMM cluster option
 # modue load GATK/4.2.0.0-GCCcore-10.2.0-Java-11
 
-OUTDIR="/path/to/results_dir"
 SAMPLE="SRR7890883"
-CRAM="/path/to/results_dir/04_bqsr/SRR7890883.recal.cram"
+IN_DIR="/path/to/results_dir/04_bqsr"
+OUT_DIR="/path/to/results_dir/05_mutect2"
 
-UNFILTERED_VCF="${OUTDIR}/05_mutect2/${SAMPLE}.unfiltered.vcf.gz"
-F1R2="${OUTDIR}/mutect2/${SAMPLE}.f1r2.tar.gz"
-ORIENTATION_MODEL="${OUTDIR}/05_mutect2/${SAMPLE}.read-orientation-model.tar.gz"
+IN_CRAM="${IN_DIR}/${SAMPLE}.recal.cram"
 
-PILEUPS="${OUTDIR}/05_mutect2/${SAMPLE}.pileups.table"
-CONTAMINATION="${OUTDIR}/05_mutect2/${SAMPLE}.contamination.table"
-SEGMENTS="${OUTDIR}/05_mutect2/${SAMPLE}.segments.table"
+UNFILTERED_VCF="${OUT_DIR}/${SAMPLE}.unfiltered.vcf.gz"
+F1R2="${OUT_DIR}/${SAMPLE}.f1r2.tar.gz"
+ORIENTATION_MODEL="${OUT_DIR}/${SAMPLE}.read-orientation-model.tar.gz"
 
-FILTERED_VCF="${OUTDIR}/05_mutect2/${SAMPLE}.filtered.vcf.gz"
-PASS_VCF="${OUTDIR}/05_mutect2/${SAMPLE}.pass.vcf.gz"
+PILEUPS="${OUT_DIR}/${SAMPLE}.pileups.table"
+CONTAMINATION="${OUT_DIR}/${SAMPLE}.contamination.table"
+SEGMENTS="${OUT_DIR}/${SAMPLE}.segments.table"
+
+FILTERED_VCF="${OUT_DIR}/${SAMPLE}.filtered.vcf.gz"
+PASS_VCF="${OUT_DIR}/${SAMPLE}.pass.vcf.gz"
 
 INTERVAL_ARGS=()
 PON_ARGS=()
@@ -53,12 +55,12 @@ gatk --java-options "-Xmx10g" Mutect2 \
     "${INTERVAL_ARGS[@]}" \
     --f1r2-tar-gz "${F1R2}" \
     -O "${UNFILTERED_VCF}" \
-    2> "${OUTDIR}/logs/${SAMPLE}.mutect2.log"
+    2> "${OUT_DIR}/${SAMPLE}.mutect2.log"
 
 gatk --java-options "-Xmx10g" LearnReadOrientationModel \
     -I "${F1R2}" \
     -O "${ORIENTATION_MODEL}" \
-    2> "${OUTDIR}/logs/${SAMPLE}.orientation_model.log"
+    2> "${OUT_DIR}/${SAMPLE}.orientation_model.log"
 
 gatk --java-options "-Xmx10g" GetPileupSummaries \
     -R "${REF}" \
@@ -66,13 +68,13 @@ gatk --java-options "-Xmx10g" GetPileupSummaries \
     -V "${CONTAMINATION_SITES}" \
     -L "${CONTAMINATION_SITES}" \
     -O "${PILEUPS}" \
-    2> "${OUTDIR}/logs/${SAMPLE}.get_pileup_summaries.log"
+    2> "${OUT_DIR}/${SAMPLE}.get_pileup_summaries.log"
 
 gatk --java-options "-Xmx56g" CalculateContamination \
     -I "${PILEUPS}" \
     -O "${CONTAMINATION}" \
     --tumor-segmentation "${SEGMENTS}" \
-    2> "${OUTDIR}/logs/${SAMPLE}.calculate_contamination.log"
+    2> "${OUT_DIR}/${SAMPLE}.calculate_contamination.log"
 
 gatk --java-options "-Xmx56g" FilterMutectCalls \
     -R "${REF}" \
@@ -82,14 +84,14 @@ gatk --java-options "-Xmx56g" FilterMutectCalls \
     --ob-priors "${ORIENTATION_MODEL}" \
     "${INTERVAL_ARGS[@]}" \
     -O "${FILTERED_VCF}" \
-    2> "${OUTDIR}/logs/${SAMPLE}.filter_mutect_calls.log"
+    2> "${OUT_DIR}/${SAMPLE}.filter_mutect_calls.log"
 
 gatk --java-options "-Xmx10g" SelectVariants \
     -R "${REF}" \
     -V "${FILTERED_VCF}" \
     --exclude-filtered true \
     -O "${PASS_VCF}" \
-    2> "${OUTDIR}/logs/${SAMPLE}.select_pass_variants.log"
+    2> "${OUT_DIR}/${SAMPLE}.select_pass_variants.log"
 
 gatk IndexFeatureFile \
     -I "${PASS_VCF}"

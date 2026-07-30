@@ -21,12 +21,16 @@ conda activate "${conda_env_name}"
 # module load SAMtools/1.17-GCC-11.3.0
 
 SAMPLE="SRR7890883"
+IN_DIR="/path/to/results_dir/01_fastp"
+OUT_DIR="/path/to/results_dir/02_bwa"
+REF_DIR="/path/to/Introduction_to_Scientific_Computing/example_data/ref"
+
 LIBRARY="lib1"
 PLATFORM="ILLUMINA"
-FASTP_R1="/path/to/results_dir/01_fastp/SRR7890883.chr17_50k_R1_trimmed.fastq"
-FASTP_R2="/path/to/results_dir/01_fastp/SRR7890883.chr17_50k_R2_trimmed.fastq"
-OUTPUT_CRAM="/path/to/results_dir/02_bwa/SRR7890883.chr17_50k.cram"
-REF="/path/to/Introduction_to_Scientific_Computing/example_data/ref/Homo_sapiens_assembly38.chr17.fasta"
+FASTP_R1="${IN_DIR}/${SAMPLE}.chr17_50k_R1_trimmed.fastq"
+FASTP_R2="${IN_DIR}/${SAMPLE}.chr17_50k_R2_trimmed.fastq"
+OUT_CRAM="${OUT_DIR}/${SAMPLE}.chr17_50k.cram"
+REF="${REF_DIR}/Homo_sapiens_assembly38.chr17.fasta"
 
 READ_GROUP="@RG\tID:${SAMPLE}.${LIBRARY}\tSM:${SAMPLE}\tLB:${LIBRARY}\tPL:${PLATFORM}\tPU:${SAMPLE}.${LIBRARY}"
 
@@ -37,14 +41,14 @@ bwa mem \
     "${REF}" \
     "${FASTP_R1}" \
     "${FASTP_R2}" \
-    2> /path/to/results_dir/02_bwa/SRR7890883.bwa.log" |
+    2> "${OUT_DIR}/${SAMPLE}.bwa.log" |
 samtools sort \
     -@ 1 \
     -O CRAM \
     --reference "${REF}" \
-    -o "${OUTPUT_CRAM}" \
+    -o "${OUT_CRAM}" \
     -
 
 samtools index \
     -@ 1 \
-    "${OUTPUT_CRAM}"
+    "${OUT_CRAM}"

@@ -19,11 +19,21 @@ conda activate "${conda_env_name}"
 # CeMM cluster option
 # module load fastp/0.23.2-GCC-11.3.0
 
+SAMPLE="SRR7890883"
+IN_DIR="/path/to/Introduction_to_Scientific_Computing/example_data/fastq"
+OUT_DIR="/path/to/results_dir/01_fastp"
+
+RAW_R1="${IN_DIR}/${SAMPLE}.chr17_50k_R1.fastq"
+RAW_R2="${IN_DIR}/${SAMPLE}.chr17_50k_R2.fastq"
+TRIMMED_R1="${OUT_DIR}/${SAMPLE}.chr17_50k_R1_trimmed.fastq"
+TRIMMED_R2="${OUT_DIR}/${SAMPLE}.chr17_50k_R2_trimmed.fastq"
+FASTP_HTML="${OUT_DIR}/${SAMPLE}.chr17_50k.html"
+
 fastp \
-    --in1 /path/to/Introduction_to_Scientific_Computing/example_data/fastq/SRR7890883.chr17_50k_R1.fastq \
-    --in2 /path/to/Introduction_to_Scientific_Computing/example_data/fastq/SRR7890883.chr17_50k_R2.fastq \
-    --out1 /path/to/results_dir/01_fastp/SRR7890883.chr17_50k_R1_trimmed.fastq \
-    --out2 /path/to/results_dir/01_fastp/SRR7890883.chr17_50k_R2_trimmed.fastq \
+    --in1 "${RAW_R1}" \
+    --in2 "${RAW_R2}" \
+    --out1 "${TRIMMED_R1}" \
+    --out2 "${TRIMMED_R2}" \
     --detect_adapter_for_pe \
     --thread 1 \
-    --html /path/to/results_dir/01_fastp/SRR7890883.chr17_50k.html
+    --html "${FASTP_HTML}"
