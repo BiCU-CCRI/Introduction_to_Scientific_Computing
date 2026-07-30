@@ -97,16 +97,14 @@ You can find a full list of SLURM directives in the SLURM documentation: [https:
 
 ## SLURM queues
 
-You will notice that for the CeMM cluster, the `--partition` and `--qos` directives are compulsory. This is because the CeMM cluster has multiple queues, or partitions, that are configured to have different resource limits and priorities. You must choose the appropriate queue for your job based on the resources it requires and the expected runtime. Here is a table of the CeMM cluster queues:  
+You will notice that for the CeMM cluster, the `--partition` and `--qos` directives are compulsory. Clusters using SLURM have multiple queues, or partitions, that are configured to have different resource limits and priorities. You must choose the appropriate queue for your job based on the resources it requires and the expected runtime. Here is a table of the CeMM cluster queues - note the user and group limits for each queue:  
 
 <img width="715" height="471" alt="job_queues" src="https://github.com/user-attachments/assets/9e013c14-ef3e-4f16-b35a-8e98cbe54ac2" />
 
-On the CeMM cluster, you must specify both `--partition` and `--qos` to choose your queue, and these must be identical.  
+>[NOTE!]
+>On the CeMM cluster, you must specify both `--partition` and `--qos` to choose your queue, and these must be identical. With LearnSlurm, it is sufficient to only specify `--partition`.  
 
 Once you have chosen your queue, the default `--time` and `--mem` limits will be set according to the queue's configuration. You can override these defaults by specifying your own values for `--time` and `--mem`, but you cannot exceed the maximum limits of the queue.  
-
-> [!NOTE]
-> There are user and group limits for numbers of jobs on the CeMM cluster. ##################################### max num jobs pic #################################
 
 ## Exercise 2: Using `srun` to start an interactive job
 
