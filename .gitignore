@@ -1,0 +1,7 @@
+*.cache/
+*.config/
+*.local/
+*.rstudio_server/
+*.Renviron
+*jupyter-lab*.log
+*ipynb_checkpoints
