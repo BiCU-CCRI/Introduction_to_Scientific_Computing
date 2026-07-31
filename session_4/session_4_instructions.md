@@ -64,7 +64,7 @@ Click on the link starting `http://d021.int.cemm.at:8513/lab?token=...` to acces
 
 4. Let's try running an example analysis with the `example_notebook.ipynb` notebook. You can open the notebook in Jupyterlab. Run the cells to produce the example plot.  
 
-5. What if we try to install a package that's not included in the pre-configured Jupyterlab module? Try running cell 
+5. What if we try to install a package that's not included in the pre-configured Jupyterlab module? Try running section 6.  
 
 
 ### Running Jupyterlab using your own conda environment  
@@ -77,13 +77,13 @@ Sometimes you have a specific evironment that you want to use for your analysis,
 mamba activate intro_to_sci_comp
 ```
 
-2. Install the `plotly` and `jupyterlab` packages in your environment:  
+2. Install the following packages in your environment:  
 
 ```bash
-mamba install jupyterlab plotly
+mamba install jupyterlab==4.6.2 plotly==6.9.0 matplotlib==3.10.9 pandas==2.3.3
 ```
 
-3. Check that `ipykernel` is installed in your environment - it is a dependency of `jupyterl`b so should be installed automatically when you install `jupyterl`. If not, install it too.  
+3. Check that `ipykernel` is installed in your environment - it is a dependency of `jupyterlab` so should be installed automatically when you install `jupyterlab`. If not, install it too.  
 
 ```bash
 mamba list ipykernel
@@ -93,6 +93,7 @@ mamba list ipykernel
 
 ```bash
 python -m ipykernel install --user --name intro_to_sci_comp --display-name "intro_to_sci_comp"
+# Installed kernelspec intro_to_sci_comp in /home/username/.local/share/jupyter/kernels/intro_to_sci_comp
 ```
 
 5. Now, check the contents of the `jupyterlab_customenv.sbatch` script. This script is similar to the `jupyterlab.sbatch` script, but it activates your conda environment, and runs `jupyterlab` using the version installed in your environment as opposed to the module version.  
@@ -107,7 +108,7 @@ python -m ipykernel install --user --name intro_to_sci_comp --display-name "intr
 #SBATCH --job-name=jupyter-lab
 #SBATCH --output=jupyter-lab-%j.log
 
-conda_env_name="somatic_variant_calling"
+conda_env_name="intro_to_sci_comp"
 echo "Activating environment"
 source "${CONDA_PREFIX}/etc/profile.d/conda.sh"
 conda activate "${conda_env_name}"
@@ -120,11 +121,19 @@ host ${node}
 jupyter lab --no-browser --port=${port} --ip=${node}
 ```
 
-5. Run the script, and click the link in the output to access the Jupyter Notebook session in your web browser. To set your own environment as the kernel, click the `Kernel` menu, then `Change kernel`, and select your environment from the list. You should now be able to use Jupyter Notebook in your web browser with your own conda environment!  
+5. Submit the `jupyterlab_customenv.sbatch` to SLURM, and click the link in the output to access the Jupyter Notebook session in your web browser. 
 
-6. Let's test whether we can 
+6. To set your own environment as the kernel, click the `Kernel` menu, then `Change kernel`, and select `intro_to_sci_comp` from the list. You should now be able to use Jupyter Notebook in your web browser with your own conda environment!  
 
-## Exercise 1: Running an RStudio session on the CeMM cluster  
+6. Let's test whether we can now run section 6 in `example_notebook.ipynb` which uses the `plotly` package (you need to run the whole notebook beforehand to process the inout data correctly). You should be able to produce the second plot at the end of the notebook now.  
+
+**You are done when:**
+
+- You have successfully started a Jupyter Notebook session on the CeMM cluster.
+- You have successfully started a Jupyter Notebook session using your own conda environment.  
+- You have produced the example plots using the `example_notebook.ipynb` notebook.  
+
+## Exercise 2: Running an RStudio session on the CeMM cluster  
 
 **Goal:** Learn how to run an RStudio session on the CeMM cluster.  
 
@@ -325,3 +334,117 @@ Click on the link in the output. Log onto the RStudio session using your CeMM cl
 - You have successfully started an RStudio session on the CeMM cluster.
 - You have produced the example plot using the `example_script.R` script.  
 
+## Exercise 3 - Data transfer to/from the CeMM cluster/Isilon  
+
+Now that you have started to produce results on the CeMM cluster, you need a reliable way to transfer data to and from the CeMM cluster from Isilon. It may be tempting to use the Finder once you have mounted `nobackup` and `research`, but this is not a reliable way to transfer data. We recommend using `rsync` for data transfer.  
+
+To transfer data to/from the CeMM cluster, you will need to mount the `nobackup` and `research` partitions on the `011Sv123` server. This is a server that is accessible from both the CeMM cluster and Isilon. Once you have mounted the partitions, you can use `rsync` to transfer data between Isilon and the CeMM cluster.  
+
+1. First, SSH into the CeMM cluster and note down your `cemm_uid` and `cemm_gid`. You can find these by running the following command:
+
+```bash
+id
+```
+
+2. In a new terminal window, SSH into the `011Sv123` server using your CCRI credentials:
+
+```bash
+ssh <firstname.lastname>@011Sv123.ad.ccri.at
+# CCRI password
+```
+
+2. Mount the `nobackup` and `research` partitions to your home directory on the `011Sv123` machine.  
+
+```bash
+mkdir -p ~/cemm_nobackup
+mkdir -p ~/cemm_research
+
+sshfs -o uid=<cemm_uid> -o gid=<cemm_gid> <cemm_user>@10.110.81.2:/nobackup /home/<firstname.lastname>/cemm_nobackup
+# CeMM password
+sshfs -o uid=<cemm_uid> -o gid=<cemm_gid> <cemm_user>@10.110.81.2:/research /home/<firstname.lastname>/cemm_research
+# CeMM password
+```
+
+3. Use the `rsync` command to transfer data between Isilon and the CeMM cluster. The `rsync` program is a fast and versatile file copying tool that can copy files locally or to/from a remote host. It is widely used for data transfer because it can resume interrupted transfers, preserve file permissions and timestamps, and transfer only the differences between files.  
+
+### From Isilon to the CeMM fileshares
+
+`rsync -rtvhP --no-g --no-o --no-p --chmod=u=rwX,g=rwX,o= <source> <destination>` is the recommended command for transferring data from Isilon to `nobackup` or `research`. The arguments mean:
+
+- `-r`: recursive, copy directories and their contents
+- `-t`: preserve modification times
+- `-v`: verbose, print information about the transfer
+- `-h`: human-readable, print sizes in a human-readable format
+- `-P`: show progress during transfer and keep partially transferred files
+- `--no-g`: do not preserve group ownership
+- `--no-o`: do not preserve owner
+- `--no-p`: do not preserve permissions
+- `--chmod=u=rwX,g=rwX,o=`: set permissions to be readable and writable by the user and group, but not by others
+
+Let's try it with an example file. Navigate to one of your folders on Isilon using the `011Sv123` server, and make an example file. Then, transfer this file to the `session_4` directory on the CeMM cluster using the `rsync` command.  
+
+>[TIP!]
+>Always run a dry run of the `rsync` command first to see what files will be transferred. You can do this by adding the `--dry-run` argument to the command.  
+
+>[!NOTE]
+>Be careful about the `<source>` and `<destination>` arguments. The `rsync` command will copy files from the `<source>` to the `<destination>`. If you get these arguments wrong, you may end up overwriting files on the CeMM cluster or Isilon. When you end a path with a backslash `\`, it means "copy the contents of this directory", whereas if you don't end with a backslash, it means "copy this directory and its contents".
+>For example:
+>`rsync -r /path/to/source/ /path/to/destination/` will copy the contents of the `source` directory to the `destination` directory, whereas
+>`rsync -r /path/to/source /path/to/destination/` will copy the `source` directory and its contents to the `destination` directory.
+
+```bash
+cd /mnt/bioinformatics/Research/<your_lab_name>/Internal/<your_username>/<your_favourite_isilon_folder>
+touch hello_cemm.txt
+echo "Hello CeMM!" > hello_cemm.txt
+rsync -rtvhP --no-g --no-o --no-p --chmod=u=rwX,g=rwX,o= --dry-run /mnt/bioinformatics/Research/<your_lab_name>/Internal/<your_username>/<your_favourite_isilon_folder>/hello_cemm.txt /home/<firstname.lastname>/cemm_nobackup/<lab_name>/<user_name>/Introduction_to_Scientific_Computing/session_4/
+
+# sending incremental file list
+# hello_cemm.txt
+
+# sent 59 bytes  received 19 bytes  156.00 bytes/sec
+# total size is 13  speedup is 0.17 (DRY RUN)
+
+rsync -rtvhP --no-g --no-o --no-p --chmod=u=rwX,g=rwX,o= /mnt/bioinformatics/Research/<your_lab_name>/Internal/<your_username>/<your_favourite_isilon_folder>/hello_cemm.txt /home/<firstname.lastname>/cemm_nobackup/<lab_name>/<user_name>/Introduction_to_Scientific_Computing/session_4/
+
+# sending incremental file list
+# hello_cemm.txt
+#              13 100%    0.00kB/s    0:00:00 (xfr#1, to-chk=0/1)
+
+# sent 112 bytes  received 35 bytes  294.00 bytes/sec
+# total size is 13  speedup is 0.09
+```
+
+### From the CeMM fileshares to Isilon
+
+Now, we will modify the newly transferred file on the CeMM cluster, and transfer it back to Isilon.  
+
+```bash
+echo "Goodbye, CeMM!" >> /home/<firstname.lastname>/cemm_nobackup/<lab_name>/<user_name>/Introduction_to_Scientific_Computing/session_4/hello_cemm.txt
+rsync -rtvhP --no-g --no-o --no-p --chmod=u=rwX,g=rwX,o= --dry-run /home/<firstname.lastname>/cemm_nobackup/<lab_name>/<user_name>/Introduction_to_Scientific_Computing/session_4/hello_cemm.txt /mnt/bioinformatics/Research/<your_lab_name>/Internal/<your_username>/<your_favourite_isilon_folder>/
+
+# sending incremental file list
+# hello_cemm.txt
+
+# sent 53 bytes  received 19 bytes  144.00 bytes/sec
+# total size is 28  speedup is 0.39 (DRY RUN)
+
+rsync -rtvhP --no-g --no-o --no-p --chmod=u=rwX,g=rwX,o= /home/<firstname.lastname>/cemm_nobackup/<lab_name>/<user_name>/Introduction_to_Scientific_Computing/session_4/hello_cemm.txt /mnt/bioinformatics/Research/<your_lab_name>/Internal/<your_username>/<your_favourite_isilon_folder>/
+
+# sending incremental file list
+# hello_cemm.txt
+#              28 100%    0.00kB/s    0:00:00 (xfr#1, to-chk=0/1)
+
+# sent 121 bytes  received 35 bytes  312.00 bytes/sec
+# total size is 28  speedup is 0.18
+```
+
+Although the file name is the same, since the contents have changed, `rsync` will transfer the file back to Isilon. You can check the contents of the file on Isilon to confirm that it has been updated.  
+
+**You are done when:**
+
+- You have successfully transferred a file from Isilon to the CeMM cluster using `rsync`.
+- You have successfully transferred a file from the CeMM cluster to Isilon using `rsync`.  
+
+## End of the course
+
+Woohoo, you have completed the Introduction to Scientific Computing course! Enjoy using your new skills to analyze your data. If you have any questions or feedback, please reach out to the BiCU.  

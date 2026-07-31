@@ -35,9 +35,9 @@ Below you can find a description of the topics that will be covered in each sess
 
 ### Session 4 (CeMM cluster access required)
 
-1. Exercise 1: Data transfer to/from the CeMM cluster/Isilon  
-2. Exercise 2: Running an RStudio session on the CeMM cluster  
-3. Exercise 3: Running a Jupyter Notebook session on the CeMM cluster  
+1. Exercise 1: Running a Jupyter Notebook session on the CeMM cluster 
+2. Exercise 2: Running an RStudio session on the CeMM cluster 
+3. Exercise 3: Data transfer to/from the CeMM cluster/Isilon  
 
 ## Prerequisites
 
