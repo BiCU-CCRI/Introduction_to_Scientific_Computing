@@ -335,25 +335,18 @@ unset __conda_setup
 6. Now, let's create a new conda environment for our project. We will call this environment `intro_to_sci_comp`. To create the environment, run the following command:  
 
 ```bash
-mamba create -n intro_to_sci_comp python=3.10 numpy
+mamba create -n intro_to_sci_comp python=3.10
 ```
 
-We are specifying that we want to create an environment with Python version 3.10 and the `numpy` package installed. You can add any other packages you need for your project by listing them after `numpy`.  
+We are specifying that we want to create an environment with Python version 3.10 installed.  
 
-To activate the environment, run the following command:  
+7. To activate the environment, run the following command:  
 
 ```bash
 mamba activate intro_to_sci_comp
 ```
 
-Now, run the `check_numpy_version.py` script again to check if it works in the new conda environment:  
-
-```bash
-python check_numpy_version.py
-# 2.3.1
-```
-
-7. To install new packages in the environment, run the following command:  
+8. To install new packages in the environment, run the following command:  
 
 ```bash
 mamba install <package_name>
@@ -361,23 +354,17 @@ mamba install <package_name>
 
 You can add multiple packages by separating them with spaces. You can also specify the channel from whcih the package should be installed with `<channel>::<package_name>`, and you can specify the version of the package you want to install by appending `=<version>` to the package name. 
 
-Try installing `pandas==1.5.3` from the channel `conda-forge` in your `intro_to_sci_comp` environment, then edit your `check_numpy_version.py` script to also check the version of `pandas`:  
+Try installing `numpy==2.2.6` from the channel `conda-forge` in your `intro_to_sci_comp` environment, then use the `check_numpy_version.py` script to check if it works in the new conda environment.  
 
-```python
-import numpy as np
-import pandas as pd
-
-# print numpy version
-print(np.__version__)
-
-# print pandas version
-print(pd.__version__)
+```bash
+python check_numpy_version.py
+# 2.3.1
 ```
 
 >[NOTE!]
->When installing specific versions of Python, use `=` instead of `==`. For example, to install Python 3.10, use `python=3.10` instead of `python==3.10`.  
+>When installing specific versions of Python, use `=` instead of `==`.  
 
-7. To deactivate your conda enironment and return to the base environment, run the following command:  
+9. To deactivate your conda enironment and return to the base environment, run the following command:  
 
 ```bash
 mamba deactivate
@@ -401,9 +388,9 @@ Here are some useful commands for managing conda environments (NB for most of th
 
 - You have installed Miniconda.  
 - You have made the necessary changes to your `~/.bashrc` file to point to the new location of your conda installation.  
-- You have created a new environment called `intro_to_sci_comp` with Python 3.10 and `numpy` installed.  
+- You have created a new environment called `intro_to_sci_comp` with Python 3.10 installed.  
 - You have activated the `intro_to_sci_comp` environment and successfully run the `check_numpy_version.py` script.  
-- You have installed `pandas` in the `intro_to_sci_comp` environment and successfully run the modified `check_numpy_version.py` script.  
+- You have installed `numpy` in the `intro_to_sci_comp` environment and successfully run the modified `check_numpy_version.py` script.  
 - You have deactivated the `intro_to_sci_comp` environment and returned to the base environment.  
 
 ### Activating a conda environment in a job script
