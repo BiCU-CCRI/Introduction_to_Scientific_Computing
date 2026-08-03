@@ -137,7 +137,7 @@ If you don't have a CeMM cluster account, you can skip this exercise and continu
 
 3. `smb://10.110.80.131` and click "Connect"
 
-4. Enter your CeMM username and password when prompted
+4. Enter your CeMM username (username@cemm.at) and password when prompted
 
 You should now see the `/nobackup` and `/research` directories in the Finder, and you can access your files as if they were on your local machine.
 
@@ -147,7 +147,9 @@ You should now see the `/nobackup` and `/research` directories in the Finder, an
 
 2. Right-click on "This PC" and select "Map network drive"
 
-################################ ??? need to test on a windows haha #############################
+3. `smb://10.110.80.131/nobackup` or `smb://10.110.80.131/research` and click "Enter"  
+
+4. Enter your CeMM username (username@cemm.at) and password if prompted
 
 **You are done when:**  
 
