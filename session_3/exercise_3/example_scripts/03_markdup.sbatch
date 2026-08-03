@@ -1,8 +1,8 @@
 #!/bin/bash
 
 #SBATCH --job-name=mark_dup
-#SBATCH --output=./logs/markdup_%j.out
-#SBATCH --error=./logs/markdup_%j.err
+#SBATCH --output=markdup_%j.out
+#SBATCH --error=markdup_%j.err
 #SBATCH --time=00:05:00
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=5G
@@ -26,9 +26,6 @@ echo "Activating environment"
 source "${CONDA_PREFIX}/etc/profile.d/conda.sh"
 conda activate "${conda_env_name}"
 
-# CeMM cluster option
-# module load GATK/4.2.0.0-GCCcore-10.2.0-Java-11
-
 mkdir -p "${OUT_DIR}"
 
 IN_CRAM="${IN_DIR}/${SAMPLE}.chr17_50k.cram"
@@ -36,6 +33,7 @@ OUT_CRAM="${OUT_DIR}/${SAMPLE}.chr17_50k.markdup.cram"
 METRICS="${OUT_DIR}/${SAMPLE}.markdup.metrics.txt"
 REF="${REF_DIR}/Homo_sapiens_assembly38.chr17.fasta"
 
+echo "Marking duplicate reads for sample ${SAMPLE}"
 gatk --java-options "-Xmx10g" MarkDuplicates \
     --INPUT "${IN_CRAM}" \
     --OUTPUT "${OUT_CRAM}" \

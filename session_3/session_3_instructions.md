@@ -216,7 +216,7 @@ Submit the script and observe that it runs successfully. Now, use `nano` to dele
 
 #### CeMM cluster users  
 
-Create a new job script called `check_numpy_version_module_job.sh` which loads the `Python/3.10.8-GCCcore-12.2.0` and `SciPy-bundle/2025.06-gfbf-2025a` modules, and then runs the `check_numpy_version.py` script.  
+Create a new job script called `check_numpy_version_module_job.sbatch` which loads the `Python/3.10.8-GCCcore-12.2.0` and `SciPy-bundle/2025.06-gfbf-2025a` modules, and then runs the `check_numpy_version.py` script.  
 
 Example script:  
 
@@ -240,7 +240,6 @@ module load SciPy-bundle/2025.06-gfbf-2025a
 python check_numpy_version.py
 ```
 
-
 **You are done when:** 
 
 - You are comfortable loading and unloading modules using the module system.  
@@ -253,7 +252,7 @@ python check_numpy_version.py
 If you are working on several projects, you may want to use different versions of the same software for each project. This is where conda comes in handy. Conda is a package manager that allows you to create isolated environments for your projects, each with its own set of dependencies. 
 
 >[TIP!]
->It is good practice to create a new conda environment for each project you work on. This way, you can avoid conflicts between different versions of software and ensure that your analysis is reproducible.   
+>It is good practice to create a new conda environment for each project you work on. This way, you can avoid conflicts between different versions of software and ensure that your analysis is reproducible.  
 
 Here are the steps to set up conda:  
 
@@ -274,13 +273,7 @@ conda config --add channels conda-forge
 conda config --add channels bioconda
 ```
 
-4. Install `mamba` in your `base` environment. `mamba` is a fast, drop-in replacement for conda. It is written in C++ and uses parallel downloading to speed up package installation. To install `mamba`, run the following command:  
-
-```bash
-conda install -c conda-forge mamba
-```
-
-5. On the CeMM cluster, by default, packages are installed in the `home` directory, which is hosted on the `/research` partition. Since space on `/research` is limited, we will move our conda installation to the `/nobackup` partition.  
+4. On the CeMM cluster, by default, packages are installed in the `home` directory, which is hosted on the `/research` partition. Since space on `/research` is limited, we will move our conda installation to the `/nobackup` partition.  
 
 ```bash
 rsync -avhP /home/<username>/miniconda3/ /nobackup/<lab_name>/<username>/miniconda3/
@@ -332,52 +325,74 @@ unset __conda_setup
 # <<< conda initialize <<<
 ```
 
-6. Now, let's create a new conda environment for our project. We will call this environment `intro_to_sci_comp`. To create the environment, run the following command:  
+5. Now, let's create a new conda environment for our project. We will call this environment `intro_to_sci_comp`. To create the environment, run the following command:  
 
 ```bash
-mamba create -n intro_to_sci_comp python=3.10
+conda create -n intro_to_sci_comp python=3.10
 ```
 
 We are specifying that we want to create an environment with Python version 3.10 installed.  
 
-7. To activate the environment, run the following command:  
+6. To activate the environment, run the following command:  
 
 ```bash
-mamba activate intro_to_sci_comp
+conda activate intro_to_sci_comp
 ```
 
-8. To install new packages in the environment, run the following command:  
+7. To install new packages in the environment, run the following command:  
 
 ```bash
-mamba install <package_name>
+conda install <package_name>
 ```
 
 You can add multiple packages by separating them with spaces. You can also specify the channel from whcih the package should be installed with `<channel>::<package_name>`, and you can specify the version of the package you want to install by appending `=<version>` to the package name. 
 
-Try installing `numpy==2.2.6` from the channel `conda-forge` in your `intro_to_sci_comp` environment, then use the `check_numpy_version.py` script to check if it works in the new conda environment.  
+Try installing `numpy=2.2.6` from the channel `conda-forge` in your `intro_to_sci_comp` environment, then use the `check_numpy_version.py` script to check if it works in the new conda environment.  
 
 ```bash
 python check_numpy_version.py
-# 2.3.1
+# 2.2.6
 ```
 
->[NOTE!]
->When installing specific versions of Python, use `=` instead of `==`.  
+8. To ensure full reproducibility, you can export the list of packages installed in your conda environment to a `yaml` file. This file can be used to recreate the environment on another system. To export the environment, run the following command:  
+
+```bash
+conda env export > intro_to_sci_comp.yaml
+```
+
+You should be able to spot your `python` and `numpy` packages, as well as the other dependencies that were automatically installed. At the top of the file, you should see the name of the environment and the version of conda that was used to create it.  
 
 9. To deactivate your conda enironment and return to the base environment, run the following command:  
 
 ```bash
-mamba deactivate
+conda deactivate
 ```
 
-Here are some useful commands for managing conda environments (NB for most of these commands, `conda` can be replaced with `mamba`):  
+10. To create an environment from a `yaml` file, we will use the provided `.yaml` that will create the environment we need for the following exercise. Run the following command:  
+
+```bash
+conda env create -f somatic_variant_calling.yaml
+```
+
+>[NOTE!]
+>On the CeMM cluster, this should be done in an interactive session, since the environment will take a few minutes to create.  
+
+When the environment is created, you should be able to see the `somatic_variant_calling` environment in the list of conda environments on your system. You can check this by running the following command:  
+
+```bash
+conda env list
+```
+
+Here are some useful commands for managing conda environments:  
 
 | Command | Description |
 |---------|-------------|
 | `conda create -n <env_name> <package1> <package2> ...` | Create a new conda environment with the specified packages installed. |
+| `conda env create -f <environment.yaml>` | Create a new conda environment from a `yaml` file. |
 | `conda activate <env_name>` | Activate a specific conda environment. |
 | `conda install <package_name>` | Install a package in the current conda environment. |
 | `conda remove <package_name>` | Remove a package from the current conda environment. |
+| `conda env export > environment.yaml` | Export the list of packages in the current conda environment to a `yaml` file. |
 | `conda deactivate` | Deactivate the current conda environment and return to the base environment. |
 | `conda env list` | List all of your conda environments on the system. |
 | `conda remove -n <env_name> --all` | Remove a conda environment and all of its packages. |
@@ -391,7 +406,9 @@ Here are some useful commands for managing conda environments (NB for most of th
 - You have created a new environment called `intro_to_sci_comp` with Python 3.10 installed.  
 - You have activated the `intro_to_sci_comp` environment and successfully run the `check_numpy_version.py` script.  
 - You have installed `numpy` in the `intro_to_sci_comp` environment and successfully run the modified `check_numpy_version.py` script.  
+- You have exported the list of packages in the `intro_to_sci_comp` environment to a `yaml` file.  
 - You have deactivated the `intro_to_sci_comp` environment and returned to the base environment.  
+- You have created a new environment called `somatic_variant_calling` from the provided `somatic_variant_calling.yaml` file.  
 
 ### Activating a conda environment in a job script
 
@@ -407,7 +424,7 @@ conda activate "${conda_env_name}"
 Try this out for yourself - create a new job script called `check_numpy_version_conda_job.sh` which activates the `intro_to_sci_comp` conda environment and then runs the `check_numpy_version.py` script.  
 
 >[!NOTE]
->When you submit the `.sbatch` script, you should not have your `intro_to_sci_comp` conda environment activated in your interactive session. If you do, the job will fail because the job script will not be able to find the conda environment. You must have your `base` conda environment activated in your interactive session when you submit the job script.  
+>When you submit the `.sbatch` script, you must have your `base` conda environment activated. If you have another environment activated, the job will fail because the job script will not be able to find the conda environment.  
 
 Example script:  
 
@@ -441,7 +458,7 @@ python check_numpy_version.py
 
 Finally, we have learnt enough to run a real bioinformatics anlaysis! In this exrcise, we will run a somatic short variant calling analysis using the GATK best practices workflow.  
 
-This workflow is designed to identify somatic variants (mutations) in tumor samples. The workflow begins with the output of a sequencing experiment, which is typically in the form of **`.fastq`** files. These files contain the raw sequencing reads, which are then aligned to the reference genome to produce **`.cram`** files. The `.cram` files are then processed to identify mismatches with respect to the genome - variants - which are reported in a **`.vcf`** file.  
+This workflow is designed to identify somatic variants (mutations) in tumor samples. The workflow begins with the output of a sequencing experiment, which is typically in the form of **`.fastq`** files. These files contain the raw sequencing reads from the sequenced tumor sample, which are then aligned to the reference genome to produce **`.cram`** files. The `.cram` files are then processed to identify mismatches with respect to the genome - variants - which are reported in a **`.vcf`** file.  
 
 #############################################################################################################################################################################################
 
@@ -514,214 +531,168 @@ f) **Variant Calling**: The aligned reads are then processed to identify variant
 
 Here are some hints to help you get started with the analysis. For a full set of example scripts and expected outputs, please see the `session_3/exercise_3` folder.  
 
-1. First, use `conda` to create a new environment for your analysis named `somatic_variant_calling`. Install the following packages in the environment: `python=3.10`, `fastp==0.23.4`, `bwa==0.7.17`, `samtools==1.16.1`, and `bioconda::gatk4==4.4.0.0`.  
+1. First, create a working directory for your analysis, and an output directory for your output files. `cd` to your working directory.  
 
-NB. if you are using the CeMM cluster, run the environment creation command on an interactive node. This might take some time to resolve. In the meantime, start working on writing the scripts.  
-
-2. Next, create a working directory for your analysis, and an output directory for your output files. `cd` to your working directory.  
-
->[REMINDER!]
+>[NOTE!]
 >Your working directory is where you will run your analysis, and your output directory is where you will store the output files from your analysis. It is good practice to keep your working directory and output directory separate, so that you can easily find your output files later.  
 
-3. Now, write `.sbatch` job scripts for the different steps in the analysis. For each job script, remember to:
+2. Now, write `.sbatch` job scripts for the different steps in the analysis. We encourage you to write your own scripts, but you can also use the example scripts provided in the `session_3/exercise_3` folder to check that you are on the right track.  
 
-- Activate the `somatic_variant_calling` conda environment, or load the appropriate modules.
-- Use SLURM directives to specify the resources you need for the job. Since we are working with test data, we can request few resources, but for a real analysis, you would need to request more resources (e.g. at least 40 GB for the `bwa` step).  
-- Remember to match any software parameters that specify the number of threads to use with the number of CPUs you request in your job script.  
-- Use the `--output` and `--error` directives to specify the names of the output and error files for the job. This will help you keep track of the progress of your analysis and troubleshoot any issues that arise.
+>[!NOTE]
+>If you are working in Codespaces or COdesandbox and not on the CeMM cluster, you do not have access to SLURM, so you could technically write `.sh` scripts. However, we will practice writing `.sbatch` scripts, and you can just submit them using `bash` instead of `sbatch`, since the SLURM directives will be interpreted as comments by `bash` and therefore ignored.  
 
-4. First, write a job script to run `fastp`. You can use the following command for `fastp`. Remember to change the names of the input and output files to match your own files.  
+>[TIPS!]
+>For each script, remember to:  
+>
+>- Activate the `somatic_variant_calling` conda environment, or load the appropriate modules.
+>
+>- Use SLURM directives to specify the resources you need for the job. Since we are working with test data, we can request few resources, but for a real analysis, you would need to request more resources (e.g. at least 40 GB for the `bwa` step).  
+>
+>- Remember to match any software parameters that specify the number of threads to use with the number of CPUs you request in your job script.  
+>
+>- Use the `--output` and `--error` directives to specify the names of the output and error files for the job. This will help you keep track of the progress of your analysis and troubleshoot any issues that arise.  
+>
+>- Use the `mkdir -p` command to create the output directory if it does not already exist. This will ensure that your output files are stored in the correct location.  
+>
+>- Use `bash` variables to store the names of the input and output files, as well as any other parameters that you will need to use in your job script. This will make it easier to modify your job script later if you need to change the input or output files, or if you want to run the analysis on a different sample.  
+>
+>- Optional: use `echo` statements to print messages to the output file, so that you can see what the job is doing at each step. This can be helpful for debugging and for keeping track of the progress of your analysis.  
 
-For more information about the command and arguments, check the [fastp documentation](https://github.com/OpenGene/fastp).
+3. First, write an `sbatch` job script to run `fastp`.  
 
->[TIP!]
->The example commands use bash variables to store the names of the input and output files, as well as the read group information. This makes it easier to change the names of the files and read group information without having to edit the command itself. For a refresher on bash variables, check your notes or the course content from Introduction to Linux.  
+This script will take the raw sequencing reads in `.fastq` format as input, and produce trimmed reads in `.fastq` format as output. The script will also produce an HTML report and a log file, which will contain information about the trimming process.  
+
+You can use the following example command for `fastp` as a starting point. Remember to change the change the paths of the input and output files to match your own filepaths.  
+
+For more information about the command and arguments, check the [fastp documentation](https://github.com/OpenGene/fastp).  
 
 ```bash
-SAMPLE="SRR7890883"                                                             # sample name
-IN_DIR="/path/to/Introduction_to_Scientific_Computing/example_data/fastq"       # input directory for raw fastq files 
-OUT_DIR="/path/to/results/01_fastp"                                             # output directory for trimmed fastq files
-LOG="/path/to/logs/fastp_${SAMPLE}.log"                                         # log file for fastp output
-
-mkdir -p "${OUT_DIR}"                                           # create output directory if it does not exist
-
-RAW_R1="${IN_DIR}/${SAMPLE}.chr17_50k_R1.fastq"                 # input file for raw read 1
-RAW_R2="${IN_DIR}/${SAMPLE}.chr17_50k_R2.fastq"                 # input file for raw read 2
-TRIMMED_R1="${OUT_DIR}/${SAMPLE}.chr17_50k_R1_trimmed.fastq"    # output file for trimmed read 1
-TRIMMED_R2="${OUT_DIR}/${SAMPLE}.chr17_50k_R2_trimmed.fastq"    # output file for trimmed read 2
-FASTP_HTML="${OUT_DIR}/${SAMPLE}.chr17_50k.html"                # output file for fastp HTML report
-FASTP_JSON="${OUT_DIR}/${SAMPLE}.chr17_50k.json"                # output file for fastp JSON report
-
 fastp \
-    --in1 "${RAW_R1}" \
-    --in2 "${RAW_R2}" \
-    --out1 "${TRIMMED_R1}" \
-    --out2 "${TRIMMED_R2}" \
+    --in1 "sample_R1.fastq" \
+    --in2 "sample_R2.fastq" \
+    --out1 "sample_R1_trimmed.fastq" \
+    --out2 "sample_R2_trimmed.fastq" \
     --detect_adapter_for_pe \
     --thread 1 \
-    --html "${FASTP_HTML}" > "${LOG}" 2>&1
+    --html "fastp.html" > "fastp.log" 2>&1
 ```
 
 You should be able to see the trimmed reads in the output files `sample_R1.trimmed.fastq.gz` and `sample_R2.trimmed.fastq.gz`. You can use `zless` to view the trimmed reads. You can also open the HTML report in a browser to see a summary of the trimming process.  
 
-4. Next, write an `sbatch` job script to run `bwa` and to sort and index the resulting alignments using `samtools`. We can do these three steps in one go because the output of `bwa` is piped directly into `samtools sort`, which sorts the alignments and writes them to a `.cram` file. It also makes sense to store the alignment and index files together.  
+4. Next, write an `sbatch` job script to run `bwa`, `samtools sort`, and `samtools index`.  
 
-You can use the following commands for `bwa` and `samtools`. Remember to match the number of threads to the number of CPUs you request in your job script, and to change the names of the input and output files to match your own files.  
+This script will take the trimmed reads in `.fastq` format as input, align the reads to the reference geome, and produce aligned and sorted reads in `.cram` format as output. The reference genome file is stored in `example_data/ref/Homo_sapiens_assembly38.chr17.fasta`. The script will also produce an index file for the `.cram` file, which is required for downstream analyses.  
+
+We can do these three steps in one go because the output of `bwa` is piped directly into `samtools sort`, which sorts the alignments and writes them to a `.cram` file. It also makes sense to store the alignment and index files together.  
+
+You can use the following commands for `bwa` and `samtools` as a starting point. Remember to match the number of threads to the number of CPUs you request in your job script, and to change the paths of the input and output files to match your own filepaths.  
 
 For more information about the commands and arguments, check the [bwa manual](https://bio-bwa.sourceforge.net/bwa.shtml) and the [samtools manual](http://www.htslib.org/doc/samtools.html).  
 
 ```bash
-SAMPLE="SRR7890883"                                                         # sample name
-IN_DIR="/path/to/results/01_fastp"                                          # input directory for trimmed fastq files
-OUT_DIR="/path/to/results/02_bwa"                                           # output directory for aligned reads
-REF_DIR="/path/to/Introduction_to_Scientific_Computing/example_data/ref"    # reference genome directory
-LOG="path/to/logs/bwa_${SAMPLE}.log"                                        # log file for bwa output
-
-mkdir -p "${OUT_DIR}"                                           # create output directory if it does not exist
-
-LIBRARY="lib1"                                                  # library name
-PLATFORM="ILLUMINA"                                             # platform name
-FASTP_R1="${IN_DIR}/${SAMPLE}.chr17_50k_R1_trimmed.fastq"       # input file for trimmed read 1
-FASTP_R2="${IN_DIR}/${SAMPLE}.chr17_50k_R2_trimmed.fastq"       # input file for trimmed read 2
-OUT_CRAM="${OUT_DIR}/${SAMPLE}.chr17_50k.cram"                  # output file for aligned reads
-REF="${REF_DIR}/Homo_sapiens_assembly38.chr17.fasta"            # reference genome file
-
-READ_GROUP="@RG\tID:${SAMPLE}.${LIBRARY}\tSM:${SAMPLE}\tLB:${LIBRARY}\tPL:${PLATFORM}\tPU:${SAMPLE}.${LIBRARY}"     # read group information
+LIBRARY="lib1"
+PLATFORM="ILLUMINA"
+READ_GROUP="@RG\tID:${SAMPLE}.${LIBRARY}\tSM:${SAMPLE}\tLB:${LIBRARY}\tPL:${PLATFORM}\tPU:${SAMPLE}.${LIBRARY}" 
 
 bwa mem \
     -t 1 \ 
     -M \
     -R "${READ_GROUP}" \
-    "${REF}" \
-    "${FASTP_R1}" \
-    "${FASTP_R2}" \
-    2> "${LOG}" |
+    "Homo_sapiens_assembly38.chr17.fasta" \
+    "sample_R1_trimmed.fastq" \
+    "sample_R2_trimmed.fastq" \
+    2> "bwa.log" |
 samtools sort \
-    -@ 1 \
     -O CRAM \
-    --reference "${REF}" \
-    -o "${OUT_CRAM}" \
+    --reference "Homo_sapiens_assembly38.chr17.fasta" \
+    -o "sample.cram" \
     -
 
 samtools index \
-    -@ 1 \
-    "${OUT_CRAM}"
+    "sample.cram"
 ```
 
-5. Now, write an `sbatch` job script to run `gatk MarkDuplicates`. This step marks PCR duplicates in the aligned reads. We will need to specify the input and output files, as well as the metrics file, which contains information about the number of duplicates found in the input file.  
+5. Now, write an `sbatch` job script to run `gatk MarkDuplicates`.  
 
-You can use the following command for `gatk MarkDuplicates`.  
+This script marks PCR duplicates in the aligned reads and produces an output `.cram` file and its index `.crai` file, and a duplicate-marking metrics file.  
+
+You can use the following command for `gatk MarkDuplicates` as a starting point. Remember to change the change the paths of the input and output files to match your own filepaths.  
 
 For more information about the command and arguments, check the [GATK MarkDuplicates documentation](https://gatk.broadinstitute.org/hc/en-us/articles/13832748517275-MarkDuplicates-Picard).  
 
 ```bash
-SAMPLE="SRR7890883"                                                         # sample name     
-IN_DIR="/path/to/results/02_bwa"                                            # input directory for aligned reads
-OUT_DIR="/path/to/results/03_markdup"                                       # output directory for marked duplicates
-REF_DIR="/path/to/Introduction_to_Scientific_Computing/example_data/ref"    # reference genome directory
-LOG="/path/to/logs/markdup_${SAMPLE}.log"                                   # log file for markdup output
-
-mkdir -p "${OUT_DIR}"                                                       # create output directory if it does not exist
-
-IN_CRAM="${IN_DIR}/${SAMPLE}.chr17_50k.cram"                                # input file for aligned reads
-OUT_CRAM="${OUT_DIR}/${SAMPLE}.chr17_50k.markdup.cram"                      # output file for marked duplicates
-METRICS="${OUT_DIR}/${SAMPLE}.markdup.metrics.txt"                          # metrics file for marked duplicates
-REF="${REF_DIR}/Homo_sapiens_assembly38.chr17.fasta"                        # genome reference file
-
 gatk --java-options "-Xmx10g" MarkDuplicates \
-    --INPUT "${IN_CRAM}" \
-    --OUTPUT "${OUT_CRAM}" \
-    --METRICS_FILE "${METRICS}" \
-    --REFERENCE_SEQUENCE "${REF}" \
+    --INPUT "sample.cram" \
+    --OUTPUT "sample.markdup.cram" \
+    --METRICS_FILE "sample.markdup.metrics.txt" \
+    --REFERENCE_SEQUENCE "Homo_sapiens_assembly38.chr17.fasta" \
     --CREATE_INDEX true \
     --VALIDATION_STRINGENCY SILENT \
-    --OPTICAL_DUPLICATE_PIXEL_DISTANCE 2500 > "${LOG}" 2>&1
+    --OPTICAL_DUPLICATE_PIXEL_DISTANCE 2500 > "markdup.log" 2>&1
 ```
 
-6. Next, write a `sbatch` job script to run BQSR. You can use the following command for `gatk BaseRecalibrator` and `gatk ApplyBQSR`. We will also index the recalibrated CRAM as this is required for the variant calling step. For more information about the commands and arguments, check the [GATK BaseRecalibrator documentation](https://gatk.broadinstitute.org/hc/en-us/articles/13832708374939-BaseRecalibrator) and [GATK ApplyBQSR documentation](https://gatk.broadinstitute.org/hc/en-us/articles/13832692459163-ApplyBQSR).  
+6. Next, write a `sbatch` job script to run BQSR.  
+
+This script takes the dupicate marked `.cram` file as input and performs base quality score recalibration (BQSR) by using known SNP and indel sites to model and correct systematic errors in the sequencing quality scores, then apply the recalibration. There are 2 "known sites" files - one for SNPs and one for indels - which can be found in `example_data/known_sites`. We will also index the CRAM file again as this is required for the variant calling step.  
+
+You can use the following command for `gatk BaseRecalibrator` and `gatk ApplyBQSR` as a starting point. Remember to change the change the paths of the input and output files to match your own filepaths.  
+
+For more information about the commands and arguments, check the [GATK BaseRecalibrator documentation](https://gatk.broadinstitute.org/hc/en-us/articles/13832708374939-BaseRecalibrator) and [GATK ApplyBQSR documentation](https://gatk.broadinstitute.org/hc/en-us/articles/13832692459163-ApplyBQSR).  
 
 ```bash
-SAMPLE="SRR7890883"                     # sample name
-IN_DIR="/path/to/results/03_markdup"    # input directory for marked duplicates
-OUT_DIR="/path/to/results/04_bqsr"      # output directory for base quality score recalibration
-REF_DIR="/path/to/Introduction_to_Scientific_Computing/example_data/ref"        # reference genome directory
-KNOWN_SNPS="/path/to/Introduction_to_Scientific_Computing/example_data/known_sites/dbsnp_146.hg38.chr17.vcf.gz"     # known SNPs file
-KNOWN_INDELS="/path/to/Introduction_to_Scientific_Computing/example_data/known_sites/Mills_and_1000G_gold_standard.indels.hg38.chr17.vcf.gz"        # known indels file
-LOG_BR="/path/to/logs/base_recalibrator_${SAMPLE}.log"      # log file for base recalibrator output
-LOG_BQSR="/path/to/logs/apply_bqsr_${SAMPLE}.log"           # log file for apply bqsr output
-
-mkdir -p "${OUT_DIR}"                                       # create output directory if it does not exist
-
-IN_CRAM="${IN_DIR}/${SAMPLE}.chr17_50k.markdup.cram"        # input file for marked duplicates
-REF="${REF_DIR}/Homo_sapiens_assembly38.chr17.fasta"        # reference genome file
-RECAL_TABLE="${OUT_DIR}/${SAMPLE}.recal.table"              # output recalibrated table
-OUT_CRAM="${OUT_DIR}/${SAMPLE}.recal.cram"                  # output recalibrated cram file
-
 gatk --java-options "-Xmx10g" BaseRecalibrator \
-    -R "${REF}" \
-    -I "${IN_CRAM}" \
-    --known-sites "${KNOWN_SNPS}" \
-    --known-sites "${KNOWN_INDELS}" \
-    -O "${RECAL_TABLE}" \
-    2> "${LOG_BR}"
+    -R "Homo_sapiens_assembly38.chr17.fasta" \
+    -I "sample.markdup.cram" \
+    --known-sites "dbsnp_146.hg38.chr17.vcf.gz" \
+    --known-sites "Mills_and_1000G_gold_standard.indels.hg38.chr17.vcf.gz" \
+    -O "sample.recal.table" \
+    2> "base_recalibrator.log"
 
 gatk --java-options "-Xmx10g" ApplyBQSR \
-    -R "${REF}" \
-    -I "${IN_CRAM}" \
-    --bqsr-recal-file "${RECAL_TABLE}" \
-    -O "${OUT_CRAM}" \
-    2> "${LOG_BQSR}"
+    -R "Homo_sapiens_assembly38.chr17.fasta" \
+    -I "sample.markdup.cram" \
+    --bqsr-recal-file "sample.recal.table" \
+    -O "sample.recal.cram" \
+    2> "bqsr.log"
 
 samtools index \
-    -@ "${SLURM_CPUS_PER_TASK}" \
-    "${OUT_CRAM}"
+    "sample.recal.cram"
 ```
 
-7. Finally, it's time to run `gatk Mutect2` to call somatic variants. You can use the following command for `gatk Mutect2`. For more details about the arguments used, see the [GATK Mutect2 documentation](https://gatk.broadinstitute.org/hc/en-us/articles/360037593851-Mutect2).
+7. Finally, it's time to run `Mutect2` to call somatic variants. 
+
+This script will take the recalibrated `.cram` file as an input, then use the `Mutect2` software to identify candidate somatic variants. The germline resource is a population database of common inherited variants which helps the caller distinguish likely germline polymorphisms from true somatic mutations, and is found in `example_data/germline_resource/gnomAD.r2.1.1.GRCh38.chr17.75pct.PASS.AC.AF.only.vcf.gz`. The candidate variants are then filtered to remove likely false positives (`FilterMutectCalls`), and only variants that pass all filters are retained in the final VCF (`SelectVariants`).
+
+You can use the following commands for `Mutect2` as a starting point. Remember to change the change the paths of the input and output files to match your own filepaths.  
+
+For more details about the arguments used, see the [GATK Mutect2 documentation](https://gatk.broadinstitute.org/hc/en-us/articles/360037593851-Mutect2).
 
 ```bash
-SAMPLE="SRR7890883"
-IN_DIR="/path/to/Introduction_to_Scientific_Computing/session_3/exercise_3/expected_outputs/results/04_bqsr"        # input directory for base quality score recalibration
-OUT_DIR="/path/to/Introduction_to_Scientific_Computing/session_3/exercise_3/expected_outputs/results/05_mutect2"    # output directory for mutect2 results
-REF_DIR="/path/to/Introduction_to_Scientific_Computing/example_data/ref"                                            # reference genome directory
-GERM_DIR="/path/to/Introduction_to_Scientific_Computing/example_data/germline_resource"                             # germline resource directory
-LOG_DIR="/path/to/logs"
-
-mkdir -p "${OUT_DIR}"                                                                               # create output directory if it does not exist         
-
-IN_CRAM="${IN_DIR}/${SAMPLE}.recal.cram"                                                            # input file for base quality score recalibration
-REF="${REF_DIR}/Homo_sapiens_assembly38.chr17.fasta"                                                # reference genome gile
-GERMLINE_RESOURCE="${GERM_DIR}/gnomAD.r2.1.1.GRCh38.chr17.PASS.AC.AF.only.vcf.gz"                   # germline resource file
-
-UNFILTERED_VCF="${OUT_DIR}/${SAMPLE}.unfiltered.vcf.gz"                                             # output file for unfiltered variants
-FILTERED_VCF="${OUT_DIR}/${SAMPLE}.filtered.vcf.gz"                                                 # output file for filtered variants
-PASS_VCF="${OUT_DIR}/${SAMPLE}.pass.vcf.gz"                                                         # output file for filtered variants passing QC check
-
 gatk --java-options "-Xmx10g" Mutect2 \
-    -R "${REF}" \
-    -I "${IN_CRAM}" \
-    --germline-resource "${GERMLINE_RESOURCE}" \
-    -O "${UNFILTERED_VCF}" \
-    2> "${LOG_DIR}/mutect2.${SAMPLE}.log"
+    -R "Homo_sapiens_assembly38.chr17.fasta" \
+    -I "sample.recal.cram" \
+    --germline-resource "gnomAD.r2.1.1.GRCh38.chr17.75pct.PASS.AC.AF.only.vcf.gz" \
+    -O "sample.unfiltered.vcf.gz" \
+    2> "mutect2.log"
 
-gatk --java-options "-Xmx56g" FilterMutectCalls \
-    -R "${REF}" \
-    -V "${UNFILTERED_VCF}" \
-    -O "${FILTERED_VCF}" \
-    2> "${LOG_DIR}/mutect2.filter_mutect_calls.${SAMPLE}.log"
+gatk --java-options "-Xmx10g" FilterMutectCalls \
+    -R "Homo_sapiens_assembly38.chr17.fasta" \
+    -V "sample.unfiltered.vcf.gz" \
+    -O "sample.filtered.vcf.gz" \
+    2> "mutect2.filter_mutect_calls.log"
 
 gatk --java-options "-Xmx10g" SelectVariants \
-    -R "${REF}" \
-    -V "${FILTERED_VCF}" \
+    -R "Homo_sapiens_assembly38.chr17.fasta" \
+    -V "sample.filtered.vcf.gz" \
     --exclude-filtered true \
-    -O "${PASS_VCF}" \
-    2> "${LOG_DIR}/mutect2.select_pass_variants.${SAMPLE}.log"
+    -O "sample.pass.vcf.gz" \
+    2> "mutect2.select_pass_variants.log"
 
 echo "Filtered VCF: ${FILTERED_VCF}"
 echo "PASS VCF:     ${PASS_VCF}"
 ```
 
-8. Check your output files. You should have a `pass.vcf.gz` file with the identified variants. Try gunzipping the file and vieweing the contents using `less`. You should see a header section followed by a list of variants.  
+8. Check your output files. You should have a `pass.vcf.gz` file with the identified variants. Try gunzipping the file and viewing the contents using `less`. You should see a header section followed by a list of variants.  
 
 How might we identify high-confidence somatic variants from this `.vcf` file? Do you know what the next steps would be to validate these variants and determine their potential impact on protein function?  
 
