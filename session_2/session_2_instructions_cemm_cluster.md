@@ -112,8 +112,8 @@ Once you have chosen your queue, the default `--time` and `--mem` limits will be
 
 Now it's time to put everything together and start running jobs on the compute nodes! In this exercise, you will use the `srun` command to start an interactive job on a compute node. This will allow you to access an interactive terminal, similar to the setup we had at the CCRI (RIP).  
 
-> [!NOTE]
-> On the CeMM cluster, you cannot run more than one interactive job per user at a time. Interactive jobs are also limited to 12 hours maximum.  
+>[!NOTE]
+>On the CeMM cluster, you cannot run more than one interactive job per user at a time. Interactive jobs are also limited to 12 hours maximum.  
 
 1. Let's see if you were listening in Session 1. Log onto the CeMM cluster.  
 
@@ -217,8 +217,8 @@ Now, we will turn your `hello_ccri.sh` script into a SLURM **batch job** script 
 
 To turn a `.sh` script into a `.sbatch` script, you need to add SLURM directives at the top of the script. The directives are the same as those found in Table 1. In an `srun` commmand, you specify the directives as command line arguments, but in a `.sbatch` script, you specify them as comments at the top of the script. These comments start with `#SBATCH`, and are followed by the directive and its value.  
 
-> [!NOTE]
-> Both `.sh` and `.sbatch` scripts are just shell scripts, but `.sbatch` scripts include SLURM directives that tell SLURM what resources your job will require. Technically, you can also submit a `.sh` script to SLURM using `sbatch`, but it is good practice to use the `.sbatch` extension for scripts that are intended to be submitted to SLURM.  
+>[!NOTE]
+>Both `.sh` and `.sbatch` scripts are just shell scripts, but `.sbatch` scripts include SLURM directives that tell SLURM what resources your job will require. Technically, you can also submit a `.sh` script to SLURM using `sbatch`, but it is good practice to use the `.sbatch` extension for scripts that are intended to be submitted to SLURM.  
 
 1. First, let's take a look at a example `.sbatch` script with SLURM directives included.
 
@@ -383,8 +383,8 @@ Examples of reasons why a job may be pending include:
 - `AssocMaxJobsLimit` : This means that your job is pending because you have reached the limit for the number of jobs that you can have running at the same time on that queue, for example if you try to submit a second interactive job while you already have one running.  
 - `ReqNodeNotAvail` : This means that your job is pending because the node(s) that you requested are not available. For example, if you requested a specific node that is currently down or in maintenance, your job will be pending until that node becomes available.  
 
-> [!NOTE]
-> The CeMM cluster operates on a "fair share" basis, which means that the more you use the cluster, the lower your priority will be. This is to ensure that all users have fair access to the cluster resources. This is why it is important to choose the appropriate queue for your job, and to reserve the minimum resources necessary for your job to run successfully. **If you reserve more resources than you need, your job will have a lower priority and may take longer to start running.**
+>[!NOTE]
+>The CeMM cluster operates on a "fair share" basis, which means that the more you use the cluster, the lower your priority will be. This is to ensure that all users have fair access to the cluster resources. This is why it is important to choose the appropriate queue for your job, and to reserve the minimum resources necessary for your job to run successfully. **If you reserve more resources than you need, your job will have a lower priority and may take longer to start running.**
 
 
 3. Now, try the `squeue --q <queue>` command to show only jobs from a specific queue. For example, to show only jobs from the `tinyq`, run the following command:
@@ -395,7 +395,7 @@ squeue --q tinyq
 
 You should observe that the output is filtered to show only jobs from the `tinyq` queue. This can be useful if you want to check the status of your job in a specific queue, or if you want to see how many jobs are currently running in a specific queue.  
 
-### Tracking currently running jobs - squeue, scontrol, seff  
+### Tracking currently running jobs - squeue, scontrol
 
 There are several commands that you can use to track the status of your currently running jobs. Here are some of the most useful ones:
 
@@ -403,7 +403,6 @@ There are several commands that you can use to track the status of your currentl
 | ------- | ----------- |
 | `squeue --me` | Show the status of your jobs. |
 | `scontrol show job <job_id>` | Show detailed information about a specific job, including its status, resources, and output files. |
-| `seff <job_id>` | Show the efficiency of a specific job, including its CPU and memory usage. |
 
 Try this for yourself:
 
@@ -490,8 +489,8 @@ Answers:
 - The job is running on compute node `d023`.  
 - The path to the output file for this job is `/path/to/Introduction_to_Scientific_Computing/session_2/hello_13063801.out`.  
 
-> [!TIP]
-> You can also use `scontrol` to update the resources requested by a job on the fly. For example, try `scontrol update JobId=<job_id> timelimit=00:05:00` to decrease the time limit of your job to 5 minutes. This can come in handy if your job is `PENDING` due to requesting too may resources. However, increasing resources is not always allowed, and you cannot increase the number of CPUs or nodes requested for a job that is already running.  
+>[!TIP]
+>You can also use `scontrol` to update the resources requested by a job on the fly. For example, try `scontrol update JobId=<job_id> timelimit=00:05:00` to decrease the time limit of your job to 5 minutes. This can come in handy if your job is `PENDING` due to requesting too may resources. However, increasing resources is not always allowed, and you cannot increase the number of CPUs or nodes requested for a job that is already running.  
 
 ### Tracking completed jobs - sacct, seff  
 
@@ -626,8 +625,8 @@ For example, you can see the job with ID `13064631` has a state of `CANCELLED`, 
 slurmstepd: error: *** JOB 13064631 ON d016 CANCELLED AT 2026-07-27T17:20:36 ***
 ```
 
-> [!TIP]
-> To cancel all of your jobs running on a specific queue, you can use the `scancel --me --partition=tinyq` command, which will cancel all jobs in the `tinyq` queue. You can replace `tinyq` with the name of any other queue to cancel all jobs in that queue.  
+>[!TIP]
+>To cancel all of your jobs running on a specific queue, you can use the `scancel --me --partition=tinyq` command, which will cancel all jobs in the `tinyq` queue. You can replace `tinyq` with the name of any other queue to cancel all jobs in that queue.  
 
 
 ### Cheatsheet of useful commands

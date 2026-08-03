@@ -112,8 +112,8 @@ Once you have chosen your queue, the default `--time` and `--mem` limits will be
 
 Now it's time to put everything together and start running jobs on the compute nodes! In this exercise, you will use the `srun` command to start an interactive job on a compute node. This will allow you to access an interactive terminal, similar to the setup we had at the CCRI (RIP).  
 
-> [!NOTE]
-> On the CeMM cluster, you cannot run more than one interactive job per user at a time. Interactive jobs are also limited to 12 hours maximum.  
+>[!NOTE]
+>On the CeMM cluster, you cannot run more than one interactive job per user at a time. Interactive jobs are also limited to 12 hours maximum.  
 
 1. Navigate to [https://learnslurm.com](https://learnslurm.com) and click "> Launch Trainer".  
 
@@ -184,8 +184,8 @@ You can see that you can use the command line to run commands or scripts on a co
 
 3. To exit your interative job, simply type `exit` and press `Enter`. This will return you to the login node. You can confirm this by running the `hostname` command again, which should now display the name of the login node.  
 
-> [!NOTE]
-> Since LearnSlurm is a simulation, you will not get an error if you try to request more resources than are available on the cluster. However, if you try to request more resources than are available on the CeMM cluster, you will get an error message. For example, if you try to request more than 12 hours on the `interativeq`, you will get the following error message:  
+>[!NOTE]
+>Since LearnSlurm is a simulation, you will not get an error if you try to request more resources than are available on the cluster. However, if you try to request more resources than are available on the CeMM cluster, you will get an error message. For example, if you try to request more than 12 hours on the `interativeq`, you will get the following error message:  
 >
 >```bash
 >srun: error: Unable to allocate resources: Requested time limit is invalid (missing or exceeds some limit)
@@ -205,8 +205,8 @@ Now, we will submit a SLURM **batch job** script to the queue using the `sbatch`
 
 To turn a `.sh` script into a batch job script, you need to add SLURM directives at the top of the script. The directives are the same as those found in Table 1. In an `srun` commmand, you specify the directives as command line arguments, but in a batch job script, you specify them as comments at the top of the script. These comments start with `#SBATCH`, and are followed by the directive and its value.  
 
-> [!NOTE]
-> Both `.sh` and `.sbatch` scripts are just shell scripts, but `.sbatch` scripts include SLURM directives that tell SLURM what resources your job will require. You can also submit a `.sh` script to SLURM using `sbatch`, but it is good practice to use the `.sbatch` extension for scripts that are intended to be submitted to SLURM. The LearnSlurm batch job scripts are named iwth the `.sh` extension, but you can rename them to `.sbatch` if you want to.  
+>[!NOTE]
+>Both `.sh` and `.sbatch` scripts are just shell scripts, but `.sbatch` scripts include SLURM directives that tell SLURM what resources your job will require. You can also submit a `.sh` script to SLURM using `sbatch`, but it is good practice to use the `.sbatch` extension for scripts that are intended to be submitted to SLURM. The LearnSlurm batch job scripts are named iwth the `.sh` extension, but you can rename them to `.sbatch` if you want to.  
 
 1. First, let's take a look at as example batch job script with SLURM directives included.
 
@@ -351,8 +351,8 @@ Examples of reasons why a job may be pending include:
 - `QOSGrpJobsLimit` : This means that your job is pending because your group has reached its limit for the number of jobs that can be running at the same time on that queue.  
 - `ReqNodeNotAvail` : This means that your job is pending because the node(s) that you requested are not available. For example, if you requested a specific node that is currently down or in maintenance, your job will be pending until that node becomes available.  
 
-> [!NOTE]
-> The CeMM cluster operates on a "fair share" basis, which means that the more you use the cluster, the lower your priority will be. This is to ensure that all users have fair access to the cluster resources. This is why it is important to choose the appropriate queue for your job, and to reserve the minimum resources necessary for your job to run successfully. **If you reserve more resources than you need, your job will have a lower priority and may take longer to start running.**
+>[!NOTE]
+>The CeMM cluster operates on a "fair share" basis, which means that the more you use the cluster, the lower your priority will be. This is to ensure that all users have fair access to the cluster resources. This is why it is important to choose the appropriate queue for your job, and to reserve the minimum resources necessary for your job to run successfully. **If you reserve more resources than you need, your job will have a lower priority and may take longer to start running.**
 
 
 3. Now, try the `squeue -p <queue>` command to show only jobs from a specific partition. For example, to show only jobs from the `compute` partition, run the following command:
@@ -363,7 +363,7 @@ squeue -p compute
 
 You should observe that the output is filtered to show only jobs from the `tinyq` queue. This can be useful if you want to check the status of your job in a specific queue, or if you want to see how many jobs are currently running in a specific queue.  
 
-### Tracking currently running jobs - squeue, scontrol, seff  
+### Tracking currently running jobs - squeue, scontrol
 
 There are several commands that you can use to track the status of your currently running jobs. Here are some of the most useful ones:
 
@@ -371,7 +371,6 @@ There are several commands that you can use to track the status of your currentl
 | ------- | ----------- |
 | `squeue --me` | Show the status of your jobs. |
 | `scontrol show job <job_id>` | Show detailed information about a specific job, including its status, resources, and output files. |
-| `seff <job_id>` | Show the efficiency of a specific job, including its CPU and memory usage. |
 
 Try this for yourself:
 
@@ -427,10 +426,10 @@ Answers:
 - The job is running in the `compute` partition.  
 - The job is running on compute node `node004`.  
 
-> [!TIP]
-> You can also use `scontrol` to update the resources requested by a job on the fly. For example, try `scontrol update JobId=<job_id> timelimit=00:05:00` to decrease the time limit of your job to 5 minutes. This can come in handy if your job is `PENDING` due to requesting too may resources. However, increasing resources is not always allowed, and you cannot increase the number of CPUs or nodes requested for a job that is already running. The time limit will not update on LearnSlurm, but it will update on a real SLURM cluster.  
+>[!TIP]
+>You can also use `scontrol` to update the resources requested by a job on the fly. For example, try `scontrol update JobId=<job_id> timelimit=00:05:00` to decrease the time limit of your job to 5 minutes. This can come in handy if your job is `PENDING` due to requesting too may resources. However, increasing resources is not always allowed, and you cannot increase the number of CPUs or nodes requested for a job that is already running. The time limit will not update on LearnSlurm, but it will update on a real SLURM cluster.  
   
-### Tracking completed jobs - sacct (, seff)  
+### Tracking completed jobs - sacct (& seff)  
 
 1. If you want to see information about the last jobs you ran, you can use the `sacct` command.  
 
@@ -554,8 +553,8 @@ JobID         JobName       Partition     State         Elapsed       ExitCode
 >slurmstepd: error: *** JOB 13064631 ON d016 CANCELLED AT 2026-07-27T17:20:36 ***
 >```
 
-> [!TIP]
-> To cancel all of your jobs running on a specific queue, you can use the `scancel --me --partition=compute` command, which will cancel all jobs in the `compute` queue. You can replace `compute` with the name of any other queue to cancel all jobs in that queue.  
+>[!TIP]
+>To cancel all of your jobs running on a specific queue, you can use the `scancel --me --partition=compute` command, which will cancel all jobs in the `compute` queue. You can replace `compute` with the name of any other queue to cancel all jobs in that queue.  
 
 
 ### Cheatsheet of useful commands
