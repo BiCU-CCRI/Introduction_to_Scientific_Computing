@@ -13,8 +13,6 @@ source "${CONDA_PREFIX}/etc/profile.d/conda.sh"
 conda activate "${conda_env_name}"
 
 port=$(shuf -i8000-9000 -n1)
-node=$(hostname).int.cemm.at
-user=$(whoami)
-host ${node}
+node="$(hostname).int.cemm.at"
 
 jupyter lab --no-browser --port=${port} --ip=${node}

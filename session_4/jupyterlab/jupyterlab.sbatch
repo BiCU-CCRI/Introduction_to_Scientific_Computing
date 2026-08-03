@@ -8,7 +8,7 @@
 #SBATCH --output=jupyter-lab-%j.log
 
 port=$(shuf -i8000-9000 -n1)
-node=$(hostname).int.cemm.at
+node="$(hostname).int.cemm.at"
 
 module load JupyterLab-R-autocomplete/4.9.0-foss-2023a-Python-3.11.3-R-4.2.3
 
