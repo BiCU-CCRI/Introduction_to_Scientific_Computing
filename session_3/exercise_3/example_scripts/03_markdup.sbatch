@@ -11,6 +11,16 @@
 
 set -euo pipefail
 
+# ###########################################################################################################################################################
+# Edit these variables before running the script
+#############################################################################################################################################################
+SAMPLE="SRR7890883"
+IN_DIR="/path/to/results/02_bwa"
+OUT_DIR="/path/to/results/03_markdup"
+REF_DIR="/path/to/Introduction_to_Scientific_Computing/example_data/ref"
+LOG="/path/to/logs/markdup_${SAMPLE}.log"
+#############################################################################################################################################################
+
 conda_env_name="somatic_variant_calling"
 echo "Activating environment"
 source "${CONDA_PREFIX}/etc/profile.d/conda.sh"
@@ -18,12 +28,6 @@ conda activate "${conda_env_name}"
 
 # CeMM cluster option
 # module load GATK/4.2.0.0-GCCcore-10.2.0-Java-11
-
-SAMPLE="SRR7890883"
-IN_DIR="/path/to/results/02_bwa"
-OUT_DIR="/path/to/results/03_markdup"
-REF_DIR="/path/to/Introduction_to_Scientific_Computing/example_data/ref"
-LOG="/path/to/logs/markdup_${SAMPLE}.log"
 
 mkdir -p "${OUT_DIR}"
 

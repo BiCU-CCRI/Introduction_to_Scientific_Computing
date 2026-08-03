@@ -11,15 +11,9 @@
 
 set -euo pipefail
 
-conda_env_name="somatic_variant_calling"
-echo "Activating environment"
-source "${CONDA_PREFIX}/etc/profile.d/conda.sh"
-conda activate "${conda_env_name}"
-
-# CeMM cluster option
-# modue load GATK/4.2.0.0-GCCcore-10.2.0-Java-11
-# module load SAMtools/1.17-GCC-11.3.0
-
+# ###########################################################################################################################################################
+# Edit these variables before running the script
+#############################################################################################################################################################
 SAMPLE="SRR7890883"
 IN_DIR="/path/to/results/03_markdup"
 OUT_DIR="/path/to/results/04_bqsr"
@@ -28,6 +22,16 @@ KNOWN_SNPS="/path/to/Introduction_to_Scientific_Computing/example_data/known_sit
 KNOWN_INDELS="/path/to/Introduction_to_Scientific_Computing/example_data/known_sites/Mills_and_1000G_gold_standard.indels.hg38.chr17.vcf.gz"
 LOG_BR="/path/to/logs/base_recalibrator_${SAMPLE}.log"
 LOG_BQSR="/path/to/logs/apply_bqsr_${SAMPLE}.log"
+#############################################################################################################################################################
+
+conda_env_name="somatic_variant_calling"
+echo "Activating environment"
+source "${CONDA_PREFIX}/etc/profile.d/conda.sh"
+conda activate "${conda_env_name}"
+
+# CeMM cluster option
+# modue load GATK/4.2.0.0-GCCcore-10.2.0-Java-11
+# module load SAMtools/1.17-GCC-11.3.0
 
 mkdir -p "${OUT_DIR}"
 
