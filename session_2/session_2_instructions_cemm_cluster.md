@@ -174,13 +174,10 @@ Navigate into the local copy of this git repository you cloned last time.
 cd /nobackup/<lab_name>/<username>/Introduction_to_Scientific_Computing/session_2/
 ```
 
-2. Now make and run the `hello_ccri.sh` script again, this time from the terminal of the compute node that you have accessed via your interactive job.
+2. Now run the `hello_ccri.sh` script from the `session_1` folder again, this time from the terminal of the compute node that you have accessed via your interactive job.
 
 ```bash
-touch hello_ccri.sh
-echo '#!/bin/bash' > hello_ccri.sh
-echo 'echo "Hello, CCRI!"' >> hello_ccri.sh
-bash hello_ccri.sh
+bash ../session_1/hello_ccri.sh
 ```
 
 You should see the following output:
@@ -250,7 +247,7 @@ You can see that the SLURM directives are included at the top of the script, and
 2. Next, create a copy of your `hello_ccri.sh` script and name it `hello_ccri.sbatch`.  
 
 ```bash
-cp hello_ccri.sh hello_ccri.sbatch
+cp ../session_1/hello_ccri.sh ./hello_ccri.sbatch
 ```
 
 3. Modify your `hello_ccri.sbatch` script to include SLURM directives. Open the script in a text editor and add SLURM directives to your script, similar to the ones in the example script. You can choose your own values for the directives, but make sure to include at least the following: `--job-name`, `--time`, `--mem`, `--nodes`, `--ntasks`, `--cpus-per-task`, `--partition`, and `--qos`. You can also specify output and error files using the `--output` and `--error` directives.  
