@@ -1,46 +1,46 @@
 Using GATK jar /nobackup/lab_boztug/projects/ccasey/miniconda3/envs/somatic_variant_calling/share/gatk4-4.4.0.0-0/gatk-package-4.4.0.0-local.jar
 Running:
-    java -Dsamjdk.use_async_io_read_samtools=false -Dsamjdk.use_async_io_write_samtools=true -Dsamjdk.use_async_io_write_tribble=false -Dsamjdk.compression_level=2 -Xmx10g -jar /nobackup/lab_boztug/projects/ccasey/miniconda3/envs/somatic_variant_calling/share/gatk4-4.4.0.0-0/gatk-package-4.4.0.0-local.jar Mutect2 -R /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/example_data/ref/Homo_sapiens_assembly38.chr17.fasta -I /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_3/exercise_3/expected_outputs/results/04_bqsr/SRR7890883.recal.cram --germline-resource /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/example_data/germline_resource/gnomAD.r2.1.1.GRCh38.chr17.PASS.AC.AF.only.vcf.gz -O /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_3/exercise_3/expected_outputs/results/05_mutect2/SRR7890883.unfiltered.vcf.gz
-15:07:50.815 INFO  NativeLibraryLoader - Loading libgkl_compression.so from jar:file:/nobackup/lab_boztug/projects/ccasey/miniconda3/envs/somatic_variant_calling/share/gatk4-4.4.0.0-0/gatk-package-4.4.0.0-local.jar!/com/intel/gkl/native/libgkl_compression.so
-15:07:50.864 INFO  Mutect2 - ------------------------------------------------------------
-15:07:50.866 INFO  Mutect2 - The Genome Analysis Toolkit (GATK) v4.4.0.0
-15:07:50.866 INFO  Mutect2 - For support and documentation go to https://software.broadinstitute.org/gatk/
-15:07:50.867 INFO  Mutect2 - Executing as ccasey@d021 on Linux v4.18.0-553.144.1.el8_10.x86_64 amd64
-15:07:50.867 INFO  Mutect2 - Java runtime: OpenJDK 64-Bit Server VM v17.0.11-internal+0-adhoc..src
-15:07:50.867 INFO  Mutect2 - Start Date/Time: July 30, 2026 at 3:07:50 PM CEST
-15:07:50.867 INFO  Mutect2 - ------------------------------------------------------------
-15:07:50.867 INFO  Mutect2 - ------------------------------------------------------------
-15:07:50.868 INFO  Mutect2 - HTSJDK Version: 3.0.5
-15:07:50.868 INFO  Mutect2 - Picard Version: 3.0.0
-15:07:50.868 INFO  Mutect2 - Built for Spark Version: 3.3.1
-15:07:50.868 INFO  Mutect2 - HTSJDK Defaults.COMPRESSION_LEVEL : 2
-15:07:50.869 INFO  Mutect2 - HTSJDK Defaults.USE_ASYNC_IO_READ_FOR_SAMTOOLS : false
-15:07:50.869 INFO  Mutect2 - HTSJDK Defaults.USE_ASYNC_IO_WRITE_FOR_SAMTOOLS : true
-15:07:50.869 INFO  Mutect2 - HTSJDK Defaults.USE_ASYNC_IO_WRITE_FOR_TRIBBLE : false
-15:07:50.870 INFO  Mutect2 - Deflater: IntelDeflater
-15:07:50.870 INFO  Mutect2 - Inflater: IntelInflater
-15:07:50.870 INFO  Mutect2 - GCS max retries/reopens: 20
-15:07:50.870 INFO  Mutect2 - Requester pays: disabled
-15:07:50.871 INFO  Mutect2 - Initializing engine
-15:07:51.176 INFO  FeatureManager - Using codec VCFCodec to read file file:///nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/example_data/germline_resource/gnomAD.r2.1.1.GRCh38.chr17.PASS.AC.AF.only.vcf.gz
-15:07:51.367 INFO  Mutect2 - Done initializing engine
-15:07:51.412 INFO  NativeLibraryLoader - Loading libgkl_utils.so from jar:file:/nobackup/lab_boztug/projects/ccasey/miniconda3/envs/somatic_variant_calling/share/gatk4-4.4.0.0-0/gatk-package-4.4.0.0-local.jar!/com/intel/gkl/native/libgkl_utils.so
-15:07:51.421 INFO  NativeLibraryLoader - Loading libgkl_pairhmm_omp.so from jar:file:/nobackup/lab_boztug/projects/ccasey/miniconda3/envs/somatic_variant_calling/share/gatk4-4.4.0.0-0/gatk-package-4.4.0.0-local.jar!/com/intel/gkl/native/libgkl_pairhmm_omp.so
-15:07:51.444 INFO  IntelPairHmm - Using CPU-supported AVX-512 instructions
-15:07:51.444 INFO  IntelPairHmm - Flush-to-zero (FTZ) is enabled when running PairHMM
-15:07:51.445 INFO  IntelPairHmm - Available threads: 1
-15:07:51.445 INFO  IntelPairHmm - Requested threads: 4
-15:07:51.445 WARN  IntelPairHmm - Using 1 available threads, but 4 were requested
-15:07:51.445 INFO  PairHMM - Using the OpenMP multi-threaded AVX-accelerated native PairHMM implementation
-15:07:51.505 INFO  ProgressMeter - Starting traversal
-15:07:51.505 INFO  ProgressMeter -        Current Locus  Elapsed Minutes     Regions Processed   Regions/Minute
-15:08:01.515 INFO  ProgressMeter -        chr17:3602877              0.2                 12370          74160.7
-15:08:11.522 INFO  ProgressMeter -        chr17:8475577              0.3                 29410          88155.1
-15:08:21.522 INFO  ProgressMeter -       chr17:26562622              0.5                 90590         181077.4
-15:08:31.528 INFO  ProgressMeter -       chr17:44398578              0.7                151340         226879.5
-15:08:41.528 INFO  ProgressMeter -       chr17:68612549              0.8                233310         279843.3
-15:08:51.531 INFO  ProgressMeter -       chr17:80468743              1.0                274290         274171.2
-15:08:54.852 INFO  Mutect2 - 5595 read(s) filtered by: MappingQualityReadFilter 
+    java -Dsamjdk.use_async_io_read_samtools=false -Dsamjdk.use_async_io_write_samtools=true -Dsamjdk.use_async_io_write_tribble=false -Dsamjdk.compression_level=2 -Xmx10g -jar /nobackup/lab_boztug/projects/ccasey/miniconda3/envs/somatic_variant_calling/share/gatk4-4.4.0.0-0/gatk-package-4.4.0.0-local.jar Mutect2 -R /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/example_data/ref/Homo_sapiens_assembly38.chr17.fasta -I /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_3/exercise_3/expected_outputs/results/04_bqsr/SRR7890883.recal.cram --germline-resource /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/example_data/germline_resource/gnomAD.r2.1.1.GRCh38.chr17.75pct.PASS.AC.AF.only.vcf.gz -O /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_3/exercise_3/expected_outputs/results/05_mutect2/SRR7890883.unfiltered.vcf.gz
+11:00:35.559 INFO  NativeLibraryLoader - Loading libgkl_compression.so from jar:file:/nobackup/lab_boztug/projects/ccasey/miniconda3/envs/somatic_variant_calling/share/gatk4-4.4.0.0-0/gatk-package-4.4.0.0-local.jar!/com/intel/gkl/native/libgkl_compression.so
+11:00:35.619 INFO  Mutect2 - ------------------------------------------------------------
+11:00:35.623 INFO  Mutect2 - The Genome Analysis Toolkit (GATK) v4.4.0.0
+11:00:35.623 INFO  Mutect2 - For support and documentation go to https://software.broadinstitute.org/gatk/
+11:00:35.623 INFO  Mutect2 - Executing as ccasey@d013 on Linux v4.18.0-553.144.1.el8_10.x86_64 amd64
+11:00:35.623 INFO  Mutect2 - Java runtime: OpenJDK 64-Bit Server VM v17.0.11-internal+0-adhoc..src
+11:00:35.624 INFO  Mutect2 - Start Date/Time: August 3, 2026 at 11:00:35 AM CEST
+11:00:35.624 INFO  Mutect2 - ------------------------------------------------------------
+11:00:35.624 INFO  Mutect2 - ------------------------------------------------------------
+11:00:35.625 INFO  Mutect2 - HTSJDK Version: 3.0.5
+11:00:35.625 INFO  Mutect2 - Picard Version: 3.0.0
+11:00:35.625 INFO  Mutect2 - Built for Spark Version: 3.3.1
+11:00:35.625 INFO  Mutect2 - HTSJDK Defaults.COMPRESSION_LEVEL : 2
+11:00:35.625 INFO  Mutect2 - HTSJDK Defaults.USE_ASYNC_IO_READ_FOR_SAMTOOLS : false
+11:00:35.625 INFO  Mutect2 - HTSJDK Defaults.USE_ASYNC_IO_WRITE_FOR_SAMTOOLS : true
+11:00:35.626 INFO  Mutect2 - HTSJDK Defaults.USE_ASYNC_IO_WRITE_FOR_TRIBBLE : false
+11:00:35.626 INFO  Mutect2 - Deflater: IntelDeflater
+11:00:35.626 INFO  Mutect2 - Inflater: IntelInflater
+11:00:35.626 INFO  Mutect2 - GCS max retries/reopens: 20
+11:00:35.626 INFO  Mutect2 - Requester pays: disabled
+11:00:35.627 INFO  Mutect2 - Initializing engine
+11:00:35.867 INFO  FeatureManager - Using codec VCFCodec to read file file:///nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/example_data/germline_resource/gnomAD.r2.1.1.GRCh38.chr17.75pct.PASS.AC.AF.only.vcf.gz
+11:00:36.039 INFO  Mutect2 - Done initializing engine
+11:00:36.057 INFO  NativeLibraryLoader - Loading libgkl_utils.so from jar:file:/nobackup/lab_boztug/projects/ccasey/miniconda3/envs/somatic_variant_calling/share/gatk4-4.4.0.0-0/gatk-package-4.4.0.0-local.jar!/com/intel/gkl/native/libgkl_utils.so
+11:00:36.062 INFO  NativeLibraryLoader - Loading libgkl_pairhmm_omp.so from jar:file:/nobackup/lab_boztug/projects/ccasey/miniconda3/envs/somatic_variant_calling/share/gatk4-4.4.0.0-0/gatk-package-4.4.0.0-local.jar!/com/intel/gkl/native/libgkl_pairhmm_omp.so
+11:00:36.096 INFO  IntelPairHmm - Using CPU-supported AVX-512 instructions
+11:00:36.096 INFO  IntelPairHmm - Flush-to-zero (FTZ) is enabled when running PairHMM
+11:00:36.097 INFO  IntelPairHmm - Available threads: 2
+11:00:36.097 INFO  IntelPairHmm - Requested threads: 4
+11:00:36.097 WARN  IntelPairHmm - Using 2 available threads, but 4 were requested
+11:00:36.097 INFO  PairHMM - Using the OpenMP multi-threaded AVX-accelerated native PairHMM implementation
+11:00:36.139 INFO  ProgressMeter - Starting traversal
+11:00:36.140 INFO  ProgressMeter -        Current Locus  Elapsed Minutes     Regions Processed   Regions/Minute
+11:00:46.161 INFO  ProgressMeter -        chr17:3915289              0.2                 13460          80614.9
+11:00:56.218 INFO  ProgressMeter -        chr17:9915772              0.3                 34300         102505.4
+11:01:06.218 INFO  ProgressMeter -       chr17:29623703              0.5                101010         201502.8
+11:01:16.218 INFO  ProgressMeter -       chr17:45977705              0.7                156740         234652.4
+11:01:26.235 INFO  ProgressMeter -       chr17:67984563              0.8                231180         276895.4
+11:01:36.234 INFO  ProgressMeter -       chr17:79656561              1.0                271430         271005.4
+11:01:41.331 INFO  Mutect2 - 5595 read(s) filtered by: MappingQualityReadFilter 
 0 read(s) filtered by: MappingQualityAvailableReadFilter 
 0 read(s) filtered by: MappingQualityNotZeroReadFilter 
 0 read(s) filtered by: MappedReadFilter 
@@ -53,11 +53,11 @@ Running:
 0 read(s) filtered by: GoodCigarReadFilter 
 0 read(s) filtered by: WellformedReadFilter 
 6569 total reads filtered out of 100125 reads processed
-15:08:54.890 INFO  ProgressMeter -       chr17:83255075              1.1                284067         268896.7
-15:08:54.890 INFO  ProgressMeter - Traversal complete. Processed 284067 total regions in 1.1 minutes.
-15:08:54.987 INFO  VectorLoglessPairHMM - Time spent in setup for JNI call : 0.013246561
-15:08:54.987 INFO  PairHMM - Total compute time in PairHMM computeLogLikelihoods() : 0.7110541960000001
-15:08:54.987 INFO  SmithWatermanAligner - Total compute time in java Smith-Waterman : 9.07 sec
-15:08:54.988 INFO  Mutect2 - Shutting down engine
-[July 30, 2026 at 3:08:54 PM CEST] org.broadinstitute.hellbender.tools.walkers.mutect.Mutect2 done. Elapsed time: 1.07 minutes.
-Runtime.totalMemory()=2076049408
+11:01:41.331 INFO  ProgressMeter -       chr17:83256875              1.1                284121         261497.1
+11:01:41.331 INFO  ProgressMeter - Traversal complete. Processed 284121 total regions in 1.1 minutes.
+11:01:41.351 INFO  VectorLoglessPairHMM - Time spent in setup for JNI call : 0.014688991
+11:01:41.351 INFO  PairHMM - Total compute time in PairHMM computeLogLikelihoods() : 7.50219401
+11:01:41.351 INFO  SmithWatermanAligner - Total compute time in java Smith-Waterman : 8.62 sec
+11:01:41.352 INFO  Mutect2 - Shutting down engine
+[August 3, 2026 at 11:01:41 AM CEST] org.broadinstitute.hellbender.tools.walkers.mutect.Mutect2 done. Elapsed time: 1.10 minutes.
+Runtime.totalMemory()=1677721600

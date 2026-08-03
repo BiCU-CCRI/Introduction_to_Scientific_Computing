@@ -1,34 +1,34 @@
 Using GATK jar /nobackup/lab_boztug/projects/ccasey/miniconda3/envs/somatic_variant_calling/share/gatk4-4.4.0.0-0/gatk-package-4.4.0.0-local.jar
 Running:
     java -Dsamjdk.use_async_io_read_samtools=false -Dsamjdk.use_async_io_write_samtools=true -Dsamjdk.use_async_io_write_tribble=false -Dsamjdk.compression_level=2 -Xmx10g -jar /nobackup/lab_boztug/projects/ccasey/miniconda3/envs/somatic_variant_calling/share/gatk4-4.4.0.0-0/gatk-package-4.4.0.0-local.jar SelectVariants -R /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/example_data/ref/Homo_sapiens_assembly38.chr17.fasta -V /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_3/exercise_3/expected_outputs/results/05_mutect2/SRR7890883.filtered.vcf.gz --exclude-filtered true -O /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_3/exercise_3/expected_outputs/results/05_mutect2/SRR7890883.pass.vcf.gz
-15:09:07.462 INFO  NativeLibraryLoader - Loading libgkl_compression.so from jar:file:/nobackup/lab_boztug/projects/ccasey/miniconda3/envs/somatic_variant_calling/share/gatk4-4.4.0.0-0/gatk-package-4.4.0.0-local.jar!/com/intel/gkl/native/libgkl_compression.so
-15:09:07.535 INFO  SelectVariants - ------------------------------------------------------------
-15:09:07.537 INFO  SelectVariants - The Genome Analysis Toolkit (GATK) v4.4.0.0
-15:09:07.537 INFO  SelectVariants - For support and documentation go to https://software.broadinstitute.org/gatk/
-15:09:07.537 INFO  SelectVariants - Executing as ccasey@d021 on Linux v4.18.0-553.144.1.el8_10.x86_64 amd64
-15:09:07.537 INFO  SelectVariants - Java runtime: OpenJDK 64-Bit Server VM v17.0.11-internal+0-adhoc..src
-15:09:07.537 INFO  SelectVariants - Start Date/Time: July 30, 2026 at 3:09:07 PM CEST
-15:09:07.537 INFO  SelectVariants - ------------------------------------------------------------
-15:09:07.537 INFO  SelectVariants - ------------------------------------------------------------
-15:09:07.538 INFO  SelectVariants - HTSJDK Version: 3.0.5
-15:09:07.538 INFO  SelectVariants - Picard Version: 3.0.0
-15:09:07.538 INFO  SelectVariants - Built for Spark Version: 3.3.1
-15:09:07.538 INFO  SelectVariants - HTSJDK Defaults.COMPRESSION_LEVEL : 2
-15:09:07.538 INFO  SelectVariants - HTSJDK Defaults.USE_ASYNC_IO_READ_FOR_SAMTOOLS : false
-15:09:07.538 INFO  SelectVariants - HTSJDK Defaults.USE_ASYNC_IO_WRITE_FOR_SAMTOOLS : true
-15:09:07.538 INFO  SelectVariants - HTSJDK Defaults.USE_ASYNC_IO_WRITE_FOR_TRIBBLE : false
-15:09:07.539 INFO  SelectVariants - Deflater: IntelDeflater
-15:09:07.539 INFO  SelectVariants - Inflater: IntelInflater
-15:09:07.539 INFO  SelectVariants - GCS max retries/reopens: 20
-15:09:07.539 INFO  SelectVariants - Requester pays: disabled
-15:09:07.539 INFO  SelectVariants - Initializing engine
-15:09:07.659 INFO  FeatureManager - Using codec VCFCodec to read file file:///nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_3/exercise_3/expected_outputs/results/05_mutect2/SRR7890883.filtered.vcf.gz
-15:09:07.708 INFO  SelectVariants - Done initializing engine
-15:09:07.795 INFO  ProgressMeter - Starting traversal
-15:09:07.795 INFO  ProgressMeter -        Current Locus  Elapsed Minutes    Variants Processed  Variants/Minute
-15:09:08.013 WARN  IntelInflater - Zero Bytes Written : 0
-15:09:08.116 INFO  ProgressMeter -       chr17:81117553              0.0                  4236         822524.3
-15:09:08.117 INFO  ProgressMeter - Traversal complete. Processed 4236 total variants in 0.0 minutes.
-15:09:08.177 INFO  SelectVariants - Shutting down engine
-[July 30, 2026 at 3:09:08 PM CEST] org.broadinstitute.hellbender.tools.walkers.variantutils.SelectVariants done. Elapsed time: 0.01 minutes.
-Runtime.totalMemory()=2076049408
+11:01:51.028 INFO  NativeLibraryLoader - Loading libgkl_compression.so from jar:file:/nobackup/lab_boztug/projects/ccasey/miniconda3/envs/somatic_variant_calling/share/gatk4-4.4.0.0-0/gatk-package-4.4.0.0-local.jar!/com/intel/gkl/native/libgkl_compression.so
+11:01:51.063 INFO  SelectVariants - ------------------------------------------------------------
+11:01:51.066 INFO  SelectVariants - The Genome Analysis Toolkit (GATK) v4.4.0.0
+11:01:51.067 INFO  SelectVariants - For support and documentation go to https://software.broadinstitute.org/gatk/
+11:01:51.067 INFO  SelectVariants - Executing as ccasey@d013 on Linux v4.18.0-553.144.1.el8_10.x86_64 amd64
+11:01:51.067 INFO  SelectVariants - Java runtime: OpenJDK 64-Bit Server VM v17.0.11-internal+0-adhoc..src
+11:01:51.067 INFO  SelectVariants - Start Date/Time: August 3, 2026 at 11:01:50 AM CEST
+11:01:51.067 INFO  SelectVariants - ------------------------------------------------------------
+11:01:51.067 INFO  SelectVariants - ------------------------------------------------------------
+11:01:51.068 INFO  SelectVariants - HTSJDK Version: 3.0.5
+11:01:51.068 INFO  SelectVariants - Picard Version: 3.0.0
+11:01:51.068 INFO  SelectVariants - Built for Spark Version: 3.3.1
+11:01:51.068 INFO  SelectVariants - HTSJDK Defaults.COMPRESSION_LEVEL : 2
+11:01:51.069 INFO  SelectVariants - HTSJDK Defaults.USE_ASYNC_IO_READ_FOR_SAMTOOLS : false
+11:01:51.069 INFO  SelectVariants - HTSJDK Defaults.USE_ASYNC_IO_WRITE_FOR_SAMTOOLS : true
+11:01:51.069 INFO  SelectVariants - HTSJDK Defaults.USE_ASYNC_IO_WRITE_FOR_TRIBBLE : false
+11:01:51.069 INFO  SelectVariants - Deflater: IntelDeflater
+11:01:51.069 INFO  SelectVariants - Inflater: IntelInflater
+11:01:51.069 INFO  SelectVariants - GCS max retries/reopens: 20
+11:01:51.070 INFO  SelectVariants - Requester pays: disabled
+11:01:51.070 INFO  SelectVariants - Initializing engine
+11:01:51.201 INFO  FeatureManager - Using codec VCFCodec to read file file:///nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_3/exercise_3/expected_outputs/results/05_mutect2/SRR7890883.filtered.vcf.gz
+11:01:51.255 INFO  SelectVariants - Done initializing engine
+11:01:51.355 INFO  ProgressMeter - Starting traversal
+11:01:51.356 INFO  ProgressMeter -        Current Locus  Elapsed Minutes    Variants Processed  Variants/Minute
+11:01:51.591 WARN  IntelInflater - Zero Bytes Written : 0
+11:01:51.664 INFO  ProgressMeter -       chr17:80509760              0.0                  4271         868678.0
+11:01:51.664 INFO  ProgressMeter - Traversal complete. Processed 4271 total variants in 0.0 minutes.
+11:01:51.680 INFO  SelectVariants - Shutting down engine
+[August 3, 2026 at 11:01:51 AM CEST] org.broadinstitute.hellbender.tools.walkers.variantutils.SelectVariants done. Elapsed time: 0.01 minutes.
+Runtime.totalMemory()=167772160
