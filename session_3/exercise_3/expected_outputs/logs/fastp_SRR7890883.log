@@ -38,12 +38,12 @@ reads failed due to too short: 2
 reads with adapter trimmed: 13063
 bases trimmed due to adapters: 180249
 
-Duplication rate: 0.664%
+Duplication rate: 0.662%
 
 Insert size peak (evaluated by paired-end reads): 139
 
-JSON report: fastp.json
+JSON report: /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_3/exercise_3/expected_outputs/results/01_fastp/SRR7890883.chr17_50k.json
 HTML report: /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_3/exercise_3/expected_outputs/results/01_fastp/SRR7890883.chr17_50k.html
 
-fastp --in1 /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/example_data/fastq/SRR7890883.chr17_50k_R1.fastq --in2 /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/example_data/fastq/SRR7890883.chr17_50k_R2.fastq --out1 /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_3/exercise_3/expected_outputs/results/01_fastp/SRR7890883.chr17_50k_R1_trimmed.fastq --out2 /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_3/exercise_3/expected_outputs/results/01_fastp/SRR7890883.chr17_50k_R2_trimmed.fastq --detect_adapter_for_pe --thread 1 --html /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_3/exercise_3/expected_outputs/results/01_fastp/SRR7890883.chr17_50k.html 
-fastp v0.23.4, time used: 1 seconds
+fastp --in1 /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/example_data/fastq/SRR7890883.chr17_50k_R1.fastq --in2 /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/example_data/fastq/SRR7890883.chr17_50k_R2.fastq --out1 /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_3/exercise_3/expected_outputs/results/01_fastp/SRR7890883.chr17_50k_R1_trimmed.fastq --out2 /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_3/exercise_3/expected_outputs/results/01_fastp/SRR7890883.chr17_50k_R2_trimmed.fastq --detect_adapter_for_pe --thread 1 --html /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_3/exercise_3/expected_outputs/results/01_fastp/SRR7890883.chr17_50k.html --json /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_3/exercise_3/expected_outputs/results/01_fastp/SRR7890883.chr17_50k.json 
+fastp v0.22.0, time used: 2 seconds

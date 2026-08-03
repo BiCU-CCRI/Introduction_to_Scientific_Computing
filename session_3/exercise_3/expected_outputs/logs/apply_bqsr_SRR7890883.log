@@ -1,34 +1,34 @@
 Using GATK jar /nobackup/lab_boztug/projects/ccasey/miniconda3/envs/somatic_variant_calling/share/gatk4-4.4.0.0-0/gatk-package-4.4.0.0-local.jar
 Running:
     java -Dsamjdk.use_async_io_read_samtools=false -Dsamjdk.use_async_io_write_samtools=true -Dsamjdk.use_async_io_write_tribble=false -Dsamjdk.compression_level=2 -Xmx10g -jar /nobackup/lab_boztug/projects/ccasey/miniconda3/envs/somatic_variant_calling/share/gatk4-4.4.0.0-0/gatk-package-4.4.0.0-local.jar ApplyBQSR -R /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/example_data/ref/Homo_sapiens_assembly38.chr17.fasta -I /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_3/exercise_3/expected_outputs/results/03_markdup/SRR7890883.chr17_50k.markdup.cram --bqsr-recal-file /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_3/exercise_3/expected_outputs/results/04_bqsr/SRR7890883.recal.table -O /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_3/exercise_3/expected_outputs/results/04_bqsr/SRR7890883.recal.cram
-14:34:17.946 INFO  NativeLibraryLoader - Loading libgkl_compression.so from jar:file:/nobackup/lab_boztug/projects/ccasey/miniconda3/envs/somatic_variant_calling/share/gatk4-4.4.0.0-0/gatk-package-4.4.0.0-local.jar!/com/intel/gkl/native/libgkl_compression.so
-14:34:17.992 INFO  ApplyBQSR - ------------------------------------------------------------
-14:34:17.994 INFO  ApplyBQSR - The Genome Analysis Toolkit (GATK) v4.4.0.0
-14:34:17.994 INFO  ApplyBQSR - For support and documentation go to https://software.broadinstitute.org/gatk/
-14:34:17.995 INFO  ApplyBQSR - Executing as ccasey@d023 on Linux v4.18.0-553.144.1.el8_10.x86_64 amd64
-14:34:17.995 INFO  ApplyBQSR - Java runtime: OpenJDK 64-Bit Server VM v17.0.11-internal+0-adhoc..src
-14:34:17.995 INFO  ApplyBQSR - Start Date/Time: July 30, 2026 at 2:34:17 PM CEST
-14:34:17.996 INFO  ApplyBQSR - ------------------------------------------------------------
-14:34:17.996 INFO  ApplyBQSR - ------------------------------------------------------------
-14:34:17.997 INFO  ApplyBQSR - HTSJDK Version: 3.0.5
-14:34:17.997 INFO  ApplyBQSR - Picard Version: 3.0.0
-14:34:17.997 INFO  ApplyBQSR - Built for Spark Version: 3.3.1
-14:34:17.998 INFO  ApplyBQSR - HTSJDK Defaults.COMPRESSION_LEVEL : 2
-14:34:17.998 INFO  ApplyBQSR - HTSJDK Defaults.USE_ASYNC_IO_READ_FOR_SAMTOOLS : false
-14:34:17.998 INFO  ApplyBQSR - HTSJDK Defaults.USE_ASYNC_IO_WRITE_FOR_SAMTOOLS : true
-14:34:17.998 INFO  ApplyBQSR - HTSJDK Defaults.USE_ASYNC_IO_WRITE_FOR_TRIBBLE : false
-14:34:17.998 INFO  ApplyBQSR - Deflater: IntelDeflater
-14:34:17.999 INFO  ApplyBQSR - Inflater: IntelInflater
-14:34:17.999 INFO  ApplyBQSR - GCS max retries/reopens: 20
-14:34:17.999 INFO  ApplyBQSR - Requester pays: disabled
-14:34:18.000 INFO  ApplyBQSR - Initializing engine
-14:34:18.219 INFO  ApplyBQSR - Done initializing engine
-14:34:18.335 INFO  ProgressMeter - Starting traversal
-14:34:18.335 INFO  ProgressMeter -        Current Locus  Elapsed Minutes       Reads Processed     Reads/Minute
-14:34:25.332 INFO  ApplyBQSR - 0 read(s) filtered by: WellformedReadFilter 
+16:12:40.565 INFO  NativeLibraryLoader - Loading libgkl_compression.so from jar:file:/nobackup/lab_boztug/projects/ccasey/miniconda3/envs/somatic_variant_calling/share/gatk4-4.4.0.0-0/gatk-package-4.4.0.0-local.jar!/com/intel/gkl/native/libgkl_compression.so
+16:12:40.617 INFO  ApplyBQSR - ------------------------------------------------------------
+16:12:40.618 INFO  ApplyBQSR - The Genome Analysis Toolkit (GATK) v4.4.0.0
+16:12:40.619 INFO  ApplyBQSR - For support and documentation go to https://software.broadinstitute.org/gatk/
+16:12:40.619 INFO  ApplyBQSR - Executing as ccasey@d025 on Linux v4.18.0-553.144.1.el8_10.x86_64 amd64
+16:12:40.620 INFO  ApplyBQSR - Java runtime: OpenJDK 64-Bit Server VM v17.0.3-internal+0-adhoc..src
+16:12:40.620 INFO  ApplyBQSR - Start Date/Time: August 3, 2026 at 4:12:40 PM CEST
+16:12:40.620 INFO  ApplyBQSR - ------------------------------------------------------------
+16:12:40.620 INFO  ApplyBQSR - ------------------------------------------------------------
+16:12:40.622 INFO  ApplyBQSR - HTSJDK Version: 3.0.5
+16:12:40.623 INFO  ApplyBQSR - Picard Version: 3.0.0
+16:12:40.623 INFO  ApplyBQSR - Built for Spark Version: 3.3.1
+16:12:40.623 INFO  ApplyBQSR - HTSJDK Defaults.COMPRESSION_LEVEL : 2
+16:12:40.623 INFO  ApplyBQSR - HTSJDK Defaults.USE_ASYNC_IO_READ_FOR_SAMTOOLS : false
+16:12:40.624 INFO  ApplyBQSR - HTSJDK Defaults.USE_ASYNC_IO_WRITE_FOR_SAMTOOLS : true
+16:12:40.624 INFO  ApplyBQSR - HTSJDK Defaults.USE_ASYNC_IO_WRITE_FOR_TRIBBLE : false
+16:12:40.624 INFO  ApplyBQSR - Deflater: IntelDeflater
+16:12:40.624 INFO  ApplyBQSR - Inflater: IntelInflater
+16:12:40.624 INFO  ApplyBQSR - GCS max retries/reopens: 20
+16:12:40.625 INFO  ApplyBQSR - Requester pays: disabled
+16:12:40.625 INFO  ApplyBQSR - Initializing engine
+16:12:40.841 INFO  ApplyBQSR - Done initializing engine
+16:12:40.887 INFO  ProgressMeter - Starting traversal
+16:12:40.887 INFO  ProgressMeter -        Current Locus  Elapsed Minutes       Reads Processed     Reads/Minute
+16:12:47.564 INFO  ApplyBQSR - 0 read(s) filtered by: WellformedReadFilter 
 
-14:34:25.336 INFO  ProgressMeter -       chr17:83134592              0.1                100125         858336.9
-14:34:25.336 INFO  ProgressMeter - Traversal complete. Processed 100125 total reads in 0.1 minutes.
-14:34:25.381 INFO  ApplyBQSR - Shutting down engine
-[July 30, 2026 at 2:34:25 PM CEST] org.broadinstitute.hellbender.tools.walkers.bqsr.ApplyBQSR done. Elapsed time: 0.12 minutes.
+16:12:47.566 INFO  ProgressMeter -       chr17:83134592              0.1                100125         899730.4
+16:12:47.566 INFO  ProgressMeter - Traversal complete. Processed 100125 total reads in 0.1 minutes.
+16:12:47.660 INFO  ApplyBQSR - Shutting down engine
+[August 3, 2026 at 4:12:47 PM CEST] org.broadinstitute.hellbender.tools.walkers.bqsr.ApplyBQSR done. Elapsed time: 0.12 minutes.
 Runtime.totalMemory()=2076049408

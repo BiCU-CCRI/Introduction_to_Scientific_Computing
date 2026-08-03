@@ -1,30 +1,30 @@
 Using GATK jar /nobackup/lab_boztug/projects/ccasey/miniconda3/envs/somatic_variant_calling/share/gatk4-4.4.0.0-0/gatk-package-4.4.0.0-local.jar
 Running:
     java -Dsamjdk.use_async_io_read_samtools=false -Dsamjdk.use_async_io_write_samtools=true -Dsamjdk.use_async_io_write_tribble=false -Dsamjdk.compression_level=2 -Xmx10g -jar /nobackup/lab_boztug/projects/ccasey/miniconda3/envs/somatic_variant_calling/share/gatk4-4.4.0.0-0/gatk-package-4.4.0.0-local.jar MarkDuplicates --INPUT /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_3/exercise_3/expected_outputs/results/02_bwa/SRR7890883.chr17_50k.cram --OUTPUT /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_3/exercise_3/expected_outputs/results/03_markdup/SRR7890883.chr17_50k.markdup.cram --METRICS_FILE /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_3/exercise_3/expected_outputs/results/03_markdup/SRR7890883.markdup.metrics.txt --REFERENCE_SEQUENCE /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/example_data/ref/Homo_sapiens_assembly38.chr17.fasta --CREATE_INDEX true --VALIDATION_STRINGENCY SILENT --OPTICAL_DUPLICATE_PIXEL_DISTANCE 2500
-13:41:52.438 INFO  NativeLibraryLoader - Loading libgkl_compression.so from jar:file:/nobackup/lab_boztug/projects/ccasey/miniconda3/envs/somatic_variant_calling/share/gatk4-4.4.0.0-0/gatk-package-4.4.0.0-local.jar!/com/intel/gkl/native/libgkl_compression.so
-[Thu Jul 30 13:41:52 CEST 2026] MarkDuplicates --INPUT /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_3/exercise_3/expected_outputs/results/02_bwa/SRR7890883.chr17_50k.cram --OUTPUT /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_3/exercise_3/expected_outputs/results/03_markdup/SRR7890883.chr17_50k.markdup.cram --METRICS_FILE /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_3/exercise_3/expected_outputs/results/03_markdup/SRR7890883.markdup.metrics.txt --OPTICAL_DUPLICATE_PIXEL_DISTANCE 2500 --VALIDATION_STRINGENCY SILENT --CREATE_INDEX true --REFERENCE_SEQUENCE /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/example_data/ref/Homo_sapiens_assembly38.chr17.fasta --MAX_SEQUENCES_FOR_DISK_READ_ENDS_MAP 50000 --MAX_FILE_HANDLES_FOR_READ_ENDS_MAP 8000 --SORTING_COLLECTION_SIZE_RATIO 0.25 --TAG_DUPLICATE_SET_MEMBERS false --REMOVE_SEQUENCING_DUPLICATES false --TAGGING_POLICY DontTag --CLEAR_DT true --DUPLEX_UMI false --FLOW_MODE false --FLOW_QUALITY_SUM_STRATEGY false --USE_END_IN_UNPAIRED_READS false --USE_UNPAIRED_CLIPPED_END false --UNPAIRED_END_UNCERTAINTY 0 --FLOW_SKIP_FIRST_N_FLOWS 0 --FLOW_Q_IS_KNOWN_END false --FLOW_EFFECTIVE_QUALITY_THRESHOLD 15 --ADD_PG_TAG_TO_READS true --REMOVE_DUPLICATES false --ASSUME_SORTED false --DUPLICATE_SCORING_STRATEGY SUM_OF_BASE_QUALITIES --PROGRAM_RECORD_ID MarkDuplicates --PROGRAM_GROUP_NAME MarkDuplicates --READ_NAME_REGEX <optimized capture of last three ':' separated fields as numeric values> --MAX_OPTICAL_DUPLICATE_SET_SIZE 300000 --VERBOSITY INFO --QUIET false --COMPRESSION_LEVEL 2 --MAX_RECORDS_IN_RAM 500000 --CREATE_MD5_FILE false --help false --version false --showHidden false --USE_JDK_DEFLATER false --USE_JDK_INFLATER false
-[Thu Jul 30 13:41:52 CEST 2026] Executing as ccasey@d021 on Linux 4.18.0-553.144.1.el8_10.x86_64 amd64; OpenJDK 64-Bit Server VM 17.0.11-internal+0-adhoc..src; Deflater: Intel; Inflater: Intel; Provider GCS is available; Picard version: Version:4.4.0.0
-INFO	2026-07-30 13:41:52	MarkDuplicates	Start of doWork freeMemory: 2038812880; totalMemory: 2076049408; maxMemory: 10379526144
-INFO	2026-07-30 13:41:52	MarkDuplicates	Reading input file and constructing read end information.
-INFO	2026-07-30 13:41:52	MarkDuplicates	Will retain up to 37606978 data points before spilling to disk.
-WARNING	2026-07-30 13:41:53	AbstractOpticalDuplicateFinderCommandLineProgram	A field field parsed out of a read name was expected to contain an integer and did not. Read name: SRR7890883.53176591. Cause: String 'SRR7890883.53176591' did not start with a parsable number.
-INFO	2026-07-30 13:41:55	MarkDuplicates	Read 100125 records. 0 pairs never matched.
-INFO	2026-07-30 13:41:55	MarkDuplicates	After buildSortedReadEndLists freeMemory: 1727610984; totalMemory: 2076049408; maxMemory: 10379526144
-INFO	2026-07-30 13:41:55	MarkDuplicates	Will retain up to 324360192 duplicate indices before spilling to disk.
-INFO	2026-07-30 13:41:55	MarkDuplicates	Traversing read pair information and detecting duplicates.
-INFO	2026-07-30 13:41:55	MarkDuplicates	Traversing fragment information and detecting duplicates.
-INFO	2026-07-30 13:41:55	MarkDuplicates	Sorting list of duplicate records.
-INFO	2026-07-30 13:41:56	MarkDuplicates	After generateDuplicateIndexes freeMemory: 3679082776; totalMemory: 6333968384; maxMemory: 10379526144
-INFO	2026-07-30 13:41:56	MarkDuplicates	Marking 964 records as duplicates.
-INFO	2026-07-30 13:41:56	MarkDuplicates	Found 0 optical duplicate clusters.
-INFO	2026-07-30 13:41:56	MarkDuplicates	Reads are assumed to be ordered by: coordinate
-INFO	2026-07-30 13:41:59	MarkDuplicates	Writing complete. Closing input iterator.
-INFO	2026-07-30 13:41:59	MarkDuplicates	Duplicate Index cleanup.
-INFO	2026-07-30 13:41:59	MarkDuplicates	Getting Memory Stats.
-INFO	2026-07-30 13:41:59	MarkDuplicates	Before output close freeMemory: 6178821288; totalMemory: 6333968384; maxMemory: 10379526144
-INFO	2026-07-30 13:41:59	MarkDuplicates	Closed outputs. Getting more Memory Stats.
-INFO	2026-07-30 13:42:00	MarkDuplicates	After output close freeMemory: 5850542896; totalMemory: 5908197376; maxMemory: 10379526144
-[Thu Jul 30 13:42:00 CEST 2026] picard.sam.markduplicates.MarkDuplicates done. Elapsed time: 0.13 minutes.
-Runtime.totalMemory()=5908197376
+16:07:38.114 INFO  NativeLibraryLoader - Loading libgkl_compression.so from jar:file:/nobackup/lab_boztug/projects/ccasey/miniconda3/envs/somatic_variant_calling/share/gatk4-4.4.0.0-0/gatk-package-4.4.0.0-local.jar!/com/intel/gkl/native/libgkl_compression.so
+[Mon Aug 03 16:07:38 CEST 2026] MarkDuplicates --INPUT /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_3/exercise_3/expected_outputs/results/02_bwa/SRR7890883.chr17_50k.cram --OUTPUT /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_3/exercise_3/expected_outputs/results/03_markdup/SRR7890883.chr17_50k.markdup.cram --METRICS_FILE /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_3/exercise_3/expected_outputs/results/03_markdup/SRR7890883.markdup.metrics.txt --OPTICAL_DUPLICATE_PIXEL_DISTANCE 2500 --VALIDATION_STRINGENCY SILENT --CREATE_INDEX true --REFERENCE_SEQUENCE /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/example_data/ref/Homo_sapiens_assembly38.chr17.fasta --MAX_SEQUENCES_FOR_DISK_READ_ENDS_MAP 50000 --MAX_FILE_HANDLES_FOR_READ_ENDS_MAP 8000 --SORTING_COLLECTION_SIZE_RATIO 0.25 --TAG_DUPLICATE_SET_MEMBERS false --REMOVE_SEQUENCING_DUPLICATES false --TAGGING_POLICY DontTag --CLEAR_DT true --DUPLEX_UMI false --FLOW_MODE false --FLOW_QUALITY_SUM_STRATEGY false --USE_END_IN_UNPAIRED_READS false --USE_UNPAIRED_CLIPPED_END false --UNPAIRED_END_UNCERTAINTY 0 --FLOW_SKIP_FIRST_N_FLOWS 0 --FLOW_Q_IS_KNOWN_END false --FLOW_EFFECTIVE_QUALITY_THRESHOLD 15 --ADD_PG_TAG_TO_READS true --REMOVE_DUPLICATES false --ASSUME_SORTED false --DUPLICATE_SCORING_STRATEGY SUM_OF_BASE_QUALITIES --PROGRAM_RECORD_ID MarkDuplicates --PROGRAM_GROUP_NAME MarkDuplicates --READ_NAME_REGEX <optimized capture of last three ':' separated fields as numeric values> --MAX_OPTICAL_DUPLICATE_SET_SIZE 300000 --VERBOSITY INFO --QUIET false --COMPRESSION_LEVEL 2 --MAX_RECORDS_IN_RAM 500000 --CREATE_MD5_FILE false --help false --version false --showHidden false --USE_JDK_DEFLATER false --USE_JDK_INFLATER false
+[Mon Aug 03 16:07:38 CEST 2026] Executing as ccasey@d006 on Linux 4.18.0-553.144.1.el8_10.x86_64 amd64; OpenJDK 64-Bit Server VM 17.0.3-internal+0-adhoc..src; Deflater: Intel; Inflater: Intel; Provider GCS is available; Picard version: Version:4.4.0.0
+INFO	2026-08-03 16:07:38	MarkDuplicates	Start of doWork freeMemory: 131304168; totalMemory: 167772160; maxMemory: 10737418240
+INFO	2026-08-03 16:07:38	MarkDuplicates	Reading input file and constructing read end information.
+INFO	2026-08-03 16:07:38	MarkDuplicates	Will retain up to 38903689 data points before spilling to disk.
+WARNING	2026-08-03 16:07:38	AbstractOpticalDuplicateFinderCommandLineProgram	A field field parsed out of a read name was expected to contain an integer and did not. Read name: SRR7890883.53176591. Cause: String 'SRR7890883.53176591' did not start with a parsable number.
+INFO	2026-08-03 16:07:39	MarkDuplicates	Read 100125 records. 0 pairs never matched.
+INFO	2026-08-03 16:07:40	MarkDuplicates	After buildSortedReadEndLists freeMemory: 822643144; totalMemory: 1191182336; maxMemory: 10737418240
+INFO	2026-08-03 16:07:40	MarkDuplicates	Will retain up to 335544320 duplicate indices before spilling to disk.
+INFO	2026-08-03 16:07:40	MarkDuplicates	Traversing read pair information and detecting duplicates.
+INFO	2026-08-03 16:07:40	MarkDuplicates	Traversing fragment information and detecting duplicates.
+INFO	2026-08-03 16:07:40	MarkDuplicates	Sorting list of duplicate records.
+INFO	2026-08-03 16:07:40	MarkDuplicates	After generateDuplicateIndexes freeMemory: 1839627768; totalMemory: 4571791360; maxMemory: 10737418240
+INFO	2026-08-03 16:07:40	MarkDuplicates	Marking 964 records as duplicates.
+INFO	2026-08-03 16:07:40	MarkDuplicates	Found 0 optical duplicate clusters.
+INFO	2026-08-03 16:07:40	MarkDuplicates	Reads are assumed to be ordered by: coordinate
+INFO	2026-08-03 16:07:44	MarkDuplicates	Writing complete. Closing input iterator.
+INFO	2026-08-03 16:07:44	MarkDuplicates	Duplicate Index cleanup.
+INFO	2026-08-03 16:07:44	MarkDuplicates	Getting Memory Stats.
+INFO	2026-08-03 16:07:44	MarkDuplicates	Before output close freeMemory: 367911768; totalMemory: 503316480; maxMemory: 10737418240
+INFO	2026-08-03 16:07:44	MarkDuplicates	Closed outputs. Getting more Memory Stats.
+INFO	2026-08-03 16:07:44	MarkDuplicates	After output close freeMemory: 164787760; totalMemory: 201326592; maxMemory: 10737418240
+[Mon Aug 03 16:07:44 CEST 2026] picard.sam.markduplicates.MarkDuplicates done. Elapsed time: 0.10 minutes.
+Runtime.totalMemory()=201326592
 Tool returned:
 0

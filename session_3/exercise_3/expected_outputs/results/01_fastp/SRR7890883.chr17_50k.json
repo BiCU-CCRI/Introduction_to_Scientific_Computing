@@ -1,6 +1,6 @@
 {
 	"summary": {
-		"fastp_version": "0.23.4",
+		"fastp_version": "0.22.0",
 		"sequencing": "paired end (125 cycles + 125 cycles)",
 		"before_filtering": {
 			"total_reads":100000,
@@ -33,7 +33,7 @@
 		"too_long_reads": 0
 	},
 	"duplication": {
-		"rate": 0.00664
+		"rate": 0.00662
 	},
 	"insert_size": {
 		"peak": 139,
@@ -408,5 +408,5 @@
 		"overrepresented_sequences": {
 		}
 	},
-	"command": "fastp --in1 /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/example_data/fastq/SRR7890883.chr17_50k_R1.fastq --in2 /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/example_data/fastq/SRR7890883.chr17_50k_R2.fastq --out1 /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_3/exercise_3/expected_outputs/results/01_fastp/SRR7890883.chr17_50k_R1_trimmed.fastq --out2 /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_3/exercise_3/expected_outputs/results/01_fastp/SRR7890883.chr17_50k_R2_trimmed.fastq --detect_adapter_for_pe --thread 1 --html /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_3/exercise_3/expected_outputs/results/01_fastp/SRR7890883.chr17_50k.html "
+	"command": "fastp --in1 /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/example_data/fastq/SRR7890883.chr17_50k_R1.fastq --in2 /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/example_data/fastq/SRR7890883.chr17_50k_R2.fastq --out1 /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_3/exercise_3/expected_outputs/results/01_fastp/SRR7890883.chr17_50k_R1_trimmed.fastq --out2 /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_3/exercise_3/expected_outputs/results/01_fastp/SRR7890883.chr17_50k_R2_trimmed.fastq --detect_adapter_for_pe --thread 1 --html /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_3/exercise_3/expected_outputs/results/01_fastp/SRR7890883.chr17_50k.html --json /nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_3/exercise_3/expected_outputs/results/01_fastp/SRR7890883.chr17_50k.json "
 }
