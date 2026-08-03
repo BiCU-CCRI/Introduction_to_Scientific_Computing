@@ -132,7 +132,7 @@ salloc --time=1-00:00:00 --mem=4G --cpus-per-task=1
 # salloc: Granted job allocation 4821101
 # salloc: Waiting for resource configuration
 # salloc: Nodes node004 are ready for job
-srun --pty bash I
+srun --pty bash -I
 # [srun: running bash on node004]
 ```
 
@@ -178,7 +178,7 @@ Try the following:
 - Run the `ls` command to list the files in your current directory.  
 - Run the `pwd` command to print the current working directory.  
 - Run the `echo` command to print a message to the terminal, for example: `echo "Hello, CCRI!"`.  
-- Run the example script `submit.sh` - you will not get an output as LearnSlurm is only a simulation, but you can see that the command runs without error.  
+- Run the example script `bash submit.sh` - you will not get an output as LearnSlurm is only a simulation, but you can see that the command runs without error.  
 
 You can see that you can use the command line to run commands or scripts on a compute node just like you would on a login node. The main difference is that you can now run commands that require more resources, such as more memory or CPU cores, without worrying about overloading the login node. Running an interactive job is the closest you can get to the previous CCRI setup, and is a good way to test your code before submitting it as a batch job.  
 
@@ -194,7 +194,7 @@ You can see that you can use the command line to run commands or scripts on a co
 
 **You are done when:**
 
-- You have successfully generated the `hello_ccri.sh` script and run it on a compute node via your interactive job.  
+- You have successfully run the `submit.sh` job on a compute node via your interactive job.  
 - You have exited your interactive job and returned to the login node.  
 
 ## Exercise 4: Running a simple `.sbatch` script on a compute node  
@@ -208,30 +208,23 @@ To turn a `.sh` script into a batch job script, you need to add SLURM directives
 >[!NOTE]
 >Both `.sh` and `.sbatch` scripts are just shell scripts, but `.sbatch` scripts include SLURM directives that tell SLURM what resources your job will require. You can also submit a `.sh` script to SLURM using `sbatch`, but it is good practice to use the `.sbatch` extension for scripts that are intended to be submitted to SLURM. The LearnSlurm batch job scripts are named iwth the `.sh` extension, but you can rename them to `.sbatch` if you want to.  
 
-1. First, let's take a look at as example batch job script with SLURM directives included.
-
-```bash
-cat submit.sh
-```
-
-You should see the following output:
+1. First, let's take a look at as example batch job script with SLURM directives included. Take a look at the `example_job_script.sbatch` sript provided in the repository.  
 
 ```bash
 #!/bin/bash
-#SBATCH --job-name=myjob
+
+#SBATCH --job-name=example_job
+#SBATCH --time=00:10:00
+#SBATCH --mem=1G
+#SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=4
-#SBATCH --mem=8G
-#SBATCH --time=01:00:00
-#SBATCH --partition=compute
-#SBATCH --output=logs/slurm-%j.out
-#SBATCH --error=logs/slurm-%j.err
-echo "Job started: $(date)"
-echo "Node: $SLURMD_NODENAME"
-echo "Job ID: $SLURM_JOB_ID"
-echo "Tasks: $SLURM_NTASKS"
-sleep 5
-echo "Done: $(date)"
+#SBATCH --cpus-per-task=1
+#SBATCH --partition=tinyq
+#SBATCH --qos=tinyq
+#SBATCH --output=example_job_%j.out
+#SBATCH --error=example_job_%j.err
+
+echo "This is an example job script."
 ```
 
 You can see that the SLURM directives are included at the top of the script, and that they specify the resources that the job will require. The `#SBATCH` comments are ignored by the shell, but are read by SLURM when the job is submitted.  
