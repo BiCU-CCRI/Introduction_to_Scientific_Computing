@@ -1,1 +1,0 @@
-example_data/germline_resource/gnomAD.r2.1.1.GRCh38.chr17.PASS.AC.AF.only.vcf.gz filter=lfs diff=lfs merge=lfs -text
