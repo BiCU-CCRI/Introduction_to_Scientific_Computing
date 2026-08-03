@@ -69,24 +69,24 @@ Click on the link starting `http://d021.int.cemm.at:8513/lab?token=...` to acces
 
 ### Running Jupyterlab using your own conda environment  
 
-Sometimes you have a specific evironment that you want to use for your analysis, which might include some specialist software that is not included in the pre-configured Jupyterlab module. In this case, you can create your own conda environment and run Jupyterlab using that environment. We will demonstrate this with your `somatic_variant_calling` environment from session 3.  
+Sometimes you have a specific environment that you want to use for your analysis, which might include some specialist software that is not included in the pre-configured Jupyterlab module. In this case, you can create your own conda environment and run Jupyterlab using that environment. We will demonstrate this with your `intro_to_sci_comp` environment from session 3.  
 
 1. Activate your `intro_to_sci_comp` conda environment.  
 
 ```bash
-mamba activate intro_to_sci_comp
+conda activate intro_to_sci_comp
 ```
 
 2. Install the following packages in your environment:  
 
 ```bash
-mamba install jupyterlab==4.6.2 plotly==6.9.0 matplotlib==3.10.9 pandas==2.3.3
+conda install jupyterlab=4.6.2 plotly=6.9.0 matplotlib=3.10.9 pandas=2.3.3
 ```
 
 3. Check that `ipykernel` is installed in your environment - it is a dependency of `jupyterlab` so should be installed automatically when you install `jupyterlab`. If not, install it too.  
 
 ```bash
-mamba list ipykernel
+conda list ipykernel
 ```
 
 4. To add your environment as a kernel, run the following command.
@@ -125,7 +125,7 @@ jupyter lab --no-browser --port=${port} --ip=${node}
 
 6. To set your own environment as the kernel, click the `Kernel` menu, then `Change kernel`, and select `intro_to_sci_comp` from the list. You should now be able to use Jupyter Notebook in your web browser with your own conda environment!  
 
-6. Let's test whether we can now run section 6 in `example_notebook.ipynb` which uses the `plotly` package (you need to run the whole notebook beforehand to process the inout data correctly). You should be able to produce the second plot at the end of the notebook now.  
+7. Let's test whether we can now run section 6 in `example_notebook.ipynb` which uses the `plotly` package (you need to run the whole notebook beforehand to process the input data correctly). You should be able to produce the second plot at the end of the notebook now.  
 
 **You are done when:**
 
@@ -137,14 +137,14 @@ jupyter lab --no-browser --port=${port} --ip=${node}
 
 **Goal:** Learn how to run an RStudio session on the CeMM cluster.  
 
-Many scientists use R - specifically RStudio - for data analysis and visualization. In this exercise, we will learn how to run an RStudio session on the CeMM cluster. This allows you to underake analyses which require more computational resources than your local laptop can provide.  
+Many scientists use R - specifically RStudio - for data analysis and visualization. In this exercise, we will learn how to run an RStudio session on the CeMM cluster. This allows you to undertake analyses which require more computational resources than your local laptop can provide.  
 
 >[TIP!]
 >The BiCU have set up a [GitHub repository](https://github.com/BiCU-CCRI/running_rstudio_or_jupyterlab) specifically for running RStudio and Jupyter Notebook on the CeMM cluster. The scripts used in Session 4 are copied from this repository.
 
 Let's start an RStudio session on the CeMM cluster.  
 
-1. Log onto the CeMM cluster and navigate to your local copy of `Introduction_to_Scientific_Computing/session_4/rstudio/`.`
+1. Log onto the CeMM cluster and navigate to your local copy of `Introduction_to_Scientific_Computing/session_4/rstudio/`.  
 
 2. We will use the `run_rstudio_apptainer_cemm.sbatch` script to start an RStudio session. First, let's view the script contents.  
 
