@@ -10,8 +10,9 @@ Today we'll cover:
 2. Exercise 2: Running a simple `.sh` script, redirection, and piping  
 3. Exercise 3: Running a simple scientific computing script  
 4. Exercise 4: Environment management using conda  
-5. TODO: Project organization and file conventions (?)
-6. TODO: Data/metadata provenance                  (?)
+5. Exercise 5: Activating a conda environment in a script  
+6. TODO: Project organization and file conventions (?)
+7. TODO: Data/metadata provenance                  (?)
 
 This should be mostly a refresher of the topics covered in the "Introduction to Linux" course.  
 
@@ -327,6 +328,42 @@ Here are some useful commands for managing conda environments:
 - You have exported the list of packages in the `intro_to_sci_comp` environment to a `yaml` file.  
 - You have deactivated the `intro_to_sci_comp` environment and returned to the base environment.  
 - You have created a new environment called `somatic_variant_calling` from the provided `somatic_variant_calling.yaml` file.  
+
+## 5. Exercise 5 Activating a conda environment in a script
+
+Sometimes, you may want to run a script that runs a specific software, and therefore requires conda environment to be activated. However, you cannot just use `conda activate <env_name>` in a script because the `conda` command is not available in non-interactive shells. Instead, you need to source the `conda.sh` script and then activate the environment.  
+
+Here is an example of how to do this:  
+
+```bash
+conda_env_name="example_env"
+echo "Activating environment"
+source "${CONDA_PREFIX}/etc/profile.d/conda.sh"
+conda activate "${conda_env_name}"
+```
+
+Try this out for yourself - create a new job script called `check_numpy_version_script.sh` which activates the `intro_to_sci_comp` conda environment and then runs the `check_numpy_version.py` script.  
+
+>[!NOTE]
+>When you submit the script, you must have your `base` conda environment activated. If you have another environment activated, the job will fail because the job script will not be able to find the conda environment.  
+
+Example script:  
+
+```bash
+#!/bin/bash
+
+conda_env_name="intro_to_sci_comp"
+echo "Activating environment"
+source "${CONDA_PREFIX}/etc/profile.d/conda.sh"
+conda activate "${conda_env_name}"
+
+python check_numpy_version.py
+```
+
+**You are done when:**
+
+- You have successfully run the `check_numpy_version.py`non-interactively by activating the `intro_to_sci_comp` conda environment in a `.sh` script.  
+
 
 ## End of Session 1
 

@@ -12,8 +12,9 @@ Below you can find a description of the topics that will be covered in each sess
 2. Exercise 2: Running a simple `.sh` script, redirection, and piping  
 3. Exercise 3: Running a simple scientific computing script  
 4. Exercise 4: Environment management using conda  
-5. TODO: Project organization and file conventions (?)
-6. TODO: Data/metadata provenance                  (?)
+5. Exercise 5: Activating a conda environment in a script  
+6. TODO: Project organization and file conventions (?)
+7. TODO: Data/metadata provenance                  (?)
  
 ### Session 2 – Variant calling (Codespaces)
 
@@ -32,7 +33,7 @@ Below you can find a description of the topics that will be covered in each sess
 - Cancelling jobs (scancel)  
 - Tracking job usage (seff)  
  
-### Session 4 – Variant calling on the CeMM cluster (CeMM cluster), Interactive work
+### Session 4 – Variant calling and interactive work on the CeMM cluster (CeMM cluster)
 
 - Logging into the CeMM cluster  
 - Navigating the CeMM filesystem  
