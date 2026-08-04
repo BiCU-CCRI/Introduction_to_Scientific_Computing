@@ -6,9 +6,377 @@ Welcome to Session 4 of the Introduction to Scientific Computing course! For thi
   
 Today we'll cover:  
 
-1. Exercise 1: Running a Jupyter Notebook session on the CeMM cluster 
-2. Exercise 2: Running an RStudio session on the CeMM cluster 
-3. Exercise 3: Data transfer to/from the CeMM cluster/Isilon  
+1. Exercise 1: Logging onto a computing cluster using SSH  
+2. Understanding the CeMM cluster architecture  
+3. Understanding the CeMM cluster file storage systems  
+4. Exercise 2: Environment management using the module system
+5. Exercise 3: Variant calling on the CeMM cluster
+6. Exercise 4: Running a Jupyter Notebook session on the CeMM cluster 
+7. Exercise 5: Running an RStudio session on the CeMM cluster 
+
+## 1. Exercise 1: Logging onto a computing cluster using SSH  
+
+**Goal:** Learn how to log onto the CeMM cluster using SSH from a terminal or VSCode. 
+
+The first step to accessing the CeMM cluster, or any high performance computing cluster, is to log in using SSH (Secure Shell). SSH is a protocol that allows you to securely connect to a remote server or computer over a network.  
+
+### Logging onto the CeMM cluster from the terminal  
+
+1. Make sure you are connected to the CCRI network (either via VPN or on-site at CCRI).  
+
+2. Open a terminal on your local machine (Linux or Mac) or use a terminal emulator like PuTTY (Windows).  
+
+3. Use the following command to connect to the CeMM cluster:  
+
+   ```bash
+   ssh <username>@login.int.cemm.at
+   ```
+
+4. Enter your CeMM password when prompted.  
+
+### Logging onto the CeMM cluster using VSCode  
+
+1. Open VSCode.  
+
+2. Cmd + Shift + P (Mac) or Ctrl + Shift + P (Windows) to open the command palette.  
+
+3. Type "Remote-SSH: Connect to Host..." and select it.  
+
+4. Enter the following in the input box: `<username>@login.int.cemm.at` and press Enter.  
+
+5. Enter your CeMM password when prompted.  
+
+Voilà! You are now logged onto the CeMM cluster. You should see a command prompt indicating that you are on the cluster:
+
+```bash
+############################################################################
+Cluster details and information:
+https://cemmat.sharepoint.com/sites/IT-Resources/SitePages/Lustre-Cluster.aspx
+
+Required Metadata information:
+https://cemmat.sharepoint.com/sites/data-management
+############################################################################
+```
+
+You can now start running commands and scripts on the cluster. How exciting.  
+
+## 2. Understanding the CeMM cluster architecture
+
+The CeMM cluster is a high-performance computing environment that consists of multiple nodes, each with its own resources (CPU, memory, storage). The cluster is designed to handle large-scale computations and data analysis tasks.
+
+When you first log in, you are on a **login node**. Login nodes are used for interactive tasks such as editing files, writing code, and submitting jobs. However, they are not meant for running long computations or resource-intensive tasks.
+
+To run more computationally intensive jobs, you should use a **compute node**. Compute nodes are designed to handle heavy workloads and can be accessed by submitting jobs through a job scheduler (SLURM). We will go over SLURM and how to submit jobs to compute nodes in the next session.  
+
+Here is an overview of the different node types available on the CeMM cluster:
+
+<img width="1223" height="367" alt="node_types" src="https://github.com/user-attachments/assets/5cac0861-c0e8-48de-8b4b-9476dbc0a062" />
+
+## 3. Understanding the CeMM cluster file storage systems  
+
+The CeMM cluster has two main file storage systems: `/nobackup` and `/research`. Each of these storage systems serves different purposes and has different characteristics.  
+
+- `/research` : This is a backed-up file system used by the CeMM research groups for storing raw data only. As CCRI research groups, we will not use `/research` except in rare cases, since our main storage system is the Isilon file system hosted at the CCRI. Some exceptions are for example adjunct PIs who may store raw data on `/research`, and shared resources provided by BiCU which are stored in `/research/lab_ccri_bicu/public`.
+
+- `/nobackup` : As the name suggests, this is a non-backed-up file system that is used for temporary storage of data and files, for example while running analyses. This is the main file system that we will use as CCRI users. Each lab has a dedicated folder in `/nobackup` where they can store their data and files. The path to your lab's folder is `/nobackup/<lab_name>`.  
+
+Let's take a look at what your lab already has in `/nobackup` by running the following command on the login node:
+
+```bash
+ls /nobackup/<lab_name>
+```  
+
+Both `/nobackup` and `/research` have storage quotas that limit the amount of data that can be stored per group. The storage quota for `/nobackup` is 24 TB per lab, while the storage quota for `/research` is 100 GB per lab member.  
+
+Let's check how much storage your lab is currently using by running the following commands on the login node:
+
+```bash
+lfs quota -h -g <lab_name> /nobackup/
+lfs quota -h -g <lab_name> /research/
+```
+
+Your group's data manager is in charge of making sure that the group does not exceed the storage quota. As a user, your main responsibility is to make sure that you regularly transfer your data back to Isilon for long-term storage. You should be aware that files stored in `/nobackup` may be deleted without warning, so it is doubly important to regularly back up important data to Isilon.  
+
+## Exercise 2: Creating your workspace for session 4
+
+**Goal:** Create a workspace for session 4 in your lab's folder in `/nobackup`.
+
+1. Navigate to your lab's folder in `/nobackup`:
+
+```bash
+cd /nobackup/<lab_name>
+```
+
+2. If it doesn't already exist, create a folder with your username and navigate into it:  
+
+```bash
+mkdir -p <username>
+cd <username>
+```
+
+3. Clone this repository into your workspace:
+
+```bash
+git clone https://github.com/BiCU-CCRI/Introduction_to_Scientific_Computing.git
+```
+
+You should see s new folder called `Introduction_to_Scientific_Computing` in your workspace. Navigate into the `session_4` folder:
+
+```bash
+cd Introduction_to_Scientific_Computing/session_4
+```
+
+**You are done when:**
+
+- You have successfully created a workspace for yourself in your lab's folder in `/nobackup`.
+- You have successfully cloned the `Introduction_to_Scientific_Computing` repository into your workspace and navigated into the `session_4` folder
+
+## Exercise 2: Environment management using the module system  
+
+**Goal:** Learn how to load and unload software modules.
+
+In Session 1, we learned how to manage software environments using conda. However, on a computing cluster, it is often more efficient to use a module system to manage software environments.  
+
+Many clusters use a module system to manage software environments. This allows us to easily load and unload different versions of software as needed without having to build and install them ourselves.
+
+Here are some basic commands to get you started with the module system:  
+
+| Command | Description |
+|---------|-------------|
+| `module avail` | List all available modules on the system. Enter `q` to quit. |
+| `module spider <module_name>` | Search for a module and display information about it. Enter `q` to quit. |
+| `module load <module_name>` | Load a specific module into your environment. |
+| `module unload <module_name>` | Unload a specific module from your environment. |
+| `module list` | List all currently loaded modules in your environment. |
+| `module purge` | Unload all currently loaded modules from your environment. |
+| `module help <module_name>` | Display help information for a specific module. |
+| `module show <module_name>` | Display detailed information about a specific module, including its path and dependencies. | 
+
+Let's try to run a simple Python script which loads the `numpy` module and prints its version.  
+
+>[NOTE!]
+>If you aer already using conda on the CeMM cluster and have Python installed in your base environment, please deactivate your base environment before running the commands below.  
+
+2. Try to run the script from Session 1 that checks the `numpy` version without loading any modules first:
+
+```bash
+python ../session_1/check_numpy_version.py
+```
+
+You should get the following error message:  
+
+```bash
+bash: python: command not found
+```
+
+3. Now, using the commands above, try to find a Python module and load it. Then, try to run the script again.  
+
+```bash
+module spider Python
+```
+
+```bash
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  Python:
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    Description:
+      Python is a programming language that lets you work more quickly and integrate your systems more effectively.
+
+     Versions:
+        Python/2.7.18-GCCcore-9.3.0
+        Python/2.7.18-GCCcore-10.2.0
+        Python/2.7.18-GCCcore-9.3.0
+        Python/2.7.18-GCCcore-10.2.0
+        Python/2.7.18-GCCcore-11.2.0-bare
+        Python/2.7.18-GCCcore-11.2.0
+        Python/2.7.18-GCCcore-11.3.0-bare
+        Python/2.7.18-GCCcore-12.2.0-bare
+        Python/3.8.2-GCCcore-9.3.0
+        Python/3.8.6-GCCcore-10.2.0
+        Python/3.8.8-GCCcore-10.2.0
+        Python/3.9.5-GCCcore-10.3.0-bare
+        Python/3.9.5-GCCcore-10.3.0
+        Python/3.9.6-GCCcore-11.2.0-bare
+        Python/3.9.6-GCCcore-11.2.0
+        Python/3.10.4-GCCcore-11.3.0-bare
+        Python/3.10.4-GCCcore-11.3.0
+        Python/3.10.8-GCCcore-12.2.0-bare
+        Python/3.10.8-GCCcore-12.2.0
+        Python/3.11.3-GCCcore-12.3.0
+        Python/3.11.5-GCCcore-13.2.0
+        Python/3.12.3-GCCcore-13.3.0
+        Python/3.13.1-GCCcore-14.2.0
+        Python/3.13.5-GCCcore-14.3.0
+     Other possible modules matches:
+        Biopython  GitPython  IPython  Python-bundle  Python-bundle-PyPI  bio/Biopython  bio/bx-python  bio/intervaltree-python  bio/python-parasail  bx-python  devel/flatbuffers-python  ...
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  To find other possible module matches execute:
+
+      $ module -r spider '.*Python.*'
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  For detailed information about a specific "Python" package (including how to load the modules) use the module's full name.
+  Note that names that have a trailing (E) are extensions provided by other modules.
+  For example:
+
+     $ module spider Python/3.13.5-GCCcore-14.3.0
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+```
+
+```bash
+module load Python/3.10.8-GCCcore-12.2.0
+module list
+# 12) Python/3.10.8-GCCcore-12.2.0
+python check_numpy_version.py
+```
+
+Hm, now we have Python loaded, but not `numpy`. You should get the following error message:
+
+```bash
+Traceback (most recent call last):
+  File "path/to/Introduction_to_Scientific_Computing/session_3/check_numpy_version.py", line 1, in <module>
+    import numpy as np
+ModuleNotFoundError: No module named 'numpy'
+```
+
+4. Now, let's try to find a `numpy` module and load it. Then, try to run the script again.  
+
+```bash
+module spider numpy
+```
+
+```bash
+-----------------------------------------------------------------------------------------------
+  numpy: numpy/2.3.1 (E)
+-----------------------------------------------------------------------------------------------
+    This extension is provided by the following modules. To access the extension you must load one of the following modules. Note that any module names in parentheses show the module location in the software hierarchy.
+
+
+       lang/SciPy-bundle/2025.06-gfbf-2025a
+       SciPy-bundle/2025.06-gfbf-2025a
+
+
+Names marked by a trailing (E) are extensions provided by another module.
+
+-----------------------------------------------------------------------------------------------
+  numpy:
+-----------------------------------------------------------------------------------------------
+     Versions:
+        numpy/1.16.6 (E)
+        numpy/1.20.3 (E)
+        numpy/1.21.3 (E)
+        numpy/1.22.3 (E)
+        numpy/1.23.5 (E)
+        numpy/1.24.2 (E)
+        numpy/1.25.1 (E)
+        numpy/1.26.2 (E)
+        numpy/1.26.4 (E)
+        numpy/2.3.1 (E)
+
+Names marked by a trailing (E) are extensions provided by another module.
+
+
+-----------------------------------------------------------------------------------------------
+  For detailed information about a specific "numpy" package (including how to load the modules) use the module's full name.
+  Note that names that have a trailing (E) are extensions provided by other modules.
+  For example:
+
+     $ module spider numpy/2.3.1
+-----------------------------------------------------------------------------------------------
+```
+
+This time, we can see that the `numpy` module is an extension provided by the `SciPy-bundle` module. So, we need to load the `SciPy-bundle` module.  
+
+```bash
+module load SciPy-bundle/2025.06-gfbf-2025a
+
+# The following have been reloaded with a version change:
+#   1) GCCcore/12.2.0 => GCCcore/14.2.0
+#   2) Python/3.10.8-GCCcore-12.2.0 => Python/3.13.1-GCCcore-14.2.0
+#   3) SQLite/3.39.4-GCCcore-12.2.0 => SQLite/3.47.2-GCCcore-14.2.0
+#   4) Tcl/8.6.12-GCCcore-12.2.0 => Tcl/8.6.16-GCCcore-14.2.0
+#   5) XZ/5.2.7-GCCcore-12.2.0 => XZ/5.6.3-GCCcore-14.2.0
+#   6) binutils/2.39-GCCcore-12.2.0 => binutils/2.42-GCCcore-14.2.0
+#   7) bzip2/1.0.8-GCCcore-12.2.0 => bzip2/1.0.8-GCCcore-14.2.0
+#   8) libffi/3.4.4-GCCcore-12.2.0 => libffi/3.4.5-GCCcore-14.2.0
+#   9) libreadline/8.2-GCCcore-12.2.0 => libreadline/8.2-GCCcore-14.2.0
+#  10) ncurses/6.3-GCCcore-12.2.0 => ncurses/6.5-GCCcore-14.2.0
+#  11) zlib/1.2.12-GCCcore-12.2.0 => zlib/1.3.1-GCCcore-14.2.0
+```
+
+The `SciPy-bundle` module has reloaded several other modules, including `Python`, to newer versions. Now, let's check if the script runs successfully:
+
+```bash
+python check_numpy_version.py
+# 2.3.1
+```
+
+### Loading modules in a job script  
+
+To load modules in a job script, you can simply use the `module load` command in your script.  
+
+Create a new job script called `check_numpy_version_module_job.sbatch` which loads the `Python/3.10.8-GCCcore-12.2.0` and `SciPy-bundle/2025.06-gfbf-2025a` modules, and then runs the `check_numpy_version.py` script.  
+
+Example script:  
+
+```bash
+#!/bin/bash
+
+#SBATCH --job-name=check_numpy_version_module_job
+#SBATCH --output=check_numpy_version_module_job.out
+#SBATCH --error=check_numpy_version_module_job.err
+#SBATCH --time=00:10:00
+#SBATCH --mem=1G
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=1
+#SBATCH --partition=tinyq
+#SBATCH --qos=tinyq
+
+module load Python/3.10.8-GCCcore-12.2.0
+module load SciPy-bundle/2025.06-gfbf-2025a
+
+python check_numpy_version.py
+```
+
+**You are done when:** 
+
+- You are comfortable loading and unloading modules using the module system.  
+- You can run the `check_numpy_version.py` script successfully after loading the appropriate modules.  
+
+
+## 5. Exercise 3: Variant calling on the CeMM cluster
+
+**Goal:** Repeat the variant calling pipeline from Session 2, this time on the CeMM cluster using SLURM job scripts.
+
+Now that you are familiar with the CeMM cluster architecture, file storage systems, and module system, we will repeat the variant calling pipeline from Session 2, this time on the CeMM cluster using SLURM job scripts.  
+
+1. First, make yourself a working directory and navigate into it:
+    
+```bash
+mkdir -p /nobackup/<lab_name>/<username>/session_4/variant_calling_work_dir
+cd /nobackup/<lab_name>/<username>/session_4/variant_calling_work_dir
+```
+
+2. Next, copy the scripts from the variant calling pipeline in Session 2 into your working directory. You can use the `cp` command to copy the scripts from `session_2/variant_calling_examples/example_scripts`:
+
+```bash
+cp ../../session_2/variant_calling_examples/example_scripts/* .
+```
+
+3. Now, turn each `.sh` script into a `.sbatch` script.
+
+For each script:
+
+- Change the file extension from `.sh` to `.sbatch`.
+- Add SLURM directives to specify the resources you need for the job. Since we are working with test data, we can request few resources, but for a real analysis, you would need to request more resources (e.g. at least 40 GB for the `bwa` step).
+- Use the `--output` and `--error` directives to specify the names of the output and error files for the job. This will help you keep track of the progress of your analysis and troubleshoot any issues that arise.  
+- Load the appropriate modules for the software used in the script. You can use `module spider` command in the terminal first to find the modules you need, then use `module load` in your job script to load them.
+- Remember to match any software parameters that specify the number of threads to use with the number of CPUs you request in your job script.
+- Remember to change the file paths in the scripts to point to the correct locations of your input files and output directories on the CeMM cluster.  
+
+4. Submit the scripts one by one to the SLURM scheduler using the `sbatch` command. You can check the status of your jobs using the `squeue` command. Wait until each job has completed before submitting the next one. You can check the output and error files for each job to see if there were any issues, as we did in Session 2.  
 
 ## Exercise 1: Running a Jupyter Notebook session on the CeMM cluster  
 
@@ -333,117 +701,6 @@ Click on the link in the output. Log onto the RStudio session using your CeMM cl
 
 - You have successfully started an RStudio session on the CeMM cluster.
 - You have produced the example plot using the `example_script.R` script.  
-
-## Exercise 3 - Data transfer to/from the CeMM cluster/Isilon  
-
-Now that you have started to produce results on the CeMM cluster, you need a reliable way to transfer data to and from the CeMM cluster from Isilon. It may be tempting to use the Finder once you have mounted `nobackup` and `research`, but this is not a reliable way to transfer data. We recommend using `rsync` for data transfer.  
-
-To transfer data to/from the CeMM cluster, you will need to mount the `nobackup` and `research` partitions on the `011Sv123` server. This is a server that is accessible from both the CeMM cluster and Isilon. Once you have mounted the partitions, you can use `rsync` to transfer data between Isilon and the CeMM cluster.  
-
-1. First, SSH into the CeMM cluster and note down your `cemm_uid` and `cemm_gid`. You can find these by running the following command:
-
-```bash
-id
-```
-
-2. In a new terminal window, SSH into the `011Sv123` server using your CCRI credentials:
-
-```bash
-ssh <firstname.lastname>@011Sv123.ad.ccri.at
-# CCRI password
-```
-
-2. Mount the `nobackup` and `research` partitions to your home directory on the `011Sv123` machine.  
-
-```bash
-mkdir -p ~/cemm_nobackup
-mkdir -p ~/cemm_research
-
-sshfs -o uid=<cemm_uid> -o gid=<cemm_gid> <cemm_user>@10.110.81.2:/nobackup /home/<firstname.lastname>/cemm_nobackup
-# CeMM password
-sshfs -o uid=<cemm_uid> -o gid=<cemm_gid> <cemm_user>@10.110.81.2:/research /home/<firstname.lastname>/cemm_research
-# CeMM password
-```
-
-3. Use the `rsync` command to transfer data between Isilon and the CeMM cluster. The `rsync` program is a fast and versatile file copying tool that can copy files locally or to/from a remote host. It is widely used for data transfer because it can resume interrupted transfers, preserve file permissions and timestamps, and transfer only the differences between files.  
-
-### From Isilon to the CeMM fileshares
-
-`rsync -rtvhP --no-g --no-o --no-p --chmod=u=rwX,g=rwX,o= <source> <destination>` is the recommended command for transferring data from Isilon to `nobackup` or `research`. The arguments mean:
-
-- `-r`: recursive, copy directories and their contents
-- `-t`: preserve modification times
-- `-v`: verbose, print information about the transfer
-- `-h`: human-readable, print sizes in a human-readable format
-- `-P`: show progress during transfer and keep partially transferred files
-- `--no-g`: do not preserve group ownership
-- `--no-o`: do not preserve owner
-- `--no-p`: do not preserve permissions
-- `--chmod=u=rwX,g=rwX,o=`: set permissions to be readable and writable by the user and group, but not by others
-
-Let's try it with an example file. Navigate to one of your folders on Isilon using the `011Sv123` server, and make an example file. Then, transfer this file to the `session_4` directory on the CeMM cluster using the `rsync` command.  
-
->[TIP!]
->Always run a dry run of the `rsync` command first to see what files will be transferred. You can do this by adding the `--dry-run` argument to the command.  
-
->[!NOTE]
->Be careful about the `<source>` and `<destination>` arguments. The `rsync` command will copy files from the `<source>` to the `<destination>`. If you get these arguments wrong, you may end up overwriting files on the CeMM cluster or Isilon. When you end a path with a backslash `\`, it means "copy the contents of this directory", whereas if you don't end with a backslash, it means "copy this directory and its contents".
->For example:
->`rsync -r /path/to/source/ /path/to/destination/` will copy the contents of the `source` directory to the `destination` directory, whereas
->`rsync -r /path/to/source /path/to/destination/` will copy the `source` directory and its contents to the `destination` directory.
-
-```bash
-cd /mnt/bioinformatics/Research/<your_lab_name>/Internal/<your_username>/<your_favourite_isilon_folder>
-touch hello_cemm.txt
-echo "Hello CeMM!" > hello_cemm.txt
-rsync -rtvhP --no-g --no-o --no-p --chmod=u=rwX,g=rwX,o= --dry-run /mnt/bioinformatics/Research/<your_lab_name>/Internal/<your_username>/<your_favourite_isilon_folder>/hello_cemm.txt /home/<firstname.lastname>/cemm_nobackup/<lab_name>/<user_name>/Introduction_to_Scientific_Computing/session_4/
-
-# sending incremental file list
-# hello_cemm.txt
-
-# sent 59 bytes  received 19 bytes  156.00 bytes/sec
-# total size is 13  speedup is 0.17 (DRY RUN)
-
-rsync -rtvhP --no-g --no-o --no-p --chmod=u=rwX,g=rwX,o= /mnt/bioinformatics/Research/<your_lab_name>/Internal/<your_username>/<your_favourite_isilon_folder>/hello_cemm.txt /home/<firstname.lastname>/cemm_nobackup/<lab_name>/<user_name>/Introduction_to_Scientific_Computing/session_4/
-
-# sending incremental file list
-# hello_cemm.txt
-#              13 100%    0.00kB/s    0:00:00 (xfr#1, to-chk=0/1)
-
-# sent 112 bytes  received 35 bytes  294.00 bytes/sec
-# total size is 13  speedup is 0.09
-```
-
-### From the CeMM fileshares to Isilon
-
-Now, we will modify the newly transferred file on the CeMM cluster, and transfer it back to Isilon.  
-
-```bash
-echo "Goodbye, CeMM!" >> /home/<firstname.lastname>/cemm_nobackup/<lab_name>/<user_name>/Introduction_to_Scientific_Computing/session_4/hello_cemm.txt
-rsync -rtvhP --no-g --no-o --no-p --chmod=u=rwX,g=rwX,o= --dry-run /home/<firstname.lastname>/cemm_nobackup/<lab_name>/<user_name>/Introduction_to_Scientific_Computing/session_4/hello_cemm.txt /mnt/bioinformatics/Research/<your_lab_name>/Internal/<your_username>/<your_favourite_isilon_folder>/
-
-# sending incremental file list
-# hello_cemm.txt
-
-# sent 53 bytes  received 19 bytes  144.00 bytes/sec
-# total size is 28  speedup is 0.39 (DRY RUN)
-
-rsync -rtvhP --no-g --no-o --no-p --chmod=u=rwX,g=rwX,o= /home/<firstname.lastname>/cemm_nobackup/<lab_name>/<user_name>/Introduction_to_Scientific_Computing/session_4/hello_cemm.txt /mnt/bioinformatics/Research/<your_lab_name>/Internal/<your_username>/<your_favourite_isilon_folder>/
-
-# sending incremental file list
-# hello_cemm.txt
-#              28 100%    0.00kB/s    0:00:00 (xfr#1, to-chk=0/1)
-
-# sent 121 bytes  received 35 bytes  312.00 bytes/sec
-# total size is 28  speedup is 0.18
-```
-
-Although the file name is the same, since the contents have changed, `rsync` will transfer the file back to Isilon. You can check the contents of the file on Isilon to confirm that it has been updated.  
-
-**You are done when:**
-
-- You have successfully transferred a file from Isilon to the CeMM cluster using `rsync`.
-- You have successfully transferred a file from the CeMM cluster to Isilon using `rsync`.  
 
 ## End of the course
 
