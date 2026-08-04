@@ -97,7 +97,7 @@ lfs quota -h -g <lab_name> /research/
 
 Your group's data manager is in charge of making sure that the group does not exceed the storage quota. As a user, your main responsibility is to make sure that you regularly transfer your data back to Isilon for long-term storage. You should be aware that files stored in `/nobackup` may be deleted without warning, so it is doubly important to regularly back up important data to Isilon.  
 
-## Exercise 2: Creating your workspace for session 4
+## 4. Exercise 2: Creating your workspace for session 4
 
 **Goal:** Create a workspace for session 4 in your lab's folder in `/nobackup`.
 
@@ -155,7 +155,7 @@ Here are some basic commands to get you started with the module system:
 Let's try to run a simple Python script which loads the `numpy` module and prints its version.  
 
 >[NOTE!]
->If you aer already using conda on the CeMM cluster and have Python installed in your base environment, please deactivate your base environment before running the commands below.  
+>If you are already using conda on the CeMM cluster and have Python installed in your base environment, please deactivate your base environment before running the commands below.  
 
 2. Try to run the script from Session 1 that checks the `numpy` version without loading any modules first:
 
@@ -345,7 +345,6 @@ python check_numpy_version.py
 - You are comfortable loading and unloading modules using the module system.  
 - You can run the `check_numpy_version.py` script successfully after loading the appropriate modules.  
 
-
 ## 5. Exercise 3: Variant calling on the CeMM cluster
 
 **Goal:** Repeat the variant calling pipeline from Session 2, this time on the CeMM cluster using SLURM job scripts.
@@ -359,32 +358,175 @@ mkdir -p /nobackup/<lab_name>/<username>/session_4/variant_calling_work_dir
 cd /nobackup/<lab_name>/<username>/session_4/variant_calling_work_dir
 ```
 
+Make `results` and `logs` directories like last time, and this time also make a `logs/slurm_logs` directory so you can distinguish between the output and error files from the SLURM scheduler and the output and error files from the software you are running in your scripts:
+
+```bash
+mkdir -p results logs/slurm_logs
+```
+
 2. Next, copy the scripts from the variant calling pipeline in Session 2 into your working directory. You can use the `cp` command to copy the scripts from `session_2/variant_calling_examples/example_scripts`:
 
 ```bash
 cp ../../session_2/variant_calling_examples/example_scripts/* .
 ```
 
-3. Now, turn each `.sh` script into a `.sbatch` script.
+3. Now, turn each `.sh` script into a `.sbatch` script. We encourage you to write your own scripts, but if you get really stuck, you can check the example scripts in `session_4/variant_calling_examples/example_scripts`.  
 
 For each script:
 
 - Change the file extension from `.sh` to `.sbatch`.
+
 - Add SLURM directives to specify the resources you need for the job. Since we are working with test data, we can request few resources, but for a real analysis, you would need to request more resources (e.g. at least 40 GB for the `bwa` step).
+
 - Use the `--output` and `--error` directives to specify the names of the output and error files for the job. This will help you keep track of the progress of your analysis and troubleshoot any issues that arise.  
+
 - Load the appropriate modules for the software used in the script. You can use `module spider` command in the terminal first to find the modules you need, then use `module load` in your job script to load them.
+
 - Remember to match any software parameters that specify the number of threads to use with the number of CPUs you request in your job script.
+
 - Remember to change the file paths in the scripts to point to the correct locations of your input files and output directories on the CeMM cluster.  
 
 4. Submit the scripts one by one to the SLURM scheduler using the `sbatch` command. You can check the status of your jobs using the `squeue` command. Wait until each job has completed before submitting the next one. You can check the output and error files for each job to see if there were any issues, as we did in Session 2.  
 
-## Exercise 1: Running a Jupyter Notebook session on the CeMM cluster  
+5. Once you are done, check that all of the results and log files are present.  
+
+```bash
+tree results
+```
+
+```bash
+/path/to/results
+├── 01_fastp
+│   ├── SRR7890883.chr17_50k.html
+│   ├── SRR7890883.chr17_50k.json
+│   ├── SRR7890883.chr17_50k_R1_trimmed.fastq
+│   └── SRR7890883.chr17_50k_R2_trimmed.fastq
+├── 02_bwa
+│   ├── SRR7890883.chr17_50k.bam
+│   └── SRR7890883.chr17_50k.bam.bai
+├── 03_markdup
+│   ├── SRR7890883.chr17_50k.markdup.bai
+│   ├── SRR7890883.chr17_50k.markdup.bam
+│   └── SRR7890883.markdup.metrics.txt
+├── 04_bqsr
+│   ├── SRR7890883.recal.bai
+│   ├── SRR7890883.recal.bam
+│   ├── SRR7890883.recal.bam.bai
+│   └── SRR7890883.recal.table
+└── 05_mutect2
+    ├── SRR7890883.filtered.vcf.gz
+    ├── SRR7890883.filtered.vcf.gz.filteringStats.tsv
+    ├── SRR7890883.filtered.vcf.gz.tbi
+    ├── SRR7890883.pass.vcf.gz
+    ├── SRR7890883.pass.vcf.gz.tbi
+    ├── SRR7890883.unfiltered.vcf.gz
+    ├── SRR7890883.unfiltered.vcf.gz.stats
+    └── SRR7890883.unfiltered.vcf.gz.tbi
+
+5 directories, 21 files
+```
+
+```bash
+tree logs
+```
+
+```bash
+/path/to/logs/
+├── 01_fastp
+│   └── SRR7890883.fastp.log
+├── 02_bwa
+│   └── SRR7890883.bwa.log
+├── 03_markdup
+│   └── SRR7890883.markdup.log
+├── 04_bqsr
+│   ├── SRR7890883.apply_bqsr.log
+│   └── SRR7890883.base_recalibrator.log
+├── 05_mutect2
+│   ├── SRR7890883.filter_mutect_calls.log
+│   ├── SRR7890883.mutect2.log
+│   └── SRR7890883.select_pass_variants.log
+└── slurm_logs
+    ├── bqsr_13108580.err
+    ├── bqsr_13108580.out
+    ├── bwa_13108574.err
+    ├── bwa_13108574.out
+    ├── fastp_13108573.err
+    ├── fastp_13108573.out
+    ├── markdup_13108577.err
+    ├── markdup_13108577.out
+    ├── mutect2_13108581.err
+    └── mutect2_13108581.out
+
+6 directories, 18 files
+```
+
+7. Now, let's check the actual results files. 
+
+First, let's check the `fastp` HTML file. If you are using VSCode, you can open the HTML file in your web browser. If you are using a terminal, you can use the `scp` command to copy the HTML file to your local machine and open it in your web browser.  
+
+```bash
+scp <username>@login.int.cemm.at:/nobackup/<lab_name>/<username>/session_4/variant_calling_work_dir/results/01_fastp/SRR7890883.chr17_50k.html .
+```
+
+- What is the total number of reads before and after trimming?
+- What is the average read length before and after trimming?
+- What is the number of reads that were filtered out due to low quality?
+
+Answers:
+
+- 100000 -> 99996
+- 125 bp -> 123 bp
+- 2
+
+Next, check the aligment statistics.
+
+```bash
+module load 
+samtools flagstat results/02_bwa/SRR7890883.chr17_50k.bam
+```
+
+- What is the total number of reads in the `.bam` file?
+- What percentage of reads are mapped to the reference genome?
+
+Answers:
+
+- 100125
+- 97.38%
+
+Next, check the `MarkDuplicates` metrics table.
+
+- How many read pairs were examined?
+- What was the percentage of reads that were marked as duplicated?  
+
+Answers:
+
+- 47377
+- 0.0099 %
+
+Finally, let's check the Mutect2 results.
+
+```bash
+module load BCFtools/1.15.1-GCC-11.3.0
+bcftools view -H results/05_mutect2/SRR7890883.pass.vcf.gz | wc -l
+# 1510
+bcftools view -v snps -H results/05_mutect2/SRR7890883.pass.vcf.gz | wc -l
+# 1432
+bcftools view -v indels -H results/05_mutect2/SRR7890883.pass.vcf.gz | wc -l
+# 55
+```
+
+Even though all of the previous results were the same, a different number of variants was found with `Mutect2` than in Session 2! Why do you think this might be?  
+
+Answer: The difference in the number of variants found with `Mutect2` could be due to differences in the software versions - in Session 2, our `somatic_variant_calling` environment used `gatk` v4.6.2.0, whereas our module system at CeMM does not have this version, so we used `gatk4` v4.1.8.1. It is therefore also likely that the `gatk4` dependencies are different between the two environments. Variants calling can be sensitive to these factors, leading to slight variations in the results. This is a good example of why it is good practice to document all of the software versions and dependencies used in your analysis, so that you can reproduce your results in the future.  
+
+## 6. Exercise 4: Running a Jupyter Notebook session on the CeMM cluster  
+
+>[TIP!]
+>The BiCU have set up a [GitHub repository](https://github.com/BiCU-CCRI/running_rstudio_or_jupyterlab) specifically for running RStudio and Jupyter Notebook on the CeMM cluster. The scripts used in Session 4 are copied from this repository.
 
 **Goal:** Learn how to run a Jupyter Notebook session on the CeMM cluster.
 
 Many scientists use Jupyter Notebook for data analysis and visualization. In this exercise, we will learn how to run a Jupyter Notebook session on the CeMM cluster. This allows you to undertake analyses which require more computational resources than your local laptop can provide.  
-
-### Running Jupyterlab using the provided modules  
 
 The CeMM cluster provides a Jupyterlab module that you can load to run a Jupyter Notebook session. This module is pre-configured with a set of commonly used Python packages for data analysis and visualization.  
 
@@ -434,81 +576,18 @@ Click on the link starting `http://d021.int.cemm.at:8513/lab?token=...` to acces
 
 5. What if we try to install a package that's not included in the pre-configured Jupyterlab module? Try running section 6.  
 
-
-### Running Jupyterlab using your own conda environment  
-
-Sometimes you have a specific environment that you want to use for your analysis, which might include some specialist software that is not included in the pre-configured Jupyterlab module. In this case, you can create your own conda environment and run Jupyterlab using that environment. We will demonstrate this with your `intro_to_sci_comp` environment from session 3.  
-
-1. Activate your `intro_to_sci_comp` conda environment.  
-
-```bash
-conda activate intro_to_sci_comp
-```
-
-2. Install the following packages in your environment:  
-
-```bash
-conda install jupyterlab=4.6.2 plotly=6.9.0 matplotlib=3.10.9 pandas=2.3.3
-```
-
-3. Check that `ipykernel` is installed in your environment - it is a dependency of `jupyterlab` so should be installed automatically when you install `jupyterlab`. If not, install it too.  
-
-```bash
-conda list ipykernel
-```
-
-4. To add your environment as a kernel, run the following command.
-
-```bash
-python -m ipykernel install --user --name intro_to_sci_comp --display-name "intro_to_sci_comp"
-# Installed kernelspec intro_to_sci_comp in /home/username/.local/share/jupyter/kernels/intro_to_sci_comp
-```
-
-5. Now, check the contents of the `jupyterlab_customenv.sbatch` script. This script is similar to the `jupyterlab.sbatch` script, but it activates your conda environment, and runs `jupyterlab` using the version installed in your environment as opposed to the module version.  
-
-```bash
-#!/bin/bash
-#SBATCH --partition=interactiveq
-#SBATCH --qos=interactiveq
-#SBATCH --cpus-per-task=1
-#SBATCH --mem=8G
-#SBATCH --time=12:00:00
-#SBATCH --job-name=jupyter-lab
-#SBATCH --output=jupyter-lab-%j.log
-
-conda_env_name="intro_to_sci_comp"
-echo "Activating environment"
-source "${CONDA_PREFIX}/etc/profile.d/conda.sh"
-conda activate "${conda_env_name}"
-
-port=$(shuf -i8000-9000 -n1)
-node=$(hostname).int.cemm.at
-user=$(whoami)
-host ${node}
-
-jupyter lab --no-browser --port=${port} --ip=${node}
-```
-
-5. Submit the `jupyterlab_customenv.sbatch` to SLURM, and click the link in the output to access the Jupyter Notebook session in your web browser. 
-
-6. To set your own environment as the kernel, click the `Kernel` menu, then `Change kernel`, and select `intro_to_sci_comp` from the list. You should now be able to use Jupyter Notebook in your web browser with your own conda environment!  
-
-7. Let's test whether we can now run section 6 in `example_notebook.ipynb` which uses the `plotly` package (you need to run the whole notebook beforehand to process the input data correctly). You should be able to produce the second plot at the end of the notebook now.  
+If you are interested in using a package that is not included in the pre-configured Jupyterlab module, you can create your own conda environment and use it in Jupyter Notebook. Check `extra_cemm_cluster_instructions/jupyterlab_with_custom_env.md` for instructions on how to do this.  
 
 **You are done when:**
 
 - You have successfully started a Jupyter Notebook session on the CeMM cluster.
-- You have successfully started a Jupyter Notebook session using your own conda environment.  
-- You have produced the example plots using the `example_notebook.ipynb` notebook.  
+- You have produced the example plot using the `example_notebook.ipynb` notebook.  
 
-## Exercise 2: Running an RStudio session on the CeMM cluster  
+## 7. Exercise 5: Running an RStudio session on the CeMM cluster  
 
 **Goal:** Learn how to run an RStudio session on the CeMM cluster.  
 
 Many scientists use R - specifically RStudio - for data analysis and visualization. In this exercise, we will learn how to run an RStudio session on the CeMM cluster. This allows you to undertake analyses which require more computational resources than your local laptop can provide.  
-
->[TIP!]
->The BiCU have set up a [GitHub repository](https://github.com/BiCU-CCRI/running_rstudio_or_jupyterlab) specifically for running RStudio and Jupyter Notebook on the CeMM cluster. The scripts used in Session 4 are copied from this repository.
 
 Let's start an RStudio session on the CeMM cluster.  
 
@@ -653,7 +732,7 @@ seff "${SLURM_JOB_ID}"
 echo "======================"
 ```
 
-It looks more complicated than the JupyterLab scripts, but you should still be able to recognize:   
+It looks more complicated than the JupyterLab scripts, but you should still be able to recognize:  
 
 - SLURM directives
 - bash variables
@@ -663,9 +742,12 @@ It looks more complicated than the JupyterLab scripts, but you should still be a
 - the `cat` command
 - the `seff` command
 
-Can you find the line where we set the password? Feel free to change this if you like, but don't use anything sensitive.  
+Can you find the line where we set the password? Feel free to change this if you like, but don't use anything sensitive, and DON'T commit it to GitHub!  
 
 The script works by running an `apptainer` container with RStudio Server installed. It sets up a temporary directory for the RStudio session, configures the R environment, and starts the RStudio Server on a random port between 8000 and 9000 (these are the ports we can access from the CCRI network). The output of the script is a URL that you can use to access the RStudio session in your web browser.  
+
+>[NOTE!]
+>Apptainer is another way to manage software environments, and is more reproducible than conda or modules, but out of the scope of this course. You can find more information about Apptainer [here](https://apptainer.org/).
 
 3. Submit the script to SLURM using `sbatch` and wait for the output file to be created in `logs/rstudio_apptainer_<job-id>.log`. You should see a message like this:
 
