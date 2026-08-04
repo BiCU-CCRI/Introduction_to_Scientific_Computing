@@ -13,7 +13,7 @@ Today we'll cover:
 5. Exercise 4: Marking PCR duplicates,
 6. Exercise 5: Base quality score recalibration (BQSR)  
 7. Exercise 6: Variant calling  
-8. TODO: Exercise 7: Variant filtering and sanity checks  
+8. TODO: Exercise 7: Variant filtering and sanity checks  (?)
 
 ## 1. Intro to the project, sequencing data formats, and the GATK best practices workflow
 
@@ -93,14 +93,16 @@ f) **Variant Calling**: The aligned reads are then processed to identify variant
 
 **Goal:** Familiarize yourself with the input data, and set up working and output directories for your analysis.  
 
-1. First, let's create a working directory called `variant_calling_work_dir` for your analysis. Create the directory in `session_2/variant_calling_work_dir` and navigate into it:  
+1. Start a CodeSpaces session in the Introduction to Scientific Computing repository. Follow the instructions in the `README.md` if you can't remember how to start CodeSpaces.  
+
+2. First, let's create a working directory called `variant_calling_work_dir` for your analysis. Create the directory in `session_2/variant_calling_work_dir` and navigate into it:  
 
 ```bash
 mkdir session_2/variant_calling_work_dir
 cd session_2/variant_calling_work_dir
 ```
 
-2. Within this directory, create an output directory called `results` to store the output files from your analysis, and a directory called `logs` to store the log files from your analysis.  
+3. Within this directory, create an output directory called `results` to store the output files from your analysis, and a directory called `logs` to store the log files from your analysis.  
 
 ```bash
 mkdir results
@@ -113,7 +115,7 @@ mkdir logs
 >[NOTE!]
 >It's also good practice to store files from different steps of the workflow in different subdirectories within the `results` and `logs` directories. You can include the creation of these subdirectories in your scripts.  
 
-3. Next, we should create and activate an environment for our project, with all of the software we will need. Luckily, we already created our environment in Session 1!  
+4. Next, we should create and activate an environment for our project, with all of the software we will need. Luckily, we already created our environment in Session 1!  
 
 Let's double check that our `somatic_variant_calling` environment is still available, and that it has the software we need. You can do this by running the following command:  
 
@@ -125,7 +127,7 @@ conda list
 
 If you can see `fastp`, `bwa`, `samtools`, and `gatk4` in the list of installed packages, then you are ready to go!  
 
-4. You will be working with a small subset of sequencing data from a tumor sample. The data is stored in the `example_data` folder. First, `tree` this folder to view the contents:  
+5. You will be working with a small subset of sequencing data from a tumor sample. The data is stored in the `example_data` folder. First, `tree` this folder to view the contents:  
 
 ```bash
 tree example_data
@@ -157,7 +159,7 @@ example_data/
 4 directories, 16 files
 ```
 
-5. The input data to the project are stored in the `example_data/fastq/` directory. Let's take a look at the contents of the files to understand what we are working with. We can use the commands we learnt in Session 1:  
+6. The input data to the project are stored in the `example_data/fastq/` directory. Let's take a look at the contents of the files to understand what we are working with. We can use the commands we learnt in Session 1:  
 
 ```bash
 cat ../../example_data/fastq/SRR7890883.chr17_50k_R1.fastq | head -n 10  
@@ -169,9 +171,9 @@ Test yourself:
 - What does each line of the `.fastq` file represent?  
 - How many reads are in each file?  
 
-6. The genomic reference files are in the `example_data/ref` directory. The `Homo_sapiens_assembly38.chr17.fasta` is the reference human genome in `fasta` format, subsampled to only chromosome 17. The remaining files in the directory are index or metadata files associated with the genome which are required for the software we are going to be using.  
+7. The genomic reference files are in the `example_data/ref` directory. The `Homo_sapiens_assembly38.chr17.fasta` is the reference human genome in `fasta` format, subsampled to only chromosome 17. The remaining files in the directory are index or metadata files associated with the genome which are required for the software we are going to be using.  
 
-7. The `example_data/known_sites/` directory contains known SNP and indel sites that are used for base quality score recalibration (BQSR). The `example_data/germline_resource/` directory contains a population database of common inherited variants which helps the caller distinguish likely germline polymorphisms from true somatic mutations. These files are in `.vcf` format, and are gzipped to save space. The `.tbi` files are index files for the files, which are required for the software we are going to be using.  
+8. The `example_data/known_sites/` directory contains known SNP and indel sites that are used for base quality score recalibration (BQSR). The `example_data/germline_resource/` directory contains a population database of common inherited variants which helps the caller distinguish likely germline polymorphisms from true somatic mutations. These files are in `.vcf` format, and are gzipped to save space. The `.tbi` files are index files for the files, which are required for the software we are going to be using.  
 
 **You are done when**:
 
@@ -181,7 +183,7 @@ Test yourself:
 
 ## 3. Exercise 2: Read QC and trimming  
 
-The first step in the workflow is to pre-process the raw sequencing reads. This involves trimming adapters and low-quality bases from the reads using `fastp`.  
+**Goal:** Pre-process the raw sequencing reads by trimming adapters and low-quality bases from the reads using `fastp`.  
 
 >[NOTE!]
 >For this first step, we will provide the full script for you to use and go over each part of the script. For the next steps, we recommend that you try writing your own scripts, but if you get really stuck, you can use the example scripts in `session_2/variant_calling_examples/example_scripts` as a reference.  
@@ -263,9 +265,15 @@ Answers:
 - 125 bp -> 123 bp
 - 2
 
+**You are done when**:
+
+- You have created a script to run `fastp` on the raw sequencing reads.
+- You have run the script and checked that the output files are produced.
+- You have inspected the HTML report and answered the questions about the quality of the trimmed reads.
+
 ## 4. Exercise 3: Alignment
 
-After trimming the reads, we will align the reads to the reference genome using `bwa`.  
+**Goal:** Align the trimmed reads to the reference genome using `bwa`.  
 
 1. Create a script called `02_bwa.sh` in your working directory to run `bwa`, `samtools sort`, and `samtools index`.  
 
@@ -328,6 +336,12 @@ Test yourself:
 - What chromosome is the first read aligned to?  
 - What is the mapping quality of the first read?  
 
+Answers:
+
+- SRR7890883.53176591
+- chr17
+- 60
+
 4. Now let's have a look at the aligment statistics.
 
 ```bash
@@ -363,7 +377,15 @@ Answers:
 - 100125
 - 97.38%
 
+**You are done when**:
+
+- You have created a script to run `bwa` on the trimmed sequencing reads.
+- You have run the script and checked that the output files are produced.
+- You have inspected the `.bam` file and answered the questions about the alignments and alignment statistics.
+
 ## 5. Exercise 4: Marking PCR duplicates  
+
+**Goal:** Mark PCR duplicates in the aligned reads using `gatk MarkDuplicates`.
 
 Once the reads are aligned, we need to identify reads that were likely produced from the same original DNA fragment so they can be excluded from downstream analyses and avoid biased results.  
 
@@ -410,7 +432,15 @@ Answers:
 - 47377
 - 0.0099 %
 
+**You are done when:**
+
+- You have created a script to run `gatk MarkDuplicates` on the aligned sequencing reads.
+- You have run the script and checked that the output files are produced.
+- You have inspected the metrics table and answered the questions.
+
 ## 6. Exercise 5: Base quality score recalibration (BQSR)  
+
+**Goal:** Perform base quality score recalibration (BQSR) on the aligned reads.  
 
 Once the PCR duplicates are marked, we will perform base quality score recalibration (BQSR) by using known SNP and indel sites to model and correct systematic errors in the sequencing quality scores, then apply the recalibration.
 
@@ -455,7 +485,16 @@ total 12M
 -rw-rw-rw- 1 codespace codespace 211K Aug  4 14:43 SRR7890883.recal.table
 ```
 
+Unlike `MarkDuplicates`, `BQSR` does not generate summary performance metrics; its primary output is a model used to recalibrate base quality scores. Its effects are reflected in the recalibrated alignment and downstream variant calling.  
+
+**You are done when:**
+
+- You have created a script to run `gatk BaseRecalibrator` and `gatk ApplyBQSR` on the sequencing reads.
+- You have run the script and checked that the output files are produced.
+
 ## Exercise 6: Variant calling  
+
+**Goal:** Call somatic variants using `Mutect2`.  
 
 Finally, it's time to run `Mutect2` to call somatic variants. We will compare our aligned reads to the reference genome and identify nucleotides that don't match.  
 
@@ -523,6 +562,12 @@ bcftools view -v indels -H results/05_mutect2/SRR7890883.pass.vcf.gz | wc -l
 ```
 
 How might we identify high-confidence somatic variants from this `.vcf` file? Do you know what the next steps would be to validate these variants and determine their potential impact on protein function?  
+
+**You are done when:** 
+
+- You have created a script to run `Mutect2` on the recalibrated sequencing reads.
+- You have run the script and checked that the output files are produced.
+- You have inspected the `.vcf` file and answered the questions about the identified variants.
 
 ## End of Session 2
 
