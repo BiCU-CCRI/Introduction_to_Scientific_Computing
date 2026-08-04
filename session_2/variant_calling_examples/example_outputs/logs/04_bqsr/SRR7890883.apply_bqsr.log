@@ -1,0 +1,39 @@
+Using GATK jar /home/codespace/miniconda3/envs/somatic_variant_calling/share/gatk4-4.6.2.0-1/gatk-package-4.6.2.0-local.jar
+Running:
+    java -Dsamjdk.use_async_io_read_samtools=false -Dsamjdk.use_async_io_write_samtools=true -Dsamjdk.use_async_io_write_tribble=false -Dsamjdk.compression_level=2 -Xmx10g -jar /home/codespace/miniconda3/envs/somatic_variant_calling/share/gatk4-4.6.2.0-1/gatk-package-4.6.2.0-local.jar ApplyBQSR -R /workspaces/Introduction_to_Scientific_Computing/example_data/ref/Homo_sapiens_assembly38.chr17.fasta -I /workspaces/Introduction_to_Scientific_Computing/session_2/variant_calling_work_dir/results/03_markdup/SRR7890883.chr17_50k.markdup.bam --bqsr-recal-file /workspaces/Introduction_to_Scientific_Computing/session_2/variant_calling_work_dir/results/04_bqsr/SRR7890883.recal.table -O /workspaces/Introduction_to_Scientific_Computing/session_2/variant_calling_work_dir/results/04_bqsr/SRR7890883.recal.bam
+14:43:18.710 INFO  NativeLibraryLoader - Loading libgkl_compression.so from jar:file:/home/codespace/miniconda3/envs/somatic_variant_calling/share/gatk4-4.6.2.0-1/gatk-package-4.6.2.0-local.jar!/com/intel/gkl/native/libgkl_compression.so
+WARNING: A restricted method in java.lang.System has been called
+WARNING: java.lang.System::load has been called by com.intel.gkl.NativeLibraryLoader in an unnamed module (file:/home/codespace/miniconda3/envs/somatic_variant_calling/share/gatk4-4.6.2.0-1/gatk-package-4.6.2.0-local.jar)
+WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+
+14:43:18.899 INFO  ApplyBQSR - ------------------------------------------------------------
+14:43:18.903 INFO  ApplyBQSR - The Genome Analysis Toolkit (GATK) v4.6.2.0
+14:43:18.904 INFO  ApplyBQSR - For support and documentation go to https://software.broadinstitute.org/gatk/
+14:43:18.904 INFO  ApplyBQSR - Executing as codespace@codespaces-a19c18 on Linux v6.8.0-1052-azure amd64
+14:43:18.904 INFO  ApplyBQSR - Java runtime: OpenJDK 64-Bit Server VM v25.0.2-internal-adhoc.conda.src
+14:43:18.904 INFO  ApplyBQSR - Start Date/Time: August 4, 2026, 2:43:18 PM UTC
+14:43:18.904 INFO  ApplyBQSR - ------------------------------------------------------------
+14:43:18.904 INFO  ApplyBQSR - ------------------------------------------------------------
+14:43:18.906 INFO  ApplyBQSR - HTSJDK Version: 4.2.0
+14:43:18.906 INFO  ApplyBQSR - Picard Version: 3.4.0
+14:43:18.906 INFO  ApplyBQSR - Built for Spark Version: 3.5.0
+14:43:18.908 INFO  ApplyBQSR - HTSJDK Defaults.COMPRESSION_LEVEL : 2
+14:43:18.908 INFO  ApplyBQSR - HTSJDK Defaults.USE_ASYNC_IO_READ_FOR_SAMTOOLS : false
+14:43:18.908 INFO  ApplyBQSR - HTSJDK Defaults.USE_ASYNC_IO_WRITE_FOR_SAMTOOLS : true
+14:43:18.908 INFO  ApplyBQSR - HTSJDK Defaults.USE_ASYNC_IO_WRITE_FOR_TRIBBLE : false
+14:43:18.909 INFO  ApplyBQSR - Deflater: IntelDeflater
+14:43:18.909 INFO  ApplyBQSR - Inflater: IntelInflater
+14:43:18.909 INFO  ApplyBQSR - GCS max retries/reopens: 20
+14:43:18.909 INFO  ApplyBQSR - Requester pays: disabled
+14:43:18.910 INFO  ApplyBQSR - Initializing engine
+14:43:19.057 INFO  ApplyBQSR - Done initializing engine
+14:43:19.075 INFO  ProgressMeter - Starting traversal
+14:43:19.075 INFO  ProgressMeter -        Current Locus  Elapsed Minutes       Reads Processed     Reads/Minute
+14:43:23.266 INFO  ApplyBQSR - 0 read(s) filtered by: WellformedReadFilter 
+
+14:43:23.266 INFO  ProgressMeter -       chr17:83134592              0.1                100125        1433428.8
+14:43:23.266 INFO  ProgressMeter - Traversal complete. Processed 100125 total reads in 0.1 minutes.
+14:43:23.325 INFO  ApplyBQSR - Shutting down engine
+[August 4, 2026, 2:43:23 PM UTC] org.broadinstitute.hellbender.tools.walkers.bqsr.ApplyBQSR done. Elapsed time: 0.08 minutes.
+Runtime.totalMemory()=176160768

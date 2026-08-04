@@ -2,14 +2,10 @@
 
 set -euo pipefail # Exit on error, undefined variable, or error in a pipeline
 
-# ###########################################################################
-# Edit these variables before running the script
-# ###########################################################################
 SAMPLE="SRR7890883"
-IN_DIR="/path/to/Introduction_to_Scientific_Computing/example_data/fastq"
-OUT_DIR="/path/to/results/01_fastp"
-LOG_DIR="/path/to/logs/01_fastp/"
-# ###########################################################################
+IN_DIR="/workspaces/Introduction_to_Scientific_Computing/example_data/fastq"
+OUT_DIR="/workspaces/Introduction_to_Scientific_Computing/session_2/variant_calling_work_dir/results/01_fastp"
+LOG_DIR="/workspaces/Introduction_to_Scientific_Computing/session_2/variant_calling_work_dir/logs/01_fastp/"
 
 mkdir -p "${OUT_DIR}"
 mkdir -p "${LOG_DIR}"

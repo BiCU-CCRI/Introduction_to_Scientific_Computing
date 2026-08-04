@@ -1,0 +1,26 @@
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 81168 sequences (10000096 bp)...
+[M::process] read 18828 sequences (2319119 bp)...
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (1, 35364, 0, 0)
+[M::mem_pestat] skip orientation FF as there are not enough pairs
+[M::mem_pestat] analyzing insert size distribution for orientation FR...
+[M::mem_pestat] (25, 50, 75) percentile: (137, 169, 220)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (1, 386)
+[M::mem_pestat] mean and std.dev: (182.28, 61.09)
+[M::mem_pestat] low and high boundaries for proper pairs: (1, 469)
+[M::mem_pestat] skip orientation RF as there are not enough pairs
+[M::mem_pestat] skip orientation RR as there are not enough pairs
+[M::mem_process_seqs] Processed 81168 reads in 7.565 CPU sec, 7.885 real sec
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (1, 8083, 1, 0)
+[M::mem_pestat] skip orientation FF as there are not enough pairs
+[M::mem_pestat] analyzing insert size distribution for orientation FR...
+[M::mem_pestat] (25, 50, 75) percentile: (138, 173, 228)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (1, 408)
+[M::mem_pestat] mean and std.dev: (187.21, 67.05)
+[M::mem_pestat] low and high boundaries for proper pairs: (1, 498)
+[M::mem_pestat] skip orientation RF as there are not enough pairs
+[M::mem_pestat] skip orientation RR as there are not enough pairs
+[M::mem_process_seqs] Processed 18828 reads in 2.065 CPU sec, 2.235 real sec
+[main] Version: 0.7.19-r1273
+[main] CMD: bwa mem -t 1 -M -R @RG\tID:SRR7890883.lib1\tSM:SRR7890883\tLB:lib1\tPL:ILLUMINA\tPU:SRR7890883.lib1 /workspaces/Introduction_to_Scientific_Computing/example_data/ref/Homo_sapiens_assembly38.chr17.fasta /workspaces/Introduction_to_Scientific_Computing/session_2/variant_calling_work_dir/results/01_fastp/SRR7890883.chr17_50k_R1_trimmed.fastq /workspaces/Introduction_to_Scientific_Computing/session_2/variant_calling_work_dir/results/01_fastp/SRR7890883.chr17_50k_R2_trimmed.fastq
+[main] Real time: 10.308 sec; CPU: 9.788 sec
