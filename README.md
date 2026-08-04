@@ -6,38 +6,41 @@ The Introduction to Scientific Computing course is for CCRI users who want to le
 
 Below you can find a description of the topics that will be covered in each session.
 
-### Session 1
+### Session 1 – Shell, scripts, and environments (Codespaces)
 
-1. Exercise 1: Logging onto a computing cluster using SSH  
-2. Understanding the CeMM cluster architecture  
-3. Understanding the CeMM cluster file storage systems  
-4. Exercise 2: Mounting `/nobackup` and `/research` on a laptop  
-5. Exercise 3: Running simple commands using the command line on a login node  
-6. Exercise 4: Running a simple `.sh` script on a login node  
-7. Exercise 5: Running a simple scientific computing script on a login node
+1. Exercise 1: Running simple commands using the command line  
+2. Exercise 2: Running a simple `.sh` script, redirection, and piping  
+3. Exercise 3: Running a simple scientific computing script  
+4. Exercise 4: Environment management using conda  
+5. TODO: Project organization and file conventions (?)
+6. TODO: Data/metadata provenance                  (?)
+ 
+### Session 2 – Variant calling (Codespaces)
 
-### Session 2
+- Intro to sequencing data formats (fastq, bam, vcf)  
+- Read QC and trimming  
+- Alignment  
+- Variant calling  
+- Filtering and sanity checks  
+ 
+### Session 3 – SLURM basics (LearnSlurm)
 
-1. Exercise 1: Learning when to use a compute node instead of a login node  
-2. SLURM basics  
-3. SLURM directives  
-4. SLURM queues  
-5. Exercise 2: Using `srun` to start an interactive job  
-6. Exercise 3: Running simple commands and scripts using the command line on a compute node via an interactive job  
-7. Exercise 4: Running a simple `.sbatch` script on a compute node  
-8. Exercise 5: Useful commands to track cluster usage and job status  
+- Why resource managers exist on shared clusters  
+- SLURM directives  
+- SLURM queues  
+- Submitting and monitoring jobs (sbatch, salloc, srun, squeue, sacct)  
+- Cancelling jobs (scancel)  
+- Tracking job usage (seff)  
+ 
+### Session 4 – Variant calling on the CeMM cluster (CeMM cluster), Interactive work
 
-### Session 3
-
-1. Exercise 1: Environment management using the module system  
-2. Exercise 2: Environment management using conda
-3. Exercise 3: Putting it all together: somatic short variant calling analysis  
-
-### Session 4 (CeMM cluster access required)
-
-1. Exercise 1: Running a Jupyter Notebook session on the CeMM cluster 
-2. Exercise 2: Running an RStudio session on the CeMM cluster 
-3. Exercise 3: Data transfer to/from the CeMM cluster/Isilon  
+- Logging into the CeMM cluster  
+- Navigating the CeMM filesystem  
+- Environment management using the module system  
+- Converting `.sh` scripts into `.sbatch` scripts  
+- Running the variant calling pipeline on the CeMM cluster  
+- Interactive work: interactive sessions, RStudio, and JupyterLab on the CeMM cluster  
+- Wrap-up  
 
 ## Prerequisites
 

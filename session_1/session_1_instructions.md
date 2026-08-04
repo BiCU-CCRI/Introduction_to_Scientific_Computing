@@ -6,65 +6,18 @@ Welcome to the Introduction to Scientific Computing course! This course is desig
   
 Today we'll cover:  
   
-1. Exercise 1: Logging onto a computing cluster using SSH  
-2. Understanding the CeMM cluster architecture  
-3. Understanding the CeMM cluster file storage systems  
-4. Exercise 2: Mounting `/nobackup` and `/research` on a laptop  
-5. Exercise 3: Running simple commands using the command line on a login node  
-6. Exercise 4: Running a simple `.sh` script on a login node  
-7. Exercise 5: Running a simple scientific computing script on a login node
+1. Exercise 1: Running simple commands using the command line  
+2. Exercise 2: Running a simple `.sh` script, redirection, and piping  
+3. Exercise 3: Running a simple scientific computing script  
+4. Exercise 4: Environment management using conda  
+5. TODO: Project organization and file conventions (?)
+6. TODO: Data/metadata provenance                  (?)
 
-This should be mostly a refresher of the topics covered in the "Introduction to Linux" course. The only difference is that this time you will be running commands on a computing cluster (or a pretend one if you don't have a CeMM account) instead of your local machine.  
+This should be mostly a refresher of the topics covered in the "Introduction to Linux" course.  
 
-## Exercise 1: Logging onto a computing cluster using SSH  
+### CodeSpaces setup  
 
-**Goal:** Learn how to log onto the CeMM cluster using SSH from a terminal or VSCode. If you don't have a CeMM cluster account, you can access a fake cluster using the "learn-slurm" website.
-
-The first step to accessing the CeMM cluster, or any high performance computing cluster, is to log in using SSH (Secure Shell). SSH is a protocol that allows you to securely connect to a remote server or computer over a network.  
-
-### Logging onto the CeMM cluster from the terminal  
-
-1. Make sure you are connected to the CCRI network (either via VPN or on-site at CCRI).  
-
-2. Open a terminal on your local machine (Linux or Mac) or use a terminal emulator like PuTTY (Windows).  
-
-3. Use the following command to connect to the CeMM cluster:  
-
-   ```bash
-   ssh <username>@login.int.cemm.at
-   ```
-
-4. Enter your CeMM password when prompted.  
-
-### Logging onto the CeMM cluster using VSCode  
-
-1. Open VSCode.  
-
-2. Cmd + Shift + P (Mac) or Ctrl + Shift + P (Windows) to open the command palette.  
-
-3. Type "Remote-SSH: Connect to Host..." and select it.  
-
-4. Enter the following in the input box: `<username>@login.int.cemm.at` and press Enter.  
-
-5. Enter your CeMM password when prompted.  
-
-Voilà! You are now logged onto the CeMM cluster. You should see a command prompt indicating that you are on the cluster:
-
-```bash
-############################################################################
-Cluster details and information:
-https://cemmat.sharepoint.com/sites/IT-Resources/SitePages/Lustre-Cluster.aspx
-
-Required Metadata information:
-https://cemmat.sharepoint.com/sites/data-management
-############################################################################
-```
-
-You can now start running commands and scripts on the cluster. How exciting.  
-
-### "Logging onto" a fake cluster for practice
-
-If you do not have a CeMM cluster account or a terminal emulator for Windows, you a still join in! We will use Codespaces, like we did in the Introduction to Linux course, to the login node of a computing cluster. You can use Codespaces to practice running simple commands and scripts on a pretend cluster without needing a CeMM account. Please review [../README.md](../README.md) for a detailed overview of Codespaces.  
+We will use Codespaces, like we did in the Introduction to Linux course, to the login node of a computing cluster. You can use Codespaces to practice running simple commands and scripts on a pretend cluster without needing a CeMM account. Please review [../README.md](../README.md) for a detailed overview of Codespaces.  
 
 1. Navigate to [https://github.com/BiCU-CCRI/Introduction_to_Scientific_Computing/tree/main](https://github.com/BiCU-CCRI/Introduction_to_Scientific_Computing/tree/main)
 
@@ -76,90 +29,11 @@ If you do not have a CeMM cluster account or a terminal emulator for Windows, yo
 
 5. Wait for the environment to build - this can take a few minutes the first time.  
 
-Now you can practice running simple commands and scripts on a pretend computational cluster without needing a CeMM account. Still exciting.  
+## 1. Exercise 1: Running simple commands using the command line  
 
-**You are done when**:  
+**Goal:** Refresh your memory of running simple commands using the command line, creating directories and files, and navigating the file system.  
 
-- You have successfully logged onto the CeMM cluster or Codespaces and can see the command prompt.  
-
-## Understanding the CeMM cluster architecture
-
-The CeMM cluster is a high-performance computing environment that consists of multiple nodes, each with its own resources (CPU, memory, storage). The cluster is designed to handle large-scale computations and data analysis tasks.
-
-When you first log in, you are on a **login node**. Login nodes are used for interactive tasks such as editing files, writing code, and submitting jobs. However, they are not meant for running long computations or resource-intensive tasks.
-
-To run more computationally intensive jobs, you should use a **compute node**. Compute nodes are designed to handle heavy workloads and can be accessed by submitting jobs through a job scheduler (SLURM). We will go over SLURM and how to submit jobs to compute nodes in the next session.  
-
-Here is an overview of the different node types available on the CeMM cluster:
-
-<img width="1223" height="367" alt="node_types" src="https://github.com/user-attachments/assets/5cac0861-c0e8-48de-8b4b-9476dbc0a062" />
-
-## Understanding the file storage systems on the CeMM cluster
-
-The CeMM cluster has two main file storage systems: `/nobackup` and `/research`. Each of these storage systems serves different purposes and has different characteristics.  
-
-- `/research` : This is a backed-up file system used by the CeMM research groups for storing raw data only. As CCRI research groups, we will not use `/research` except in rare cases, since our main storage system is the Isilon file system hosted at the CCRI. Some exceptions are for example adjunct PIs who may store raw data on `/research`, and shared resources provided by BiCU which are stored in `/research/lab_ccri_bicu/public`.
-
-- `/nobackup` : As the name suggests, this is a non-backed-up file system that is used for temporary storage of data and files, for example while running analyses. This is the main file system that we will use as CCRI users. Each lab has a dedicated folder in `/nobackup` where they can store their data and files. The path to your lab's folder is `/nobackup/<lab_name>`.  
-
-Let's take a look at what your lab already has in `/nobackup` by running the following command on the login node:
-
-```bash
-ls /nobackup/<lab_name>
-```  
-
-### Storage quotas
-
-Both `/nobackup` and `/research` have storage quotas that limit the amount of data that can be stored per group. The storage quota for `/nobackup` is 24 TB per lab, while the storage quota for `/research` is 100 GB per lab member.  
-
-Let's check how much storage your lab is currently using by running the following commands on the login node:
-
-```bash
-lfs quota -h -g <lab_name> /nobackup/
-lfs quota -h -g <lab_name> /research/
-```
-
-Your group's data manager is in charge of making sure that the group does not exceed the storage quota. As a user, your main responsibility is to make sure that you regularly transfer your data back to Isilon for long-term storage. You should be aware that files stored in `/nobackup` may be deleted without warning, so it is doubly important to regularly back up important data to Isilon.  
-
-## Exercise 2: Mounting `/nobackup` and `/research` on a laptop
-
-**Goal:** Mount `/nobackup` and `/research` on your local machine for easier access to your files.  
-
-To access the files stored in `/nobackup` and `/research` from your local machine, you can "mount" these file systems using SSHFS (SSH File System). SSHFS allows you to mount a remote file system over SSH, making it accessible as if it were a local drive on your computer.  
-
-If you don't have a CeMM cluster account, you can skip this exercise and continue to the next one.  
-
-### Mounting `/nobackup` and `/research` on a Mac
-
-1. Open the Finder
-
-2. Cmd + K to open the "Connect to Server" dialog
-
-3. `smb://10.110.80.131` and click "Connect"
-
-4. Enter your CeMM username (username@cemm.at) and password when prompted
-
-You should now see the `/nobackup` and `/research` directories in the Finder, and you can access your files as if they were on your local machine.
-
-### Mounting `/nobackup` and `/research` on a Windows machine
-
-1. Open the File Explorer
-
-2. Right-click on "This PC" and select "Map network drive"
-
-3. `smb://10.110.80.131/nobackup` or `smb://10.110.80.131/research` and click "Enter"  
-
-4. Enter your CeMM username (username@cemm.at) and password if prompted
-
-**You are done when:**  
-
-- You have successfully mounted `/nobackup` and `/research` on your local machine and can access your files from the Finder (Mac) or File Explorer (Windows).  
-
-## Exercise 3: Running simple commands using the command line on a login node
-
-**Goal:** Learn how to run simple commands using the command line on a login node, create directories and files, and navigate the file system.  
-
-Once you are logged onto the CeMM cluster, you can start running **simple** commands using the command line on a login node. You can use these in Codespaces too.  
+Once your CodeSpaces is set up, you can start running **simple** commands using the command line.  
 
 These include but are not limited to:  
 
@@ -174,76 +48,68 @@ These include but are not limited to:
 - `mv <source> <dest>` : Move or rename a file or directory
 - `rm <file>` : Remove a file or directory *PROCEED WITH CAUTION ON NOBACKUP*
 
-To practice this, we will create a new directory in which to run the remaining analyses of this course.  
-If you have already been working on the CeMM cluster and you already have a user directory in your lab folder in `/nobackup`, you can skip step 1.  
-If you are using Codespaces, you can skip steps 1-4.  
+To practice this, we will make a new directory called `session_1` and create a new script called `hello_ccri.sh` inside it.
 
-1. If it doesn't exist yet, create your own user folder in `/nobackup`:
-
-```bash
-mkdir -p /nobackup/<lab_name>/<username>/
-```
-
-2. Navigate into your new directory.
-
-```bash
-cd /nobackup/<lab_name>/<username>/
-```
-
-3. Check that you are in the correct directory by running the `pwd` command. You should see the following output:
-
-```bash
-/nobackup/<lab_name>/<username>
-```
-
-You have just created your own space on the CeMM cluster! You can now use this space to create working directories in which to run analyses.  
-
-4. Clone this GitHub repository into your new user directory using the following command:
-
-```bash
-git clone https://github.com/BiCU-CCRI/Introduction_to_Scientific_Computing.git
-```
-
-This will create a new directory called `Introduction_to_Scientific_Computing` in your user directory, and download all the files from this GitHub repository into that directory. Don't worry if you aren't familiar with `git` - this is the only git command we will use all course. If you want to get more familiar with `git`, you can take the "Introduction to Git" course that BiCU will soon be offering!  
-
-5. Navigate into the `Introduction_to_Scientific_Computing/session_1` directory using the `cd` command:
-
-If you are using the CeMM cluster:  
-
-```bash
-cd Introduction_to_Scientific_Computing/session_1/
-```
-
-If you are using Codespaces:
+1. Navigate to the `session_1` directory and list its contents:  
 
 ```bash
 cd session_1/
+ls 
 ```
-  
-**You are done when**:  
 
-- You have successfully created a new directory in `/nobackup`.  
-- You have cloned this GitHub repository into that directory.  
-- You have navigated into the `session_1` directory.  
-  
-## Exercise 4: Running a simple `.sh` script on a login node
+You should see the following output:
 
-Now that you have learned how to run simple commands on a login node, let's run a simple bash script using the login node. You should be familiar with bash scripting from Intro to Linux.  
+```bash
+print_and_count_reads.sh   session_1_instructions.md  somatic_variant_calling.yaml
+```
 
-1. Create a new file called `hello_ccri.sh` using the `touch` command:
+2. Make a new directory called `scripts` and navigate into it:
+
+```bash
+mkdir scripts
+cd scripts
+pwd
+```
+
+3. Create a new file called `hello_ccri.sh` using the `touch` command:
 
 ```bash
 touch hello_ccri.sh
 ```
 
-2. Add the following lines to your script (see Introduction to Linux Session 1 Exercise 4 for a refresher on writing and appending to files):
+4. Add the following lines to your script (see Introduction to Linux Session 1 Exercise 4 for a refresher on writing and appending to files):
 
 ```bash
 echo '#!/bin/bash' > hello_ccri.sh
 echo 'echo "Hello, CCRI!"' >> hello_ccri.sh
 ```  
 
-3. Run the script from the login node using the following command:
+5. Concatenate the contents of the script to verify that it was created correctly:
+
+```bash
+cat hello_ccri.sh
+```
+
+```bash
+#!/bin/bash
+echo "Hello, CCRI!"
+```
+
+>[TIP!]
+>To navigate back one directory, you can use the command `cd ..`. To navigate back to your home directory, you can use the command `cd ~`.
+  
+**You are done when**:  
+
+- You have successfully created a new directory called `scripts` and a new bash script called `hello_ccri.sh` inside it.  
+- You have verified that the contents of the script are correct by using the `cat` command.  
+
+## 2. Exercise 2: Running a simple `.sh` script, redirection, and piping
+
+**Goal:** Learn how to run a simple `.sh` script, redirect output to a file, and pipe output to another command.  
+
+Now that you have learned how to run simple commands on a login node, let's run your simple bash script using the login node. You should be familiar with bash scripting from Intro to Linux.  
+
+1. Run the script from the command line using the following command:
 
 ```bash
 bash hello_ccri.sh
@@ -255,20 +121,47 @@ You should observe the output printed to the terminal:
 Hello, CCRI!
 ```
 
+2. Now, redirect the output of the script to a new file called `hello_ccri_output.txt` using the following command:
+
+```bash
+bash hello_ccri.sh > hello_ccri_output.txt
+```
+
+`cat` the contents of the new file to verify that the output was redirected correctly:
+
+```bash
+cat hello_ccri_output.txt
+# Hello, CCRI!
+```
+
+3. Now, pipe the output of the script to the `wc` command to count the number of lines, words, and characters in the output:
+
+```bash
+bash hello_ccri.sh | wc
+```
+
+You should see this outlput:
+
+```bash
+1       2      13
+```
+
+which indicates that there is 1 line, 2 words, and 13 characters in the output.  
+
 **You are done when**:  
 
-- You have successfully created a new bash script and run it on the login node.  
+- You have run your `hello_ccri.sh` script and observed the expected output.  
+- You have redirected the output of your script to a new file called `hello_ccri_output.txt` and verified that the output was redirected correctly.  
+- You have piped the output of your script to the `wc` command and observed the expected output.  
 
-## Exercise 5: Running a simple scientific computing script on a login node
+## 3. Exercise 3: Running a simple scientific computing script
 
-Finally, we get to the fun part! Let's run a simple scientific computing script on a login node. This script will view the first ten lines of a gzipped fastq file and count the number of reads in the file. Since it isn't computationally intensive, we can safely run it on the login node without risking an angry email from CeMM IT.  
-
-This exercise is a recap of part of `Introduction to Linux Session 4 Exercise 5: Piping the content of a compressed file`, except we will be executing the commands as a script instead of typing them into the command line.  
+Finally, we get to the fun part! Let's run a simple scientific computing script. This script will view the first ten lines of a gzipped fastq file and count the number of reads in the file.  
   
 1. First, we need to understand what the script is doing. It is a bad idea to run a script without understanding its contents! Inspect the contents of the script using the `cat` command:
 
 ```bash
-cat exercise_5.sh
+cat print_and_count_reads.sh
 ```
 
 You should see the following output:
@@ -297,10 +190,10 @@ echo "Counting the number of reads in the fastq file:"                          
 cat ../example_data/fastq/SRR7890883.chr17_50k_R1.fastq | wc -l | awk '{print $1/4}'        # This line uses `cat` again to concatenate the `.fastq` file in the example data dir, then pipes the output to the `wc -l` command, which counts the number of lines in the file. Since each read in a `.fastq` file is represented by four lines, the output is then piped to `awk`, which divides the line count by 4 to get the number of reads.
 ```
 
-2. Now that you understand what the script is doing, let's run it on the login node.  
+2. Now that you understand what the script is doing, let's run it.  
 
 ```bash
-bash exercise_5.sh
+bash print_and_count_reads.sh
 ```
 
 You should see the following output:
@@ -323,9 +216,118 @@ Counting the number of reads in the fastq file:
 
 **You are done when**:  
 
-- You have successfully run `exercise_5.sh` on the login node and observed the expected output.
+- You have successfully run `print_and_count_reads.sh` and observed the expected output.
 
+## Exercise 4: Environment management using conda  
+
+**Goal:** Learn how to create and manage isolated environments using conda.  
+
+So far, we have been using simple shell commands and scripts to run our analyses. However, as we start to work on more complex projects, we will need to use different software packages and libraries, especially when manipulating scientific data file types such as `.fastq`, `.bam`, and `.vcf`.  
+
+If you are working on several projects, you may want to use different versions of the same software for each project. This is where conda comes in handy. Conda is a package manager that allows you to create isolated "environments" for your projects, each with its own set of dependencies. Using conda also allows you to more easily share your environment with others, ensuring that they can reproduce your analysis.  
+
+>[TIP!]
+>It is good practice to create a new conda environment for each project you work on.  
+
+Follow these steps to set up conda:  
+
+1. Download miniconda
+
+`wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh`
+
+2. Install miniconda
+
+`bash Miniconda3-latest-Linux-x86_64.sh`
+
+Follow the prompts, then restart your terminal.  
+
+3. Add channels to your conda. Channels are the locations where conda looks for packages. The default channel is the Anaconda channel, but there are many other channels available, such as conda-forge and bioconda, which have a wider range of bioinformatics packages. To add these channels, run the following commands:
+
+```bash
+conda config --add channels conda-forge
+conda config --add channels bioconda
+```
+
+4. Now, let's create a new conda environment for our project. We will call this environment `intro_to_sci_comp`. To create the environment, run the following command:  
+
+```bash
+conda create -n intro_to_sci_comp python=3.10
+```
+
+We are specifying that we want to create an environment with Python version 3.10 installed.  
+
+5. To activate the environment, run the following command:  
+
+```bash
+conda activate intro_to_sci_comp
+```
+
+6. To install new packages in the environment, run the following command:  
+
+```bash
+conda install <package_name>
+```
+
+You can add multiple packages by separating them with spaces. You can also specify the channel from whcih the package should be installed with `<channel>::<package_name>`, and you can specify the version of the package you want to install by appending `=<version>` to the package name. 
+
+Try installing `numpy=2.2.6` from the channel `conda-forge` in your `intro_to_sci_comp` environment, then use the `check_numpy_version.py` script to check if it works in the new conda environment.  
+
+```bash
+python check_numpy_version.py
+# 2.2.6
+```
+
+7. To ensure full reproducibility, you can export the list of packages installed in your conda environment to a `yaml` file. This file can be used to recreate the environment on another system. To export the environment, run the following command:  
+
+```bash
+conda env export > intro_to_sci_comp.yaml
+```
+
+You should be able to spot your `python` and `numpy` packages, as well as the other dependencies that were automatically installed. At the top of the file, you should see the name of the environment and the version of conda that was used to create it.  
+
+9. To deactivate your conda enironment and return to the base environment, run the following command:  
+
+```bash
+conda deactivate
+```
+
+10. To create an environment from a `yaml` file, we will use the provided `.yaml` that will create the environment we need for the following session. Run the following command:  
+
+```bash
+conda env create -f somatic_variant_calling.yaml
+```
+
+When the environment is created, you should be able to see the `somatic_variant_calling` environment in the list of conda environments on your system. You can check this by running the following command:  
+
+```bash
+conda env list
+```
+
+Here are some useful commands for managing conda environments:  
+
+| Command | Description |
+|---------|-------------|
+| `conda create -n <env_name> <package1> <package2> ...` | Create a new conda environment with the specified packages installed. |
+| `conda env create -f <environment.yaml>` | Create a new conda environment from a `yaml` file. |
+| `conda activate <env_name>` | Activate a specific conda environment. |
+| `conda install <package_name>` | Install a package in the current conda environment. |
+| `conda remove <package_name>` | Remove a package from the current conda environment. |
+| `conda env export > environment.yaml` | Export the list of packages in the current conda environment to a `yaml` file. |
+| `conda deactivate` | Deactivate the current conda environment and return to the base environment. |
+| `conda env list` | List all of your conda environments on the system. |
+| `conda remove -n <env_name> --all` | Remove a conda environment and all of its packages. |
+| `conda list` | List all packages installed in the current conda environment. |
+| `conda clean -ay` | Clean up unused packages and caches to free up space. |
+
+**You are done when:**
+
+- You have installed Miniconda.  
+- You have created a new environment called `intro_to_sci_comp` with Python 3.10 installed.  
+- You have installed `numpy` in the `intro_to_sci_comp` environment and successfully run the `check_numpy_version.py` script.  
+- You have exported the list of packages in the `intro_to_sci_comp` environment to a `yaml` file.  
+- You have deactivated the `intro_to_sci_comp` environment and returned to the base environment.  
+- You have created a new environment called `somatic_variant_calling` from the provided `somatic_variant_calling.yaml` file.  
 
 ## End of Session 1
 
-Well done, you have made it to the end of the session! You now know how to log onto the CeMM cluster, you understand the cluster architecture and file storage systems, you can mount the file systems on your local machine, you can run simple commands and scripts on a login node, and you an run a simple scientific computing script. See you in Session 2 to learn about using compute nodes and SLURM!
+Well done, you have made it to the end of the session! You can now run simple commands and scripts on a pretend computational cluster using Codespaces, and you have learned how to create and manage isolated environments using conda. See you in Session 2 to run a variant calling pipeline!  
