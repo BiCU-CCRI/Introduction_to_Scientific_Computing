@@ -5,8 +5,8 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
-#SBATCH --mem=40G
-#SBATCH --time=12:00:00
+#SBATCH --mem=4G
+#SBATCH --time=00:30:00
 #SBATCH --output=rstudio_apptainer_%j.log #slurm writes everything to --output if --error logs/rstudio_apptainer_%j.err is not set
 
 set -ueo pipefail
@@ -85,13 +85,17 @@ ${workdir}:/home/$(whoami),\
 /nobackup:/nobackup,/research:/research"
 export APPTAINER_BIND
 
+# Generate a random 20-character password
+
+
 # Do not suspend idle sessions
 # Alternative to setting session-timeout-minutes=0 in /etc/rstudio/rsession.conf
 # https://github.com/rstudio/rstudio/blob/v1.4.1106/src/cpp/server/ServerSessionManager.cpp#L126
 export APPTAINERENV_RSTUDIO_SESSION_TIMEOUT=0
 APPTAINERENV_USER="$(whoami)"
 export APPTAINERENV_USER
-export APPTAINERENV_PASSWORD="test0"
+APPTAINERENV_PASSWORD="$(openssl rand -base64 24 | tr -d '/+=' | head -c 20)"
+export APPTAINERENV_PASSWORD
 
 # Get unused socket between 8000 and 9000 (these are accessible within the CCRI network):
 readonly PORT=$(python -c '
@@ -115,6 +119,9 @@ readonly HOSTNAME=$(hostname)
 cat 1>&2 <<END
 To access the RStudio Server, cmd + click for Mac/ctrl + click for Windows the link or copy-paste this to your web browser:
 http://${HOSTNAME}.int.cemm.at:${PORT}
+
+Rstudio user: $(whoami)
+RStudio password: ${APPTAINERENV_PASSWORD}
 END
 
 echo "======================"

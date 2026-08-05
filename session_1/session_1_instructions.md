@@ -1,6 +1,6 @@
 # Introduction to Scientific Computing - Session 1  
 
-Welcome to the Introduction to Scientific Computing course! This course is designed for CCRI users who want to learn how to utilize the computational infrastructure (the CeMM cluster) to analyze scientific data.  
+Welcome to the Introduction to Scientific Computing course! This course is designed for St. Anna CCRI users who want to learn how to utilize the computational infrastructure (the CeMM cluster) to analyze scientific data.  
 
 ## Overview
   
