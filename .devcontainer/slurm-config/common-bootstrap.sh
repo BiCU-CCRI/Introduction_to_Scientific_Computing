@@ -6,10 +6,12 @@
 #
 # Logs everything to a file inside the mounted repo checkout (when
 # present) so boot failures are debuggable even though the container
-# that crashed is gone by the time Codespaces reports the error.
-WORKSPACE_LOG_DIR=/workspaces/Introduction_to_Scientific_Computing/.devcontainer
+# that crashed is gone by the time Codespaces reports the error. Kept
+# outside .devcontainer/ so writing it doesn't trip VS Code's "the
+# devcontainer configuration changed" rebuild prompt on every boot.
+WORKSPACE_LOG_DIR=/workspaces/Introduction_to_Scientific_Computing
 if [ -d "$WORKSPACE_LOG_DIR" ]; then
-  exec > >(tee -a "$WORKSPACE_LOG_DIR/bootstrap-debug.log") 2>&1
+  exec > >(tee -a "$WORKSPACE_LOG_DIR/.bootstrap-debug.log") 2>&1
 fi
 echo "=== common-bootstrap.sh start: $(date -u) on $(hostname) ==="
 set -x
