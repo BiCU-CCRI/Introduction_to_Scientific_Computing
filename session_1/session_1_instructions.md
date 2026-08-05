@@ -98,8 +98,8 @@ cat hello_ccri.sh
 echo "Hello, CCRI!"
 ```
 
-> [!TIP]
-> To navigate back one directory, you can use the command `cd ..`. To navigate back to your home directory, you can use the command `cd ~`. To navigate to the previous location, you can use `cd -`.
+>[!TIP]
+>To navigate back one directory, you can use the command `cd ..`. To navigate back to your home directory, you can use the command `cd ~`. To navigate to the previous location, you can use `cd -`.
   
 **You are done when**:  
 
@@ -236,9 +236,9 @@ Counting the number of reads in the fastq file:
 
 Try running:
 
-\`\`\`bash
+```bash
 bash -x print_and_count_reads.sh
-\`\`\`
+```
 
 What's different? Can you explain what's happening?
 
