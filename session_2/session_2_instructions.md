@@ -85,22 +85,22 @@ a) **Read QC and trimming**: The first step in the workflow is to pre-process th
 > [!NOTE]
 > Some tutorials skip this part, since many preprocessing steps can be compensated for in subsequent steps, but we prefer clean, more predictable input data.
 
-b) **Alignment**: The pre-processed reads are then mapped to the reference genome using `bwa`.
+b) **Mapping**: The pre-processed reads are then mapped to the reference genome using `bwa`. "Mapping" can also be referred to as "alignment".
 
-c) **Sorting and Indexing**: The aligned reads are then reformatted, sorted, and indexed using `samtools`. Steps b) and c) together result in mapped `bam` file. This step is important because it allows for efficient access to the mapped reads during downstream analyses.
+c) **Sorting and Indexing**: The mapped reads are then reformatted, sorted, and indexed using `samtools`. Steps b) and c) together result in a mapped `bam` file. This step is important because it allows for efficient access to the mapped reads during downstream analyses.
 
-d) **Marking PCR duplicates**: The aligned reads are then processed to mark PCR duplicates using `gatk MarkDuplicates`. This step is important because PCR duplicates can introduce bias into the variant calling process.  
+d) **Marking PCR duplicates**: The mapped reads are then processed to mark PCR duplicates using `gatk MarkDuplicates`. This step is important because PCR duplicates can introduce bias into the variant calling process.  
 
-e) **Base Quality Score Recalibration (BQSR)**: The aligned reads are then processed to recalibrate the base quality scores using `gatk BaseRecalibrator` and `gatk ApplyBQSR`. This step is important because the base quality scores can be biased by various factors, such as sequencing chemistry and machine errors.  
+e) **Base Quality Score Recalibration (BQSR)**: The mapped reads are then processed to recalibrate the base quality scores using `gatk BaseRecalibrator` and `gatk ApplyBQSR`. This step is important because the base quality scores can be biased by various factors, such as sequencing chemistry and machine errors.  
 
-f) **Variant Calling**: The aligned reads are then processed to identify variants using `mutect2`. This step produces a set of identified variants in `.vcf` format.  
+f) **Variant Calling**: The mapped reads are then processed to identify variants using `mutect2`. This step produces a set of identified variants in `.vcf` format.  
 
 
 ## 2. Exercise 1: Setting up your project  
 
 **Goal:** Familiarize yourself with the input data, and set up working and output directories for your analysis.  
 
-1. Start a CodeSpaces session in the Introduction to Scientific Computing repository. Follow the instructions in the `README.md` if you can't remember how to start CodeSpaces.  
+1. Start a Codespaces session in the Introduction to Scientific Computing repository. Follow the instructions in the `README.md` to start Codespaces if you don't remember.  
 
 2. First, let's create a working directory called `variant_calling_work_dir` for your analysis. Create the directory in `session_2/variant_calling_work_dir` and navigate into it:  
 
@@ -112,14 +112,13 @@ cd session_2/variant_calling_work_dir
 3. Within this directory, create an output directory called `results` to store the output files from your analysis, and a directory called `logs` to store the log files from your analysis.  
 
 ```bash
-mkdir results
-mkdir logs
+mkdir results logs
 ```
 
->[NOTE!]
+>[!NOTE]
 >Your working directory is where you will run your analysis, and your output directory is where you will store the output files from your analysis. It is good practice to keep your working directory and output directory separate, so that you can easily find your output files later.  
 
->[NOTE!]
+>[!NOTE]
 >It's also good practice to store files from different steps of the workflow in different subdirectories within the `results` and `logs` directories. You can include the creation of these subdirectories in your scripts.  
 
 4. Next, we should create and activate an environment for our project, with all of the software we will need. Luckily, we already created our environment in Session 1!  
@@ -127,43 +126,46 @@ mkdir logs
 Let's double check that our `somatic_variant_calling` environment is still available, and that it has the software we need. You can do this by running the following command:  
 
 ```bash
-conda env list
+conda env list | grep somatic_variant_calling
 conda activate somatic_variant_calling
-conda list
+conda list | grep -E 'fastp|bwa|samtools|gatk4'
 ```
 
 If you can see `fastp`, `bwa`, `samtools`, and `gatk4` in the list of installed packages, then you are ready to go!  
 
+>[!NOTE]
+>You can see we used `grep -E` and separated the search terms with `|`. This is an example of a regular expression (regex). You might remember `*` from the Introduction to Linux course, which is also a regex. In this scenario, `|` functions as "or". We had to enable `grep` to understand regex expressions by adding the `-E` flag. Don't confuse this with the pipe operator, which uses the same symbol but serves a different function in a different context. You can see more `grep -E` examples at [Regular Expressions Cheat Sheet](https://docs.linuxfoundation.org/lfx/project-control-center/v1-prior-version/tools/security/manage-false-positives/regular-expressions-cheat-sheet) or at [Linux Command Library](https://linuxcommandlibrary.com/basic/regularexpressions).
+
 5. You will be working with a small subset of sequencing data from a tumor sample. The data is stored in the `example_data` folder. First, `tree` this folder to view the contents:  
 
 ```bash
-tree example_data
+tree --du -h ../../example_data
 ```
 
 ```txt
-example_data/
-├── fastq
-│   ├── SRR7890883.chr17_50k_R1.fastq
-│   └── SRR7890883.chr17_50k_R2.fastq
-├── germline_resource
-│   ├── gnomAD.r2.1.1.GRCh38.chr17.75pct.PASS.AC.AF.only.vcf.gz
-│   └── gnomAD.r2.1.1.GRCh38.chr17.75pct.PASS.AC.AF.only.vcf.gz.tbi
-├── known_sites
-│   ├── Mills_and_1000G_gold_standard.indels.hg38.chr17.vcf.gz
-│   ├── Mills_and_1000G_gold_standard.indels.hg38.chr17.vcf.gz.tbi
-│   ├── dbsnp_146.hg38.chr17.vcf.gz
-│   └── dbsnp_146.hg38.chr17.vcf.gz.tbi
-└── ref
-    ├── Homo_sapiens_assembly38.chr17.dict
-    ├── Homo_sapiens_assembly38.chr17.fasta
-    ├── Homo_sapiens_assembly38.chr17.fasta.amb
-    ├── Homo_sapiens_assembly38.chr17.fasta.ann
-    ├── Homo_sapiens_assembly38.chr17.fasta.bwt
-    ├── Homo_sapiens_assembly38.chr17.fasta.fai
-    ├── Homo_sapiens_assembly38.chr17.fasta.pac
-    └── Homo_sapiens_assembly38.chr17.fasta.sa
+[424M]  ../../example_data
+├── [ 26M]  fastq
+│   ├── [ 13M]  SRR7890883.chr17_50k_R1.fastq
+│   └── [ 13M]  SRR7890883.chr17_50k_R2.fastq
+├── [ 82M]  germline_resource
+│   ├── [ 82M]  gnomAD.r2.1.1.GRCh38.chr17.75pct.PASS.AC.AF.only.vcf.gz
+│   └── [ 60K]  gnomAD.r2.1.1.GRCh38.chr17.75pct.PASS.AC.AF.only.vcf.gz.tbi
+├── [ 97M]  known_sites
+│   ├── [596K]  Mills_and_1000G_gold_standard.indels.hg38.chr17.vcf.gz
+│   ├── [ 42K]  Mills_and_1000G_gold_standard.indels.hg38.chr17.vcf.gz.tbi
+│   ├── [ 96M]  dbsnp_146.hg38.chr17.vcf.gz
+│   └── [ 65K]  dbsnp_146.hg38.chr17.vcf.gz.tbi
+└── [219M]  ref
+    ├── [ 202]  Homo_sapiens_assembly38.chr17.dict
+    ├── [ 80M]  Homo_sapiens_assembly38.chr17.fasta
+    ├── [ 710]  Homo_sapiens_assembly38.chr17.fasta.amb
+    ├── [ 141]  Homo_sapiens_assembly38.chr17.fasta.ann
+    ├── [ 79M]  Homo_sapiens_assembly38.chr17.fasta.bwt
+    ├── [  27]  Homo_sapiens_assembly38.chr17.fasta.fai
+    ├── [ 20M]  Homo_sapiens_assembly38.chr17.fasta.pac
+    └── [ 40M]  Homo_sapiens_assembly38.chr17.fasta.sa
 
-4 directories, 16 files
+ 849M used in 5 directories, 16 files
 ```
 
 6. The input data to the project are stored in the `example_data/fastq/` directory. Let's take a look at the contents of the files to understand what we are working with. We can use the commands we learnt in Session 1:  
@@ -178,34 +180,97 @@ Test yourself:
 - What does each line of the `.fastq` file represent?  
 - How many reads are in each file?  
 
-7. The genomic reference files are in the `example_data/ref` directory. The `Homo_sapiens_assembly38.chr17.fasta` is the reference human genome in `fasta` format, subsampled to only chromosome 17. The remaining files in the directory are index or metadata files associated with the genome which are required for the software we are going to be using.  
+7. The genomic reference files are in the `../../example_data/ref` directory. The `Homo_sapiens_assembly38.chr17.fasta` is the reference human genome in `fasta` format, subsampled to only chromosome 17. The remaining files in the directory are index or metadata files associated with the genome which are required for the software we are going to be using.  
 
-8. The `example_data/known_sites/` directory contains known SNP and indel sites that are used for base quality score recalibration (BQSR). The `example_data/germline_resource/` directory contains a population database of common inherited variants which helps the caller distinguish likely germline polymorphisms from true somatic mutations. These files are in `.vcf` format, and are gzipped to save space. The `.tbi` files are index files for the files, which are required for the software we are going to be using.  
+Check the beginning of the reference `fasta`:
+
+\`\`\`bash
+head ../../example_data/ref/Homo_sapiens_assembly38.chr17.fasta
+\`\`\`
+
+\`\`\`txt
+>chr17  AC:CM000679.2  gi:568336007  LN:83257441  rl:Chromosome  M5:f9a0fb01553adb183568e3eb9d8626db  AS:GRCh38
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+\`\`\`
+
+Why do you think you only see `N`s?
+
+8. The `../../example_data/known_sites/` directory contains known SNP and indel sites that are used for base quality score recalibration (BQSR). The `../../example_data/germline_resource/` directory contains a population database of common inherited variants which helps the caller distinguish likely germline polymorphisms from true somatic mutations. These files are in `.vcf` format, and are gzipped to save space. The `.tbi` files are index files for the files, which are required for the software we are going to be using.  
+
+Check the top rows of the `vcf` file while skipping the comment lines (starting with `#`):
+
+\`\`\`bash
+zcat ../../example_data/known_sites/Mills_and_1000G_gold_standard.indels.hg38.chr17.vcf.
+gz | grep -v "^#" | head
+zcat ../../example_data/known_sites/dbsnp_146.hg38.chr17.vcf.gz | grep -v "^#" | head
+\`\`\`
+
+\`\`\`txt
+chr17   150509  rs35998167,106947       T       TA      96727.1 PASS    set=MillsAlleleMatch1000G-MillsDoubleCenter
+chr17   155729  rs71143471,107049       A       AGT     105823  PASS    set=MillsAlleleMatch1000G-MillsDoubleCenter-MillsTracesUnknown
+chr17   157080  rs34892838      CAG     C       121.9   PASS    set=Intersect1000GAll
+chr17   159041  2136726 T       TA,TAAA .       PASS    set=MillsTracesUnknown
+chr17   159057  .       A       AC      217.74  PASS    set=Intersect1000GMinusSI
+chr17   159877  .       GCA     G       721.82  PASS    set=Intersect1000GMinusOX
+chr17   162621  .       C       CAG     1412.3  PASS    set=Intersect1000GAll
+chr17   163618  .       CAT     C       27.13   PASS    set=Intersect1000GMinusBI
+chr17   172156  .       TC      T       154.3   PASS    set=Intersect1000GMinusDI
+chr17   175396  rs71959654      CCCACTGCT       C       5119.07 PASS    set=Intersect1000GMinusSI
+\`\`\`
+
+\`\`\`txt
+chr17   62821   rs11531330      C       T       .       .       RS=11531330;RSPOS=62821;RV;dbSNPBuildID=120;SSR=1;SAO=0;VP=0x050000000005000002000140;WGT=1;VC=SNV;ASP
+chr17   63231   rs9941375       C       T       .       .       RS=9941375;RSPOS=63231;RV;dbSNPBuildID=119;SSR=0;SAO=0;VP=0x050000000005000002000100;WGT=1;VC=SNV;ASP
+chr17   63259   rs9941374       T       C       .       .       RS=9941374;RSPOS=63259;RV;dbSNPBuildID=119;SSR=0;SAO=0;VP=0x050000000005000002000100;WGT=1;VC=SNV;ASP
+chr17   63316   rs9941361       G       T       .       .       RS=9941361;RSPOS=63316;RV;dbSNPBuildID=119;SSR=0;SAO=0;VP=0x050000000005000002000100;WGT=1;VC=SNV;ASP
+chr17   70747   rs11514519      A       C       .       .       RS=11514519;RSPOS=70747;RV;dbSNPBuildID=120;SSR=0;SAO=0;VP=0x050000080005040102000100;GENEINFO=LOC101929823:101929823;WGT=1;VC=SNV;INT;ASP;VLD;GNO
+chr17   72048   rs9709026       A       G       .       .       RS=9709026;RSPOS=72048;RV;dbSNPBuildID=119;SSR=0;SAO=0;VP=0x050000080005000002000100;GENEINFO=LOC101929823:101929823;WGT=1;VC=SNV;INT;ASP
+chr17   72627   rs9747918       A       G       .       .       RS=9747918;RSPOS=72627;RV;dbSNPBuildID=119;SSR=0;SAO=0;VP=0x050000080005000002000100;GENEINFO=LOC101929823:101929823;WGT=1;VC=SNV;INT;ASP
+chr17   73193   rs9747343       C       G       .       .       RS=9747343;RSPOS=73193;RV;dbSNPBuildID=119;SSR=0;SAO=0;VP=0x050000080005000002000100;GENEINFO=LOC101929823:101929823;WGT=1;VC=SNV;INT;ASP
+chr17   73229   rs9747333       C       T       .       .       RS=9747333;RSPOS=73229;RV;dbSNPBuildID=119;SSR=0;SAO=0;VP=0x050000080005000002000100;GENEINFO=LOC101929823:101929823;WGT=1;VC=SNV;INT;ASP
+chr17   79910   rs9747307       A       G       .       .       RS=9747307;RSPOS=79910;RV;dbSNPBuildID=119;SSR=0;SAO=0;VP=0x050000080005000002000100;GENEINFO=LOC101929823:101929823;WGT=1;VC=SNV;INT;ASP
+\`\`\`
+
+>[!NOTE]
+> Here, we used `grep -v` to return lines other than the matching ones. We combined it with `"^#" which matches `#` but only if they are at the very beginning of a line `^` ("anchor" is to the line start). Altogether, this command returns all the lines that don't start with `#`.
 
 **You are done when**:
 
 - You have created a working directory and output directories for your analysis.  
-- You have activated a conda environment with the required software.  
+- You have activated a Conda environment with the required software.  
 - You have familiarized yourself with the input data.   
 
 ## 3. Exercise 2: Read QC and trimming  
 
 **Goal:** Pre-process the raw sequencing reads by trimming adapters and low-quality bases from the reads using `fastp`.  
 
->[NOTE!]
->For this first step, we will provide the full script for you to use and go over each part of the script. For the next steps, we recommend that you try writing your own scripts, but if you get really stuck, you can use the example scripts in `session_2/variant_calling_examples/example_scripts` as a reference.  
+>[!NOTE]
+>For this first step, we will provide the full script for you to use and go over each part of the script. For the next steps, we recommend that you try writing your own scripts, but if you get really stuck, you can use the example scripts in this directory in `variant_calling_examples/example_scripts` as a reference.  
 
 1. Before you start, make sure you are in your working directory, and that your conda environment is activated. Your command prompt should look something like this:  
 
 ```bash
-(somatic_variant_calling) user@hostname variant_calling_work_dir$
+(somatic_variant_calling) @<your_username> ➜ /workspaces/Introduction_to_Scientific_Computing/session_2/variant_calling_work_dir (main) $
 ```
 
-showing that your conda environment is activated and that you are in the `variant_calling_work_dir` directory. To double check the full path to the directory, run the following command:  
+showing that your Conda environment is activated and that you are in the `variant_calling_work_dir` directory. To double check the full path to the directory, run the following command:  
 
 ```bash
-pwd # should return /path/to/session_2/variant_calling_work_dir
+pwd
 ```
+
+\`\`\`bash
+/workspaces/Introduction_to_Scientific_Computing/session_2/variant_calling_work_dir
+\`\`\`
+
 
 2. Create a script called `01_fastp.sh` in your working directory to run `fastp`.  
 
@@ -214,15 +279,14 @@ This script will take the raw sequencing reads in `.fastq` format as input, and 
 ```bash
 #!/bin/bash
 
-set -euo pipefail # Exit on error, undefined variable, or error in a pipeline
+set -euo pipefail
 
 SAMPLE="SRR7890883"
 IN_DIR="/workspaces/Introduction_to_Scientific_Computing/example_data/fastq"
 OUT_DIR="/workspaces/Introduction_to_Scientific_Computing/session_2/variant_calling_work_dir/results/01_fastp"
 LOG_DIR="/workspaces/Introduction_to_Scientific_Computing/session_2/variant_calling_work_dir/logs/01_fastp/"
 
-mkdir -p "${OUT_DIR}"
-mkdir -p "${LOG_DIR}"
+mkdir -p "${OUT_DIR}" "${LOG_DIR}"
 
 RAW_R1="${IN_DIR}/${SAMPLE}.chr17_50k_R1.fastq"
 RAW_R2="${IN_DIR}/${SAMPLE}.chr17_50k_R2.fastq"
@@ -241,36 +305,66 @@ fastp \
     --detect_adapter_for_pe \
     --thread 1 \
     --html "${FASTP_HTML}" \
-    --json "${FASTP_JSON}" > "${LOG}" 2>&1
+    --json "${FASTP_JSON}" \
+    > "${LOG}" 2>&1
+    
+echo "All done!"
 ```
+
+>[!NOTE]
+>Think of `set -euo pipefail` as safety gear for your code.
+>
+>Normally, when a Bash script runs into a mistake, it ignores the problem, pretends nothing went wrong, and keeps executing the rest of the instructions. This can destroy files or create massive hidden bugs.
+>
+>Adding this line tells the computer: "If any mistake happens, stop everything immediately."
+><details>
+><summary>Defails on `-euo pipefail` options</summary>
+>Here is what each piece does in plain English:
+>
+>`-e` (Stop on Error): Imagine cooking with a recipe. If step 2 says "boil water" and your stove is broken, a normal script ignores it and moves on to "add pasta to the cold pot." The `-e` flag forces the script to throw up its hands and quit the moment a step fails.
+>
+>`-u` (No Missing Information): If you misspell a variable name (like typing `$USERR` instead of `$USER`), standard Bash assumes it equals "nothing" and keeps going. The `-u` flag tells Bash: "Hey, you mentioned something that doesn't exist, so I'm stopping until you fix the typo."
+>
+>`-o pipefail` (Catch Hidden Mistakes): When you pass data through a chain of commands (a pipe), standard Bash only checks if the very last step succeeded. If step 1 completely fails but step 2 succeeds, Bash acts like everything went fine. This flag makes sure every link in the chain is checked for errors.
+></details>
 
 3. Once you have written your script, run it and check that the output files are produced.  
 
 ```bash
 bash 01_fastp.sh
-ls -lh /results/01_fastp
+ls -lh logs/01_fastp results/01_fastp
 ```
 
 ```bash
--rw-rw-rw- 1 codespace codespace 454K Aug  4 14:29 SRR7890883.chr17_50k.html
--rw-rw-rw- 1 codespace codespace 112K Aug  4 14:29 SRR7890883.chr17_50k.json
--rw-rw-rw- 1 codespace codespace  13M Aug  4 14:29 SRR7890883.chr17_50k_R1_trimmed.fastq
--rw-rw-rw- 1 codespace codespace  13M Aug  4 14:29 SRR7890883.chr17_50k_R2_trimmed.fastq
+logs/01_fastp:
+total 4.0K
+-rw-rw-rw- 1 codespace codespace 2.3K Aug  5 13:35 SRR7890883.fastp.log
+
+results/01_fastp:
+total 27M
+-rw-rw-rw- 1 codespace codespace 454K Aug  5 13:35 SRR7890883.chr17_50k.html
+-rw-rw-rw- 1 codespace codespace 112K Aug  5 13:35 SRR7890883.chr17_50k.json
+-rw-rw-rw- 1 codespace codespace  13M Aug  5 13:35 SRR7890883.chr17_50k_R1_trimmed.fastq
+-rw-rw-rw- 1 codespace codespace  13M Aug  5 13:35 SRR7890883.chr17_50k_R2_trimmed.fastq
 ```
 
 4. Now we can check the quality of the trimmed reads. The HTML report can be opened in a web browser to view the quality metrics and visualizations. The JSON file contains the same information in a machine-readable format. The log file contains information about the trimming process, including any warnings or errors that occurred.  
 
-Download the HTML file and see if you can answer the following questions:  
+Download the HTML file to your computer (right-click on the HTML file and select "Download...") and see if you can answer the following questions:  
 
 - What is the total number of reads before and after trimming?
 - What is the average read length before and after trimming?
 - What is the number of reads that were filtered out due to low quality?
 
-Answers:
+<details>
+
+<summary>Answers</summary>
 
 - 100000 -> 99996
 - 125 bp -> 123 bp
 - 2
+- 
+</details>
 
 **You are done when**:
 
