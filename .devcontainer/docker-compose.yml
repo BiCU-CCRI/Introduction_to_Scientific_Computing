@@ -19,6 +19,7 @@ services:
       - var_lib_mysql:/var/lib/mysql
     networks:
       - slurm-network
+    restart: unless-stopped
     healthcheck:
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
       interval: 10s
@@ -48,6 +49,7 @@ services:
         condition: service_healthy
     networks:
       - slurm-network
+    restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "pidof slurmdbd"]
       interval: 10s
@@ -77,6 +79,7 @@ services:
         condition: service_healthy
     networks:
       - slurm-network
+    restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "scontrol ping"]
       interval: 10s
@@ -105,6 +108,7 @@ services:
         condition: service_healthy
     networks:
       - slurm-network
+    restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "pidof slurmd"]
       interval: 10s
