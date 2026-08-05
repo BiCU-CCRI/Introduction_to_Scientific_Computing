@@ -506,7 +506,7 @@ This script marks PCR duplicates in the mapped reads and produces an output `.ba
 You can use the following command for `gatk MarkDuplicates` as a starting point. Remember to change the change the paths of the input and output files to match your own filepaths, and to make the `results/03_markdup` and `logs/03_markdup` subdirectories as we did for the previous steps. Remember that if you get stuck you can use the example script `session_2/variant_calling_examples/03_markdup.sh` as a reference.  
 
 ```bash
-gatk --java-options "-Xmx10g" MarkDuplicates \
+gatk --java-options "-Xmx5g" MarkDuplicates \
     --INPUT "sample.bam" \
     --OUTPUT "sample.markdup.bam" \
     --METRICS_FILE "sample.markdup.metrics.txt" \
@@ -565,7 +565,7 @@ This script takes the duplicate marked `.bam` file as input and performs base qu
 You can use the following command for `gatk BaseRecalibrator` and `gatk ApplyBQSR` as a starting point. Remember to change the change the paths of the input and output files to match your own filepaths, and to make the `results/04_bqsr` and `logs/04_bqsr` subdirectories as we did for the previous steps. Remember that if you get stuck you can use the example script `variant_calling_examples/04_bqsr.sh` as a reference.  
 
 ```bash
-gatk --java-options "-Xmx10g" BaseRecalibrator \
+gatk --java-options "-Xmx5g" BaseRecalibrator \
     -R "Homo_sapiens_assembly38.chr17.fasta" \
     -I "sample.markdup.bam" \
     --known-sites "dbsnp_146.hg38.chr17.vcf.gz" \
@@ -573,7 +573,7 @@ gatk --java-options "-Xmx10g" BaseRecalibrator \
     -O "sample.recal.table" \
     2> "base_recalibrator.log"
 
-gatk --java-options "-Xmx10g" ApplyBQSR \
+gatk --java-options "-Xmx5g" ApplyBQSR \
     -R "Homo_sapiens_assembly38.chr17.fasta" \
     -I "sample.markdup.bam" \
     --bqsr-recal-file "sample.recal.table" \
@@ -619,20 +619,20 @@ This script will take the recalibrated `.bam` file as an input, then use the `Mu
 You can use the following commands as a starting point. Remember to change the change the paths of the input and output files to match your own filepaths, and to make the `results/05_mutect2` and `logs/05_mutect2` subdirectories as we did for the previous steps. Remember that if you get stuck you can use the example script `variant_calling_examples/04_bqsr.sh` as a reference.  
 
 ```bash
-gatk --java-options "-Xmx10g" Mutect2 \
+gatk --java-options "-Xmx5g" Mutect2 \
     -R "Homo_sapiens_assembly38.chr17.fasta" \
     -I "sample.recal.bam" \
     --germline-resource "gnomAD.r2.1.1.GRCh38.chr17.75pct.PASS.AC.AF.only.vcf.gz" \
     -O "sample.unfiltered.vcf.gz" \
     2> "mutect2.log"
 
-gatk --java-options "-Xmx10g" FilterMutectCalls \
+gatk --java-options "-Xmx5g" FilterMutectCalls \
     -R "Homo_sapiens_assembly38.chr17.fasta" \
     -V "sample.unfiltered.vcf.gz" \
     -O "sample.filtered.vcf.gz" \
     2> "mutect2.filter_mutect_calls.log"
 
-gatk --java-options "-Xmx10g" SelectVariants \
+gatk --java-options "-Xmx5g" SelectVariants \
     -R "Homo_sapiens_assembly38.chr17.fasta" \
     -V "sample.filtered.vcf.gz" \
     --exclude-filtered true \
