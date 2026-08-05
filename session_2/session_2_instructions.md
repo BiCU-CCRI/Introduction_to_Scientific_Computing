@@ -372,25 +372,28 @@ Download the HTML file to your computer (right-click on the HTML file and select
 - You have run the script and checked that the output files are produced.
 - You have inspected the HTML report and answered the questions about the quality of the trimmed reads.
 
-## 4. Exercise 3: Alignment
+## 4. Exercise 3: Mapping
 
-**Goal:** Align the trimmed reads to the reference genome using `bwa`.  
+**Goal:** Map the trimmed reads to the reference genome using `bwa`.  
 
 1. Create a script called `02_bwa.sh` in your working directory to run `bwa`, `samtools sort`, and `samtools index`.  
 
-This script takes the trimmed reads in `.fastq` format as input, align the reads to the reference geome, and produce aligned and sorted reads in `.bam` format as output. The reference genome file is stored in `example_data/ref/Homo_sapiens_assembly38.chr17.fasta`. The script will also produce an index file for the `.bam` file, which is required for downstream analyses. For more information about the commands and arguments, check the [bwa manual](https://bio-bwa.sourceforge.net/bwa.shtml) and the [samtools manual](http://www.htslib.org/doc/samtools.html).  
+This script takes the trimmed reads in `.fastq` format as input, maps the reads to the reference genome, and produces aligned and sorted reads in `.bam` format as output. The reference genome file is stored in `../../example_data/ref/Homo_sapiens_assembly38.chr17.fasta`. The script will also produce an index file for the `.bam` file, which is required for downstream analyses. For more information about the commands and arguments, check the [bwa manual](https://bio-bwa.sourceforge.net/bwa.shtml) and the [samtools manual](http://www.htslib.org/doc/samtools.html).  
 
 We will pipe output of `bwa` into `samtools sort`, which sorts the alignments and writes them to a `.bam` file. We will then index the `.bam` file with `samtools index`.  
 
-You can use the following commands for `bwa` and `samtools` as a starting point. Remember to change the paths of the input and output files to match your own filepaths, and to make the `results/02_bwa` and `logs/02_bwa` subdirectories as we did in the `fastp` script. Remember that if you get stuck you can use the example script `session_2/variant_calling_examples/02_bwa.sh` as a reference.  
+You can use the following commands for `bwa` and `samtools` as a starting point. Remember to change the paths of the input and output files to match your own filepaths, and to make the `results/02_bwa` and `logs/02_bwa` subdirectories as we did in the `fastp` script. You can review the previous `01_fastp.sh` script you created and add any missing parts. 
+
+Remember that if you get stuck, you can use the example script `session_2/variant_calling_examples/02_bwa.sh` as a reference.  
 
 ```bash
+SAMPLE="sample"
 LIBRARY="lib1"
 PLATFORM="ILLUMINA"
 READ_GROUP="@RG\tID:${SAMPLE}.${LIBRARY}\tSM:${SAMPLE}\tLB:${LIBRARY}\tPL:${PLATFORM}\tPU:${SAMPLE}.${LIBRARY}" 
 
 bwa mem \
-    -t 1 \ 
+    -t 1 \
     -M \
     -R "${READ_GROUP}" \
     "Homo_sapiens_assembly38.chr17.fasta" \
@@ -410,8 +413,10 @@ samtools index \
 
 ```bash
 bash 02_bwa.sh
-ls -lh /results/02_bwa
+ls -lh results/02_bwa
 ```
+
+If something didn't work, check the error messages and try to see what went wrong and fix it.
 
 ```bash
 total 7.5M
@@ -437,11 +442,13 @@ Test yourself:
 - What chromosome is the first read aligned to?  
 - What is the mapping quality of the first read?  
 
-Answers:
+<details>
+<summary>Answers</summary>
 
 - SRR7890883.53176591
 - chr17
 - 60
+</details>
 
 4. Now let's have a look at the aligment statistics.
 
@@ -473,10 +480,12 @@ Test yourself:
 - What is the total number of reads in the `.bam` file?
 - What percentage of reads are mapped to the reference genome?
 
-Answers:
+<details>
+<summary>Answers</summary>
 
 - 100125
 - 97.38%
+</details>
 
 **You are done when**:
 
@@ -488,11 +497,11 @@ Answers:
 
 **Goal:** Mark PCR duplicates in the aligned reads using `gatk MarkDuplicates`.
 
-Once the reads are aligned, we need to identify reads that were likely produced from the same original DNA fragment so they can be excluded from downstream analyses and avoid biased results.  
+Once the reads are mapped, we need to identify reads that were likely produced from the same original DNA fragment so they can be excluded from downstream analyses and avoid biased results.  
 
 1. Create a script called `03_markdup.sh` in your working directory to run `gatk MarkDuplicates`.  
 
-This script marks PCR duplicates in the aligned reads and produces an output `.bam` file and its index `.bai` file, and a duplicate-marking metrics file. For more information about the command and arguments, check the [GATK MarkDuplicates documentation](https://gatk.broadinstitute.org/hc/en-us/articles/13832748517275-MarkDuplicates-Picard).  
+This script marks PCR duplicates in the mapped reads and produces an output `.bam` file and its index `.bai` file, and a duplicate-marking metrics file. For more information about the command and arguments, check the [GATK MarkDuplicates documentation](https://gatk.broadinstitute.org/hc/en-us/articles/13832748517275-MarkDuplicates-Picard).  
 
 You can use the following command for `gatk MarkDuplicates` as a starting point. Remember to change the change the paths of the input and output files to match your own filepaths, and to make the `results/03_markdup` and `logs/03_markdup` subdirectories as we did for the previous steps. Remember that if you get stuck you can use the example script `session_2/variant_calling_examples/03_markdup.sh` as a reference.  
 
@@ -504,14 +513,15 @@ gatk --java-options "-Xmx10g" MarkDuplicates \
     --REFERENCE_SEQUENCE "Homo_sapiens_assembly38.chr17.fasta" \
     --CREATE_INDEX true \
     --VALIDATION_STRINGENCY SILENT \
-    --OPTICAL_DUPLICATE_PIXEL_DISTANCE 2500 > "markdup.log" 2>&1
+    --OPTICAL_DUPLICATE_PIXEL_DISTANCE 2500 \
+    > "markdup.log" 2>&1
 ```
 
 2. Once you have written your script, run it and check that the output files are produced.  
 
 ```bash
 bash 03_markdup.sh
-ls -lh /results/03_markdup
+ls -lh results/03_markdup
 ```
 
 ```bash
@@ -528,10 +538,13 @@ Test yourself:
 - How many read pairs were examined?
 - What was the percentage of reads that were marked as duplicated?  
 
-Answers:
+<details>
+<summary>Answers</summary>
 
 - 47377
 - 0.0099 %
+- 
+</details>
 
 **You are done when:**
 
@@ -547,9 +560,9 @@ Once the PCR duplicates are marked, we will perform base quality score recalibra
 
 1. Create a script called `04_bqsr.sh` in your working directory to run BQSR.  
 
-This script takes the duplicate marked `.bam` file as input and performs base quality score recalibration (BQSR) by using known SNP and indel sites to model and correct systematic errors in the sequencing quality scores, then apply the recalibration. The 2 "known sites" files - one for SNPs and one for indels - are found in `example_data/known_sites`. We will also index the `.bam` file again as this is required for the variant calling step. For more information about the commands and arguments, check the [GATK BaseRecalibrator documentation](https://gatk.broadinstitute.org/hc/en-us/articles/13832708374939-BaseRecalibrator) and [GATK ApplyBQSR documentation](https://gatk.broadinstitute.org/hc/en-us/articles/13832692459163-ApplyBQSR).  
+This script takes the duplicate marked `.bam` file as input and performs base quality score recalibration (BQSR) by using known SNP and indel sites to model and correct systematic errors in the sequencing quality scores, then apply the recalibration. The 2 "known sites" files - one for SNPs and one for indels - are found in `../../example_data/known_sites`. We will also index the `.bam` file again as this is required for the variant calling step. For more information about the commands and arguments, check the [GATK BaseRecalibrator documentation](https://gatk.broadinstitute.org/hc/en-us/articles/13832708374939-BaseRecalibrator) and [GATK ApplyBQSR documentation](https://gatk.broadinstitute.org/hc/en-us/articles/13832692459163-ApplyBQSR).  
 
-You can use the following command for `gatk BaseRecalibrator` and `gatk ApplyBQSR` as a starting point. Remember to change the change the paths of the input and output files to match your own filepaths, and to make the `results/04_bqsr` and `logs/04_bqsr` subdirectories as we did for the previous steps. Remember that if you get stuck you can use the example script `session_2/variant_calling_examples/04_bqsr.sh` as a reference.  
+You can use the following command for `gatk BaseRecalibrator` and `gatk ApplyBQSR` as a starting point. Remember to change the change the paths of the input and output files to match your own filepaths, and to make the `results/04_bqsr` and `logs/04_bqsr` subdirectories as we did for the previous steps. Remember that if you get stuck you can use the example script `variant_calling_examples/04_bqsr.sh` as a reference.  
 
 ```bash
 gatk --java-options "-Xmx10g" BaseRecalibrator \
@@ -575,7 +588,7 @@ samtools index \
 
 ```bash
 bash 04_bqsr.sh
-ls -lh /results/04_bqsr
+ls -lh results/04_bqsr
 ```
 
 ```bash
@@ -593,7 +606,7 @@ Unlike `MarkDuplicates`, `BQSR` does not generate summary performance metrics; i
 - You have created a script to run `gatk BaseRecalibrator` and `gatk ApplyBQSR` on the sequencing reads.
 - You have run the script and checked that the output files are produced.
 
-## Exercise 6: Variant calling  
+## 7. Exercise 6: Variant calling  
 
 **Goal:** Call somatic variants using `Mutect2`.  
 
@@ -601,9 +614,9 @@ Finally, it's time to run `Mutect2` to call somatic variants. We will compare ou
 
 1. Create a script called `05_mutect2.sh` in your working directory to run `Mutect2`.  
 
-This script will take the recalibrated `.bam` file as an input, then use the `Mutect2` software to identify candidate somatic variants. The germline resource is a population database of common inherited variants which helps the caller distinguish likely germline polymorphisms from true somatic mutations, and is found in `example_data/germline_resource/gnomAD.r2.1.1.GRCh38.chr17.75pct.PASS.AC.AF.only.vcf.gz`. The candidate variants are then filtered to remove likely false positives (`FilterMutectCalls`), and only variants that pass all filters are retained in the final VCF (`SelectVariants`). For more details about the arguments used, see the [GATK Mutect2 documentation](https://gatk.broadinstitute.org/hc/en-us/articles/360037593851-Mutect2).  
+This script will take the recalibrated `.bam` file as an input, then use the `Mutect2` software to identify candidate somatic variants. The germline resource is a population database of common inherited variants which helps the caller distinguish likely germline polymorphisms from true somatic mutations, and is found in `../../example_data/germline_resource/gnomAD.r2.1.1.GRCh38.chr17.75pct.PASS.AC.AF.only.vcf.gz`. We will use this to _simulate_ the healthy sample to pair with the tumor sample. The candidate variants are then filtered to remove likely false positives (`FilterMutectCalls`), and only variants that pass all filters are retained in the final VCF (`SelectVariants`). For more details about the arguments used, see the [GATK Mutect2 documentation](https://gatk.broadinstitute.org/hc/en-us/articles/360037593851-Mutect2).  
 
-You can use the following commands as a starting point. Remember to change the change the paths of the input and output files to match your own filepaths, and to make the `results/04_bqsr` and `logs/04_bqsr` subdirectories as we did for the previous steps. Remember that if you get stuck you can use the example script `session_2/variant_calling_examples/04_bqsr.sh` as a reference.  
+You can use the following commands as a starting point. Remember to change the change the paths of the input and output files to match your own filepaths, and to make the `results/05_mutect2` and `logs/05_mutect2` subdirectories as we did for the previous steps. Remember that if you get stuck you can use the example script `variant_calling_examples/04_bqsr.sh` as a reference.  
 
 ```bash
 gatk --java-options "-Xmx10g" Mutect2 \
@@ -634,7 +647,7 @@ echo "PASS VCF:     ${PASS_VCF}"
 
 ```bash
 bash 05_mutect2.sh
-ls -lh /results/05_mutect2
+ls -lh results/05_mutect2
 ```
 
 ```bash
@@ -672,6 +685,6 @@ How might we identify high-confidence somatic variants from this `.vcf` file? Do
 
 ## End of Session 2
 
-Congratulations, you have run a real bioinformatics analysis! You have learned how to use conda to manage software dependencies, and you have gained experience with the GATK best practices workflow for somatic short variant calling.  
+Congratulations, you have run a real bioinformatics analysis! You have learned to use Conda to manage software dependencies and gained experience with the Sarek workflow for somatic short-variant calling.  
 
 Join us in Session 3 to learn about the SLURM job scheduler and how to run analyses on a high-performance computing cluster.  
