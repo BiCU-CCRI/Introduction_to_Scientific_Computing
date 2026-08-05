@@ -10,7 +10,7 @@
 
 Follow the prompts, then restart your terminal.  
 
-3. Add channels to your conda. Channels are the locations where conda looks for packages. The default channel is the Anaconda channel, but there are many other channels available, such as conda-forge and bioconda, which have a wider range of bioinformatics packages. To add these channels, run the following commands:
+3. Add channels to your conda. Channels are the locations where conda looks for packages. The default channel is the Anaconda channel, but there are many other channels available, such as conda-forge and bioconda, which have a wider range of bioinformatics packages. To add these channels, run the following commands (the order in which you add channels matters):
 
 ```bash
 conda config --add channels conda-forge
