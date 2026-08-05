@@ -3,7 +3,16 @@
 # and slurmdbd): sync our custom config, install nano, and create the
 # trainee OS accounts. Must be `source`d (not executed) so it runs in the
 # caller's shell before that script `exec`s the real SLURM daemon.
-set -e
+#
+# Logs everything to a file inside the mounted repo checkout (when
+# present) so boot failures are debuggable even though the container
+# that crashed is gone by the time Codespaces reports the error.
+WORKSPACE_LOG_DIR=/workspaces/Introduction_to_Scientific_Computing/.devcontainer
+if [ -d "$WORKSPACE_LOG_DIR" ]; then
+  exec > >(tee -a "$WORKSPACE_LOG_DIR/bootstrap-debug.log") 2>&1
+fi
+echo "=== common-bootstrap.sh start: $(date -u) on $(hostname) ==="
+set -x
 
 cp -f /etc/slurm-custom/*.conf /etc/slurm-custom/*.lua /etc/slurm/
 
@@ -11,7 +20,9 @@ command -v nano >/dev/null 2>&1 || dnf install -y nano sudo >/dev/null 2>&1 || t
 
 create_trainee() {
   local name="$1" uid="$2"
-  id -u "$name" >/dev/null 2>&1 || useradd -m -u "$uid" -s /bin/bash -d "/home/$name" "$name"
+  id -u "$name" >/dev/null 2>&1 && return 0
+  command -v useradd >/dev/null 2>&1 || dnf install -y shadow-utils >/dev/null 2>&1 || true
+  useradd -m -u "$uid" -s /bin/bash -d "/home/$name" "$name" 2>&1 || true
 }
 
 # "codespace" is the devcontainer's remoteUser (submits real jobs) -
@@ -25,11 +36,14 @@ create_trainee carol     2003
 create_trainee dave      2004
 create_trainee eve       2005
 
-mkdir -p /etc/sudoers.d
-echo "codespace ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/codespace
-chmod 440 /etc/sudoers.d/codespace
+mkdir -p /etc/sudoers.d 2>/dev/null || true
+echo "codespace ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/codespace 2>/dev/null || true
+chmod 440 /etc/sudoers.d/codespace 2>/dev/null || true
 
 # The repo checkout is bind-mounted at /workspaces/... (separate from
 # /home/codespace, so it doesn't collide with useradd's skeleton-file
 # setup above) - make it writable by the trainee user.
 chown -R codespace:codespace /workspaces/Introduction_to_Scientific_Computing 2>/dev/null || true
+
+set +x
+echo "=== common-bootstrap.sh done: $(date -u) ==="
