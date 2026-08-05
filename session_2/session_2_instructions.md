@@ -72,9 +72,9 @@ Here is some more detailed information about `.fastq`, `.bam`, and `.vcf` files:
   chr1	  11008	.	          C	  T	  60	  PASS	  DP=18;AF=1.00	GT:DP:GQ	1/1:18:99	0/1:17:90
   ``` 
 
-\`\`\`txt
+```txt
   Chromosome | Position | Identifier | Reference base(s) | Alternate base(s) | Quality | Filter status | Additional information | Optional genotype fields (described by FORMAT) 
-\`\`\`
+```
 
 ---
 
@@ -184,11 +184,11 @@ Test yourself:
 
 Check the beginning of the reference `fasta`:
 
-\`\`\`bash
+```bash
 head ../../example_data/ref/Homo_sapiens_assembly38.chr17.fasta
-\`\`\`
+```
 
-\`\`\`txt
+```txt
 >chr17  AC:CM000679.2  gi:568336007  LN:83257441  rl:Chromosome  M5:f9a0fb01553adb183568e3eb9d8626db  AS:GRCh38
 NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
 NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
@@ -199,7 +199,7 @@ NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
 NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
 NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
 NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
-\`\`\`
+```
 
 Why do you think you only see `N`s?
 
@@ -207,13 +207,13 @@ Why do you think you only see `N`s?
 
 Check the top rows of the `vcf` file while skipping the comment lines (starting with `#`):
 
-\`\`\`bash
+```bash
 zcat ../../example_data/known_sites/Mills_and_1000G_gold_standard.indels.hg38.chr17.vcf.
 gz | grep -v "^#" | head
 zcat ../../example_data/known_sites/dbsnp_146.hg38.chr17.vcf.gz | grep -v "^#" | head
-\`\`\`
+```
 
-\`\`\`txt
+```txt
 chr17   150509  rs35998167,106947       T       TA      96727.1 PASS    set=MillsAlleleMatch1000G-MillsDoubleCenter
 chr17   155729  rs71143471,107049       A       AGT     105823  PASS    set=MillsAlleleMatch1000G-MillsDoubleCenter-MillsTracesUnknown
 chr17   157080  rs34892838      CAG     C       121.9   PASS    set=Intersect1000GAll
@@ -224,9 +224,9 @@ chr17   162621  .       C       CAG     1412.3  PASS    set=Intersect1000GAll
 chr17   163618  .       CAT     C       27.13   PASS    set=Intersect1000GMinusBI
 chr17   172156  .       TC      T       154.3   PASS    set=Intersect1000GMinusDI
 chr17   175396  rs71959654      CCCACTGCT       C       5119.07 PASS    set=Intersect1000GMinusSI
-\`\`\`
+```
 
-\`\`\`txt
+```txt
 chr17   62821   rs11531330      C       T       .       .       RS=11531330;RSPOS=62821;RV;dbSNPBuildID=120;SSR=1;SAO=0;VP=0x050000000005000002000140;WGT=1;VC=SNV;ASP
 chr17   63231   rs9941375       C       T       .       .       RS=9941375;RSPOS=63231;RV;dbSNPBuildID=119;SSR=0;SAO=0;VP=0x050000000005000002000100;WGT=1;VC=SNV;ASP
 chr17   63259   rs9941374       T       C       .       .       RS=9941374;RSPOS=63259;RV;dbSNPBuildID=119;SSR=0;SAO=0;VP=0x050000000005000002000100;WGT=1;VC=SNV;ASP
@@ -237,7 +237,7 @@ chr17   72627   rs9747918       A       G       .       .       RS=9747918;RSPOS
 chr17   73193   rs9747343       C       G       .       .       RS=9747343;RSPOS=73193;RV;dbSNPBuildID=119;SSR=0;SAO=0;VP=0x050000080005000002000100;GENEINFO=LOC101929823:101929823;WGT=1;VC=SNV;INT;ASP
 chr17   73229   rs9747333       C       T       .       .       RS=9747333;RSPOS=73229;RV;dbSNPBuildID=119;SSR=0;SAO=0;VP=0x050000080005000002000100;GENEINFO=LOC101929823:101929823;WGT=1;VC=SNV;INT;ASP
 chr17   79910   rs9747307       A       G       .       .       RS=9747307;RSPOS=79910;RV;dbSNPBuildID=119;SSR=0;SAO=0;VP=0x050000080005000002000100;GENEINFO=LOC101929823:101929823;WGT=1;VC=SNV;INT;ASP
-\`\`\`
+```
 
 >[!NOTE]
 > Here, we used `grep -v` to return lines other than the matching ones. We combined it with `"^#" which matches `#` but only if they are at the very beginning of a line `^` ("anchor" is to the line start). Altogether, this command returns all the lines that don't start with `#`.
@@ -267,9 +267,9 @@ showing that your Conda environment is activated and that you are in the `varian
 pwd
 ```
 
-\`\`\`bash
+```bash
 /workspaces/Introduction_to_Scientific_Computing/session_2/variant_calling_work_dir
-\`\`\`
+```
 
 
 2. Create a script called `01_fastp.sh` in your working directory to run `fastp`.  
@@ -362,8 +362,7 @@ Download the HTML file to your computer (right-click on the HTML file and select
 
 - 100000 -> 99996
 - 125 bp -> 123 bp
-- 2
-- 
+- 2 
 </details>
 
 **You are done when**:
@@ -543,7 +542,6 @@ Test yourself:
 
 - 47377
 - 0.0099 %
-- 
 </details>
 
 **You are done when:**
