@@ -1,8 +1,8 @@
 x-install-config: &install-config
-  - "/bin/sh"
+  - "/bin/bash"
   - "-c"
   - >
-    cp -f /etc/slurm-custom/*.conf /etc/slurm-custom/*.lua /etc/slurm/ &&
+    source /etc/slurm-custom/common-bootstrap.sh &&
     exec /usr/local/bin/docker-entrypoint.sh "$0" "$@"
 
 services:
@@ -60,16 +60,16 @@ services:
     init: true
     entrypoint: *install-config
     command: ["slurmctld"]
-    container_name: slurmctld
-    hostname: slurmctld
+    container_name: login-01
+    hostname: login-01
     privileged: true
-    working_dir: /data
+    working_dir: /home/user
     volumes:
       - etc_munge:/etc/munge:z
       - etc_slurm:/etc/slurm:z
       - var_log_slurm:/var/log/slurm:z
       - ./slurm-config:/etc/slurm-custom:ro
-      - ${localWorkspaceFolder:-..}:/data:z
+      - ${localWorkspaceFolder:-..}:/home/user:z
     expose:
       - "6817"
     depends_on:
@@ -87,9 +87,8 @@ services:
   cpu-worker:
     image: giovtorres/slurm-docker-cluster:${SLURM_VERSION:-25.11.4}
     init: true
-    entrypoint: *install-config
-    command: ["slurmd-cpu"]
-    working_dir: /data
+    entrypoint: ["/bin/bash", "/etc/slurm-custom/start-cpu-worker.sh"]
+    working_dir: /home/user
     privileged: true
     environment:
       COMPOSE_PROJECT_NAME: ${COMPOSE_PROJECT_NAME:-slurm}
@@ -98,7 +97,7 @@ services:
       - etc_slurm:/etc/slurm
       - var_log_slurm:/var/log/slurm
       - ./slurm-config:/etc/slurm-custom:ro
-      - ${localWorkspaceFolder:-..}:/data:z
+      - ${localWorkspaceFolder:-..}:/home/user:z
     expose:
       - "6818"
     depends_on:
@@ -113,7 +112,7 @@ services:
       retries: 3
       start_period: 20s
     deploy:
-      replicas: ${CPU_WORKER_COUNT:-2}
+      replicas: ${CPU_WORKER_COUNT:-4}
 
 volumes:
   etc_munge:
