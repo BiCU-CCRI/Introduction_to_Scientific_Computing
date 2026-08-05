@@ -1,6 +1,6 @@
 # Introduction to Scientific Computing
 
-The Introduction to Scientific Computing course is for CCRI users who want to learn how to utilize the computational infrastructure (the CeMM cluster) to analyze scientific data.
+The Introduction to Scientific Computing course is for St. Anna CCRI users who want to learn how to utilize the computational infrastructure (the CeMM cluster) to analyze scientific data.
 
 ## Session Contents
 
@@ -11,14 +11,14 @@ Below you can find a description of the topics that will be covered in each sess
 1. Exercise 1: Running simple commands using the command line  
 2. Exercise 2: Running a simple `.sh` script, redirection, and piping  
 3. Exercise 3: Running a simple scientific computing script  
-4. Exercise 4: Environment management using conda  
-5. Exercise 5: Activating a conda environment in a script  
+4. Exercise 4: Environment management using Conda
+5. Exercise 5: Activating a Conda environment in a script  
 6. TODO: Project organization and file conventions (?)
 7. TODO: Data/metadata provenance                  (?)
  
 ### Session 2 – Variant calling (Codespaces)
 
-- Intro to sequencing data formats (fastq, bam, vcf)  
+- Intro to sequencing data formats used in this training (fastq, bam, vcf)  
 - Read QC and trimming  
 - Alignment  
 - Variant calling  
@@ -29,9 +29,9 @@ Below you can find a description of the topics that will be covered in each sess
 - Why resource managers exist on shared clusters  
 - SLURM directives  
 - SLURM queues  
-- Submitting and monitoring jobs (sbatch, salloc, srun, squeue, sacct)  
-- Cancelling jobs (scancel)  
-- Tracking job usage (seff)  
+- Submitting and monitoring jobs (`sbatch`, `salloc`, `srun`, `squeue`, `sacct`)  
+- Cancelling jobs (`scancel`)  
+- Tracking job usage (`seff`)  
  
 ### Session 4 – Variant calling and interactive work on the CeMM cluster (CeMM cluster)
 
@@ -48,18 +48,18 @@ Below you can find a description of the topics that will be covered in each sess
 ### Required pre-requisites
 
 - Intro to Linux (or pre-existing basic knowledge of Linux commands and bash scripting)
-  
+ - [GitHub](https://github.com/signup) account (free) with enough Codespaces (minimum of 20 hours usage left)
 ### Recommended pre-requisites
 
 - CeMM cluster account  
-  If you don't have one, you can still take Sessions 1-3, but you might want to skip Session 4 which is tailored specifically to CeMM cluster users.  
+  If you don't have one, you can still take Sessions 1-3, but you might want to skip Session 4, which is tailored specifically to CeMM cluster users. If you don't have a CeMM cluster account, you can also join somebody who does and go through Session 4 together. We **recommend joining Session 4,** even if you don't have a CeMM cluster account, to get a full overview of the process for working at the CeMM cluster. 
 
 If you have a CeMM cluster account:  
 
 - Visual Studio Code (VSCode)  
-  Newer versions are incompatible with the CeMM cluster so we recommend downloading **version 1.85.2** as a portable version by following the instructions at [https://code.visualstudio.com/docs/supporting/faq#_previous-release-versions](https://code.visualstudio.com/docs/supporting/faq#_previous-release-versions)
+  Newer versions are incompatible with the CeMM cluster so we recommend downloading **version 1.100.3** as a portable version by following the instructions at [Working on the CeMM cluster Analytics/Tips and practical information/VS Code/Supported VS Code versions](https://confluence.ccri.at/spaces/BiKB/pages/119799933/Tips+and+practical+information#Tipsandpracticalinformation-SupportedVSCodeversions)
 
-- "Remote - SSH" extension enabled on VSCode  
+- "[Remote - SSH](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh)" extension enabled on VSCode  
   This extension is required to connect to the CeMM cluster - please install and enable it in your VSCode by following these instructions:
   1. Navigate to the "Extensions" tab in VSCode (`Ctrl + Shift + X` on Windows; `Cmd + Shift + X` on Mac)  
   2. Search for "Remote - SSH"
@@ -67,7 +67,7 @@ If you have a CeMM cluster account:
 
 ## A guide to GitHub Codespaces
 
-For Sessions 1 and 2, we will use Github Codespaces to provide a cloud-based Linux environment that allows you to run code in a virtual machine. You can access it through your web browser, and it provides a similar experience to using the CeMM cluster.
+For Sessions 1 and 2, we will use Github Codespaces to provide a cloud-based Linux environment that allows you to run code in a virtual machine. You can access it through your web browser, and it provides a similar experience to using a Linux machine (e.g., the CeMM cluster). It doesn't require any additional software to be installed on your computer.
 
 ### Setting up GitHub Codespaces
 
@@ -79,7 +79,7 @@ For Sessions 1 and 2, we will use Github Codespaces to provide a cloud-based Lin
 
 ################# pic #################
 
-Once it is ready, you will have a complete Linux environment running in your browser, including a terminal where you can run commands.
+Once it is ready, you will have a complete Linux environment running in your browser, including a terminal where you can run commands. All participants have the same Linux environment, which makes it easier to share the code and go through the tutorials.
 
 You can experiment freely in this environment — if something goes wrong, you can always restart the Codespace or return to the original course files. It doesn't have access to your local files, so don't be afraid to play around.
 
@@ -91,8 +91,12 @@ You can experiment freely in this environment — if something goes wrong, you c
 > [!TIP]
 > **When you have finished using Codespaces:** Remember to delete your Codespace if you no longer need it. Codespaces that are left unused can continue to count towards your storage and usage limits. You can always create a new Codespace from this repository again in the future if needed.
 
-You can view and manage your Codespaces at [https://github.com/codespaces](https://github.com/codespaces). Click the `...` options menu next to a Codespace. There you can find options to stop or delete it. Remember, stopping pauses the environment while keeping your work. Delete a Codespace only when you have finished with it.
+You can view and manage your Codespaces at [https://github.com/codespaces](https://github.com/codespaces). Click the `...` options menu next to a Codespace. There you can find options to stop or delete it. Remember, stopping pauses the environment while keeping your work. Tip: Stopping the Codespace before going for lunch can save you 30 minutes of free allocated usage. Delete a Codespace only when you have finished with it.
+############################## pic ##############################
 
+#### Stopping GitHub Codespaces
+
+To stop running GitHub Codespaces, you can click on the ">< Codespaces: <name_of_the_codespaces>" icon at the bottom left and then selection "Stop Current Codespace".
 ############################## pic ##############################
 
 ## A guide to LearnSlurm
