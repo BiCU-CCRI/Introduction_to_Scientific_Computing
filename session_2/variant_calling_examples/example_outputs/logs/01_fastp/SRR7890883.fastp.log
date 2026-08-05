@@ -1,0 +1,54 @@
+Detecting adapter sequence for read1...
+>Illumina TruSeq Adapter Read 1
+AGATCGGAAGAGCACACGTCTGAACTCCAGTCA
+
+Detecting adapter sequence for read2...
+>Illumina TruSeq Adapter Read 2
+AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT
+
+Read1 before filtering:
+total reads: 50000
+total bases: 6250000
+Q20 bases: 6156286(98.5006%)
+Q30 bases: 5990344(95.8455%)
+Q40 bases: 4909418(78.5507%)
+
+Read2 before filtering:
+total reads: 50000
+total bases: 6250000
+Q20 bases: 6049373(96.79%)
+Q30 bases: 5750863(92.0138%)
+Q40 bases: 4296281(68.7405%)
+
+Read1 after filtering:
+total reads: 49998
+total bases: 6159645
+Q20 bases: 6069471(98.5361%)
+Q30 bases: 5907077(95.8996%)
+Q40 bases: 4842002(78.6085%)
+
+Read2 after filtering:
+total reads: 49998
+total bases: 6159570
+Q20 bases: 5964578(96.8343%)
+Q30 bases: 5672306(92.0893%)
+Q40 bases: 4244380(68.9071%)
+
+Filtering result:
+reads passed filter: 99996
+reads failed due to low quality: 2
+reads failed due to too many N: 0
+reads failed due to too short: 0
+reads failed due to adapter dimer: 2
+reads with adapter trimmed: 13075
+bases trimmed due to adapters: 180369
+
+Duplication rate: 0.662%
+
+Insert size peak (evaluated by paired-end reads): 139
+
+JSON report: /workspaces/Introduction_to_Scientific_Computing/session_2/variant_calling_work_dir/results/01_fastp/SRR7890883.chr17_50k.json
+HTML report: /workspaces/Introduction_to_Scientific_Computing/session_2/variant_calling_work_dir/results/01_fastp/SRR7890883.chr17_50k.html
+
+fastp --in1 /workspaces/Introduction_to_Scientific_Computing/example_data/fastq/SRR7890883.chr17_50k_R1.fastq --in2 /workspaces/Introduction_to_Scientific_Computing/example_data/fastq/SRR7890883.chr17_50k_R2.fastq --out1 /workspaces/Introduction_to_Scientific_Computing/session_2/variant_calling_work_dir/results/01_fastp/SRR7890883.chr17_50k_R1_trimmed.fastq --out2 /workspaces/Introduction_to_Scientific_Computing/session_2/variant_calling_work_dir/results/01_fastp/SRR7890883.chr17_50k_R2_trimmed.fastq --detect_adapter_for_pe --thread 1 --html /workspaces/Introduction_to_Scientific_Computing/session_2/variant_calling_work_dir/results/01_fastp/SRR7890883.chr17_50k.html --json /workspaces/Introduction_to_Scientific_Computing/session_2/variant_calling_work_dir/results/01_fastp/SRR7890883.chr17_50k.json 
+fastp v1.3.6, time used: 3 seconds
