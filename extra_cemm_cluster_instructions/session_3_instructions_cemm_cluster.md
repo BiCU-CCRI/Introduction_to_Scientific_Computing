@@ -168,16 +168,28 @@ From this prompt, you can see that you are on compute node `d017`. You can confi
 
 1. Once you are on a compute node, you can run commands just like you would on a login node. To demonstrate this, let's build on some commands from Session 1.  
 
-Navigate into the local copy of this git repository you cloned last time.  
+Navigate into your space on `/nobackup`.  
 
 ```bash
-cd /nobackup/<lab_name>/<username>/Introduction_to_Scientific_Computing/session_2/
+cd /nobackup/<lab_name>/<username>/
 ```
 
-2. Now run the `hello_ccri.sh` script from the `session_1` folder again, this time from the terminal of the compute node that you have accessed via your interactive job.
+2. Clone this repository into your workspace:
 
 ```bash
-bash ../session_1/hello_ccri.sh
+git clone https://github.com/BiCU-CCRI/Introduction_to_Scientific_Computing.git
+```
+
+You should see a new folder called `Introduction_to_Scientific_Computing` in your workspace. Navigate into the `session_3` folder:
+
+```bash
+cd Introduction_to_Scientific_Computing/session_3
+```
+
+3. Now run the `hello_ccri.sh` script from the terminal of the compute node that you have accessed via your interactive job.
+
+```bash
+bash hello_ccri.sh
 ```
 
 You should see the following output:
@@ -188,9 +200,9 @@ Hello, CCRI!
 
 You can see that the script runs successfully on the compute node, and that you can use the command line to run commands on a compute node just like you would on a login node. The main difference is that you can now run commands that require more resources, such as more memory or CPU cores, without worrying about overloading the login node. Running an interactive job is the closest you can get to the previous CCRI setup, and is a good way to test your code before submitting it as a batch job.  
 
-3. To exit your interative job, simply type `exit` and press `Enter`. This will return you to the login node. You can confirm this by running the `hostname` command again, which should now display the name of the login node.  
+4. To exit your interative job, simply type `exit` and press `Enter`. This will return you to the login node. You can confirm this by running the `hostname` command again, which should now display the name of the login node.  
 
-4. What happens when we try to request more resources than are allowed for the queue? Try to request longer than 12 hours on the `interactiveq`. What happens?  
+5. What happens when we try to request more resources than are allowed for the queue? Try to request longer than 12 hours on the `interactiveq`. What happens?  
 
 You should see the following error message:
 
@@ -215,7 +227,7 @@ Now, we will turn your `hello_ccri.sh` script into a SLURM **batch job** script 
 To turn a `.sh` script into a `.sbatch` script, you need to add SLURM directives at the top of the script. The directives are the same as those found in Table 1. In an `srun` commmand, you specify the directives as command line arguments, but in a `.sbatch` script, you specify them as comments at the top of the script. These comments start with `#SBATCH`, and are followed by the directive and its value.  
 
 >[!NOTE]
->Both `.sh` and `.sbatch` scripts are just shell scripts, but `.sbatch` scripts include SLURM directives that tell SLURM what resources your job will require. Technically, you can also submit a `.sh` script to SLURM using `sbatch`, but it is good practice to use the `.sbatch` extension for scripts that are intended to be submitted to SLURM.  
+>Both `.sh` and `.sbatch` scripts are just shell scripts, but `.sbatch` scripts include SLURM directives that tell SLURM what resources your job will require. Technically, you can also submit a `.sh` script (with SLURM directives) to SLURM using `sbatch`, but it is good practice to use the `.sbatch` extension for scripts that are intended to be submitted to SLURM. It is also possible to run a `.sbatch` script interactively using `bash`, since the SLURM directives are just comments that are ignored by the shell.
 
 1. First, let's take a look at a example `.sbatch` script with SLURM directives included.
 
@@ -244,21 +256,13 @@ echo "This is an example job script."
 
 You can see that the SLURM directives are included at the top of the script, and that they specify the resources that the job will require. The `#SBATCH` comments are ignored by the shell, but are read by SLURM when the job is submitted.  
 
-2. Next, create a copy of your `hello_ccri.sh` script and name it `hello_ccri.sbatch`.  
+2. Next, create a copy of the `hello_ccri.sh` file named `hello_ccri.sbatch`.  
 
 ```bash
-cp ../session_1/hello_ccri.sh ./hello_ccri.sbatch
+cp hello_ccri.sh ./hello_ccri.sbatch
 ```
 
-3. Modify your `hello_ccri.sbatch` script to include SLURM directives. Open the script in a text editor and add SLURM directives to your script, similar to the ones in the example script. You can choose your own values for the directives, but make sure to include at least the following: `--job-name`, `--time`, `--mem`, `--nodes`, `--ntasks`, `--cpus-per-task`, `--partition`, and `--qos`. You can also specify output and error files using the `--output` and `--error` directives.  
-
-If you don't have a text editor installed on the compute node, you can use `nano`, which is a simple text editor that is available on most Linux systems. To open the script in `nano`, run the following command:
-
-```bash
-nano hello_ccri.sbatch
-```
-
-To save your work in `nano`, press `Ctrl + O`, then press `Enter`. To exit, press `Ctrl + X`.  
+3. Modify your `hello_ccri.sbatch` script to include SLURM directives. Open the script in the VSCode text editor and add SLURM directives to your script, similar to the ones in the example script. You can choose your own values for the directives, but make sure to include at least the following: `--job-name`, `--time`, `--mem`, `--nodes`, `--ntasks`, `--cpus-per-task`, `--partition`, and `--qos`. You can also specify output and error files using the `--output` and `--error` directives.  
 
 4. Now, we will submit the `.sbatch` script to SLURM using the `sbatch` command. This will allow SLURM to schedule your job on a compute node and run it in the background.  
 
