@@ -95,7 +95,8 @@ You can view and manage your Codespaces at [https://github.com/codespaces](https
 
 <img width="1160" height="543" alt="codespaces_2" src="https://github.com/user-attachments/assets/9d0670fb-ee8b-48ec-84ff-c92f96172610" />
 
->[TIP!]
+
+>[!TIP]
 >Stopping the Codespace before going for lunch can save you 30 minutes of free allocated usage. Delete a Codespace only when you have finished with it.
 
 ## A guide to LearnSlurm
