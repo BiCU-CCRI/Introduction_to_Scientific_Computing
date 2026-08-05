@@ -22,9 +22,9 @@ sacctmgr -i add qos gpu          set MaxWall=3-00:00:00                   2>/dev
 
 ALL_QOS=tinyq,interactiveq,develop,shortq,mediumq,longq,covid,gpu
 
-# "user" is the trainee (devcontainer's remoteUser); the rest are fake
-# trainees used by seed-fake-jobs.sh to populate squeue/sacct.
-for u in user alice bob carol dave eve; do
+# "codespace" is the trainee (devcontainer's remoteUser); the rest are
+# fake trainees used by seed-fake-jobs.sh to populate squeue/sacct.
+for u in codespace alice bob carol dave eve; do
   sacctmgr -i add user "$u" account=users qos=$ALL_QOS defaultqos=tinyq 2>/dev/null || true
 done
 

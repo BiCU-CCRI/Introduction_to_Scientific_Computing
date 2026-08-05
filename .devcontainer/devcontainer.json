@@ -2,9 +2,9 @@
   "name": "SLURM Training Cluster",
   "dockerComposeFile": "docker-compose.yml",
   "service": "slurmctld",
-  "workspaceFolder": "/home/user",
+  "workspaceFolder": "/workspaces/Introduction_to_Scientific_Computing",
   "shutdownAction": "stopCompose",
-  "remoteUser": "user",
+  "remoteUser": "codespace",
 
   "postCreateCommand": "sudo bash .devcontainer/provision-slurm-queues.sh && sudo bash .devcontainer/seed-fake-jobs.sh"
 }

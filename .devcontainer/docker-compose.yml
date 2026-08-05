@@ -63,13 +63,13 @@ services:
     container_name: login-01
     hostname: login-01
     privileged: true
-    working_dir: /home/user
+    working_dir: /workspaces/Introduction_to_Scientific_Computing
     volumes:
       - etc_munge:/etc/munge:z
       - etc_slurm:/etc/slurm:z
       - var_log_slurm:/var/log/slurm:z
       - ./slurm-config:/etc/slurm-custom:ro
-      - ${localWorkspaceFolder:-..}:/home/user:z
+      - ${localWorkspaceFolder:-..}:/workspaces/Introduction_to_Scientific_Computing:z
     expose:
       - "6817"
     depends_on:
@@ -88,7 +88,7 @@ services:
     image: giovtorres/slurm-docker-cluster:${SLURM_VERSION:-25.11.4}
     init: true
     entrypoint: ["/bin/bash", "/etc/slurm-custom/start-cpu-worker.sh"]
-    working_dir: /home/user
+    working_dir: /workspaces/Introduction_to_Scientific_Computing
     privileged: true
     environment:
       COMPOSE_PROJECT_NAME: ${COMPOSE_PROJECT_NAME:-slurm}
@@ -97,7 +97,7 @@ services:
       - etc_slurm:/etc/slurm
       - var_log_slurm:/var/log/slurm
       - ./slurm-config:/etc/slurm-custom:ro
-      - ${localWorkspaceFolder:-..}:/home/user:z
+      - ${localWorkspaceFolder:-..}:/workspaces/Introduction_to_Scientific_Computing:z
     expose:
       - "6818"
     depends_on:
