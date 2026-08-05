@@ -1,20 +1,15 @@
 # Data transfer to/from the CeMM cluster/Isilon  
 
-Now that you have started to produce results on the CeMM cluster, you need a reliable way to transfer data to and from the CeMM cluster from Isilon. It may be tempting to use the Finder once you have mounted `nobackup` and `research`, but this is not a reliable way to transfer data.   
+Now that you have started to produce results on the CeMM cluster, you need a reliable way to transfer data to and from the CeMM cluster from Isilon. It may be tempting to use the Finder once you have mounted `nobackup` and `research`, but this is not a reliable way to transfer data.  
 
 We recommend using `rsync` for data transfer. The `rsync` program is a fast and versatile file copying tool that can copy files locally or to/from a remote host. It is widely used for data transfer because it can resume interrupted transfers, preserve file permissions and timestamps, and transfer only the differences between files.  
 
-`rsync -rtvhP --no-g --no-o --no-p --chmod=u=rwX,g=rwX,o= <source> <destination>` is the recommended command for transferring data from Isilon to `nobackup` or `research`. The arguments mean:
+`rsync -avhP <source> <destination>` is the recommended command for transferring data from Isilon to `nobackup` or `research`. The arguments mean:
 
-- `-r`: recursive, copy directories and their contents
-- `-t`: preserve modification times
+- `-a`: archive mode: recursive, preserves symbolic links, file permissions, user & group ownerships, and timestamps
 - `-v`: verbose, print information about the transfer
 - `-h`: human-readable, print sizes in a human-readable format
 - `-P`: show progress during transfer and keep partially transferred files
-- `--no-g`: do not preserve group ownership
-- `--no-o`: do not preserve owner
-- `--no-p`: do not preserve permissions
-- `--chmod=u=rwX,g=rwX,o=`: set permissions to be readable and writable by the user and group, but not by others
 
 Let's try it with an example file. Navigate to one of your folders on Isilon using the `011Sv123` server, and make an example file. Then, transfer this file to the `session_4` directory on the CeMM cluster using the `rsync` command.  
 
@@ -32,7 +27,7 @@ touch /mnt/bioinformatics/Research/<your_lab_name>/Internal/<your_username>/<you
 
 echo "Hello CeMM!" > /mnt/bioinformatics/Research/<your_lab_name>/Internal/<your_username>/<your_favourite_isilon_folder>/hello_cemm.txt  
 
-rsync -rtvhP --no-g --no-o --no-p --chmod=u=rwX,g=rwX,o= --dry-run /mnt/bioinformatics/Research/<your_lab_name>/Internal/<your_username>/<your_favourite_isilon_folder>/hello_cemm.txt <cemm_username>@login.int.cemm.at:/nobackup/<lab_name>/<user_name>/<your_favourite_nobackup_folder>/ 
+rsync -avhP --dry-run /mnt/bioinformatics/Research/<your_lab_name>/Internal/<your_username>/<your_favourite_isilon_folder>/hello_cemm.txt <cemm_username>@login.int.cemm.at:/nobackup/<lab_name>/<user_name>/<your_favourite_nobackup_folder>/ 
 
 # <enter your CeMM username and password when prompted>
 
@@ -42,7 +37,7 @@ rsync -rtvhP --no-g --no-o --no-p --chmod=u=rwX,g=rwX,o= --dry-run /mnt/bioinfor
 # sent 59 bytes  received 19 bytes  156.00 bytes/sec
 # total size is 13  speedup is 0.17 (DRY RUN)
 
-rsync -rtvhP --no-g --no-o --no-p --chmod=u=rwX,g=rwX,o= /mnt/bioinformatics/Research/<your_lab_name>/Internal/<your_username>/<your_favourite_isilon_folder>/hello_cemm.txt <cemm_username>@login.int.cemm.at:/nobackup/<lab_name>/<user_name>/<your_favourite_nobackup_folder>/
+rsync -avhP /mnt/bioinformatics/Research/<your_lab_name>/Internal/<your_username>/<your_favourite_isilon_folder>/hello_cemm.txt <cemm_username>@login.int.cemm.at:/nobackup/<lab_name>/<user_name>/<your_favourite_nobackup_folder>/
 
 # sending incremental file list
 # hello_cemm.txt
