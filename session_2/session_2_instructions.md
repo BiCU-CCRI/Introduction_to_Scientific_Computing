@@ -639,8 +639,8 @@ gatk --java-options "-Xmx10g" SelectVariants \
     -O "sample.pass.vcf.gz" \
     2> "mutect2.select_pass_variants.log"
 
-echo "Filtered VCF: ${FILTERED_VCF}"
-echo "PASS VCF:     ${PASS_VCF}"
+echo "Filtered VCF: sample.filtered.vcf.gz"
+echo "PASS VCF:     sample.pass.vcf.gz"
 ```
 
 2. Once you have written your script, run it and check that the output files are produced.  

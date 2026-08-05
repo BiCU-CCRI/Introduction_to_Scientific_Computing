@@ -20,7 +20,7 @@ FILTERED_VCF="${OUT_DIR}/${SAMPLE}.filtered.vcf.gz"
 PASS_VCF="${OUT_DIR}/${SAMPLE}.pass.vcf.gz"
 
 echo "Running Mutect2 on sample ${SAMPLE}"
-gatk --java-options "-Xmx10g" Mutect2 \
+gatk --java-options "-Xmx5g" Mutect2 \
     -R "${REF}" \
     -I "${IN_BAM}" \
     --germline-resource "${GERMLINE_RESOURCE}" \
@@ -28,14 +28,14 @@ gatk --java-options "-Xmx10g" Mutect2 \
     2> "${LOG_DIR}/${SAMPLE}.mutect2.log"
 
 echo "Filtering Mutect2 calls"
-gatk --java-options "-Xmx10g" FilterMutectCalls \
+gatk --java-options "-Xmx5g" FilterMutectCalls \
     -R "${REF}" \
     -V "${UNFILTERED_VCF}" \
     -O "${FILTERED_VCF}" \
     2> "${LOG_DIR}/${SAMPLE}.filter_mutect_calls.log"
 
 echo "Selecting PASS variants"
-gatk --java-options "-Xmx10g" SelectVariants \
+gatk --java-options "-Xmx5g" SelectVariants \
     -R "${REF}" \
     -V "${FILTERED_VCF}" \
     --exclude-filtered true \
