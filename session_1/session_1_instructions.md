@@ -313,9 +313,9 @@ You can add multiple packages by separating them with spaces. You can also speci
 
 Try creating a new environment with `python=3.10` and `numpy=2.2.6` (from the channel `conda-forge`). It is **strongly** recommended to install all the software and packages at once. Conda attempts to find an optimal combination of dependencies, which is only possible if it knows everything it should consider at once. **Avoid installing them individually.** Conda would eventually fail due to conflicting dependencies if you install software one at a time.
 
-\'\'\'bash
+'''bash
 conda create -n py310_numpy_226 python=3.10 conda-forge::numpy=2.2.6
-\'\'\'
+'''
 
 > [!NOTE]
 > Notice we used `::` to specify which Conda channel to use for `numpy` installation. This way, you can overwrite the existing list of channels and use a **specific** channel to install the package. This is recommended as it further increases the reproducibility.
@@ -339,9 +339,9 @@ You should be able to spot your `python` and `numpy` packages, as well as the ot
 > [!TIP]
 > Using `conda env export` includes system-specific "builds". These are not software versions _per se_ and don't change the software functionality. Reproducing the Conda environment on a **different** server using this export is unlikely to work. To only record the software versions, use:
 > 
-> \`\`\`bash
+> ```bash
 > conda env export --no-builds > py310_numpy_226.yaml
-> \`\`\`
+> ```
 
 `--no-builds` option is an optimal balance between keeping track of the exact software versions while being able to share the environment with people using a different cluster.
 
@@ -370,9 +370,9 @@ Using a Conda environment YAML is the most efficient way to record and share sof
 
 You can list all the installed tools in this environment
 
-\`\`\`bash
+```bash
 conda list -n somatic_variant_calling
-\`\`\`
+```
 
 How do the output software versions compare to the original environment YAML file [`somatic_variant_calling.yaml`](./somatic_variant_calling.yaml)? Any differences?
 
@@ -403,7 +403,7 @@ Here are some useful commands for managing conda environments:
 - You have deactivated the `numpy` environment and returned to the base environment.  
 - You have created a new environment called `somatic_variant_calling` from the provided `somatic_variant_calling.yaml` file and verified the software versions.  
 
-## Exercise 5: Activating a Conda environment in a script
+## 5. Exercise 5: Activating a Conda environment in a script
 
 Sometimes, you may want to run a script that runs a specific software, and therefore requires a Conda environment to be activated. However, you cannot just use `conda activate <env_name>` in a script because the `conda` command might not be available in non-interactive shells. You have to make the shell aware of your Conda installation. This can be done by sourcing the `conda.sh` script. You can then activate the environment in the script and use the installed software.  
 
