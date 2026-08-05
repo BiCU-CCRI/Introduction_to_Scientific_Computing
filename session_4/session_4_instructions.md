@@ -354,8 +354,8 @@ Now that you are familiar with the CeMM cluster architecture, file storage syste
 1. First, make yourself a working directory and navigate into it:
     
 ```bash
-mkdir -p /nobackup/<lab_name>/<username>/session_4/variant_calling_work_dir
-cd /nobackup/<lab_name>/<username>/session_4/variant_calling_work_dir
+mkdir -p /nobackup/<lab_name>/<username>/Introduction_to_Scientific_Computing/session_4/variant_calling_work_dir
+cd /nobackup/<lab_name>/<username>/Introduction_to_Scientific_Computing/session_4/variant_calling_work_dir
 ```
 
 Make `results` and `logs` directories like last time, and this time also make a `logs/slurm_logs` directory so you can distinguish between the output and error files from the SLURM scheduler and the output and error files from the software you are running in your scripts:
