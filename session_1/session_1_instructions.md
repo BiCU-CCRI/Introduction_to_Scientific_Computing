@@ -14,11 +14,11 @@ Today we'll cover:
 6. TODO: Project organization and file conventions (?)
 7. TODO: Data/metadata provenance                  (?)
 
-This should be mostly a refresher of the topics covered in the "Introduction to Linux" course.  
+The first part should be mostly a refresher of the topics covered in the "Introduction to Linux" course, and we will continue building upon that.  
 
 ### CodeSpaces setup  
 
-We will use Codespaces, like we did in the Introduction to Linux course, to the login node of a computing cluster. You can use Codespaces to practice running simple commands and scripts on a pretend cluster without needing a CeMM account. Please review [../README.md](../README.md) for a detailed overview of Codespaces.  
+We will use Codespaces to the login node of a computing cluster. You can use Codespaces to practice running simple commands and scripts on a pretend cluster without needing a CeMM account. Please review the main [README.md - A guide to GitHub Codespaces](../README.md#a-guide-to-github-codespaces) for a detailed overview of Codespaces.  
 
 1. Navigate to [https://github.com/BiCU-CCRI/Introduction_to_Scientific_Computing/tree/main](https://github.com/BiCU-CCRI/Introduction_to_Scientific_Computing/tree/main)
 
@@ -47,7 +47,7 @@ These include but are not limited to:
 - `cat <file>` : Display the contents of a file
 - `cp <source> <dest>` : Copy a file or directory
 - `mv <source> <dest>` : Move or rename a file or directory
-- `rm <file>` : Remove a file or directory *PROCEED WITH CAUTION ON NOBACKUP*
+- `rm <file>` : Remove a file or directory *PROCEED WITH CAUTION* as there is no undo button
 
 To practice this, we will make a new directory called `session_1` and create a new script called `hello_ccri.sh` inside it.
 
@@ -61,14 +61,14 @@ ls
 You should see the following output:
 
 ```bash
-print_and_count_reads.sh   session_1_instructions.md  somatic_variant_calling.yaml
+check_numpy_version.py  print_and_count_reads.sh  session_1_instructions.md  somatic_variant_calling.yaml
 ```
 
 2. Make a new directory called `scripts` and navigate into it:
 
 ```bash
 mkdir scripts
-cd scripts
+cd scripts/
 pwd
 ```
 
@@ -85,6 +85,8 @@ echo '#!/bin/bash' > hello_ccri.sh
 echo 'echo "Hello, CCRI!"' >> hello_ccri.sh
 ```  
 
+> [!NOTE]
+> You can also directly use VS Code to edit the file.
 5. Concatenate the contents of the script to verify that it was created correctly:
 
 ```bash
@@ -96,8 +98,8 @@ cat hello_ccri.sh
 echo "Hello, CCRI!"
 ```
 
->[TIP!]
->To navigate back one directory, you can use the command `cd ..`. To navigate back to your home directory, you can use the command `cd ~`.
+> [!TIP]
+> To navigate back one directory, you can use the command `cd ..`. To navigate back to your home directory, you can use the command `cd ~`. To navigate to the previous location, you can use `cd -`.
   
 **You are done when**:  
 
@@ -108,7 +110,7 @@ echo "Hello, CCRI!"
 
 **Goal:** Learn how to run a simple `.sh` script, redirect output to a file, and pipe output to another command.  
 
-Now that you have learned how to run simple commands on a login node, let's run your simple bash script using the login node. You should be familiar with bash scripting from Intro to Linux.  
+Now that you have refreshed your knowledge of how to assemble a simple script, let's run it on Linux. You should already be familiar with basic Bash scripting.  
 
 1. Run the script from the command line using the following command:
 
@@ -121,6 +123,9 @@ You should observe the output printed to the terminal:
 ```bash
 Hello, CCRI!
 ```
+
+> [!IMPORTANT]
+> What happens if you try to execute the script with `./hello_ccri.sh` and why? How to fix it?
 
 2. Now, redirect the output of the script to a new file called `hello_ccri_output.txt` using the following command:
 
@@ -149,6 +154,9 @@ You should see this outlput:
 
 which indicates that there is 1 line, 2 words, and 13 characters in the output.  
 
+> [!TIP]
+> You can also run `bash hello_ccri.sh | wc -l` to only see the number of lines.
+
 **You are done when**:  
 
 - You have run your `hello_ccri.sh` script and observed the expected output.  
@@ -162,6 +170,7 @@ Finally, we get to the fun part! Let's run a simple scientific computing script.
 1. First, we need to understand what the script is doing. It is a bad idea to run a script without understanding its contents! Inspect the contents of the script using the `cat` command:
 
 ```bash
+cd ../
 cat print_and_count_reads.sh
 ```
 
@@ -170,11 +179,13 @@ You should see the following output:
 ```bash
 #!/bin/bash
 
+FASTQ_FILE="../example_data/fastq/SRR7890883.chr17_50k_R1.fastq"
+
 echo "First ten lines of the fastq file:"
-cat ../example_data/fastq/SRR7890883.chr17_50k_R1.fastq | head -n 10
+cat "$FASTQ_FILE" | head -n 10
 
 echo "Counting the number of reads in the fastq file:"
-cat ../example_data/fastq/SRR7890883.chr17_50k_R1.fastq | wc -l | awk '{print $1/4}'
+cat "$FASTQ_FILE" | wc -l | awk '{print $1/4}'
 ```
 
 Can you figure out what each line of the script is doing?  
@@ -184,11 +195,13 @@ For spoilers, see below.
 ```bash
 #!/bin/bash                                                                               # This line specifies that the script should be run using the bash shell.
 
+FASTQ_FILE="../example_data/fastq/SRR7890883.chr17_50k_R1.fastq"           # This line assigns the file path to a variable
+
 echo "First ten lines of the fastq file:"                                                 # This line prints a message to the terminal indicating that the first ten lines of the fastq file will be displayed.
-cat ../example_data/fastq/SRR7890883.chr17_50k_R1.fastq | head -n 10                       # This line uses the `cat` command to concatenate the `.fastq` file in the example data dir, then pipes the output to the `head` command, which displays the first ten lines of the file.
+cat "$FASTQ_FILE" | head -n 10                       # This line uses the `cat` command to concatenate the `.fastq` file in the example data dir, then pipes the output to the `head` command, which displays the first ten lines of the file.
 
 echo "Counting the number of reads in the fastq file:"                                    # This line prints a message to the terminal indicating that the number of reads in the `.fastq` file will be counted.
-cat ../example_data/fastq/SRR7890883.chr17_50k_R1.fastq | wc -l | awk '{print $1/4}'        # This line uses `cat` again to concatenate the `.fastq` file in the example data dir, then pipes the output to the `wc -l` command, which counts the number of lines in the file. Since each read in a `.fastq` file is represented by four lines, the output is then piped to `awk`, which divides the line count by 4 to get the number of reads.
+cat "$FASTQ_FILE" | wc -l | awk '{print $1/4}'        # This line uses `cat` again to concatenate the `.fastq` file in the example data dir, then pipes the output to the `wc -l` command, which counts the number of lines in the file. Since each read in a `.fastq` file is represented by four lines, the output is then piped to `awk`, which divides the line count by 4 to get the number of reads.
 ```
 
 2. Now that you understand what the script is doing, let's run it.  
@@ -217,36 +230,50 @@ Counting the number of reads in the fastq file:
 
 **You are done when**:  
 
-- You have successfully run `print_and_count_reads.sh` and observed the expected output.
+- You have successfully run `print_and_count_reads.sh, you observed the expected output, and you understand why.
+
+**Extension - if you finish early:**
+
+Try running:
+
+\`\`\`bash
+bash -x print_and_count_reads.sh
+\`\`\`
+
+What's different? Can you explain what's happening?
 
 ## Exercise 4: Environment management using conda  
 
-**Goal:** Learn how to create and manage isolated environments using conda.  
+**Goal:** Learn how to create and manage isolated environments using Conda.  
 
 So far, we have been using simple shell commands and scripts to run our analyses. However, as we start to work on more complex projects, we will need to use different software packages and libraries, especially when manipulating scientific data file types such as `.fastq`, `.bam`, and `.vcf`.  
 
-If you are working on several projects, you may want to use different versions of the same software for each project. This is where conda comes in handy. Conda is a package manager that allows you to create isolated "environments" for your projects, each with its own set of dependencies. Using conda also allows you to more easily share your environment with others, ensuring that they can reproduce your analysis.  
+If you are working on several projects, you may want to use the same (or different) versions of the same software for each project. This is where Conda comes in handy. Conda is a package manager that allows you to create isolated "environments" for your projects, each with its own set of dependencies. Using Conda also allows you to more easily share the exact software versions (environment) with others, ensuring analysis reproducibility. It also makes it easier to install all software dependencies with minimal effort.
 
->[TIP!]
->It is good practice to create a new conda environment for each project you work on.  
+> [!TIP]
+> It is good practice to create a new Conda environment for each project you work on and keep track of the installed software versions.  
 
 Follow these steps to set up conda:  
 
-1. Download miniconda
+1. Download `miniconda`
 
-`wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh`
+`wget https://repo.anaconda.com/miniconda/Miniconda3-py314_26.5.3-2-Linux-x86_64.sh`
+
+> [!NOTE]
+> [`miniconda`](https://www.anaconda.com/docs/getting-started/concepts/anaconda-or-miniconda) is an alternative `conda` installed with much smaller space requirements.
 
 2. Install miniconda
 
-`bash Miniconda3-latest-Linux-x86_64.sh`
+`bash Miniconda3-py314_26.5.3-2-Linux-x86_64.sh`
 
 Follow the prompts, then restart your terminal.  
 
-3. Add channels to your conda. Channels are the locations where conda looks for packages. The default channel is the Anaconda channel, but there are many other channels available, such as conda-forge and bioconda, which have a wider range of bioinformatics packages. To add these channels, run the following commands:
+3. Add channels to your Conda installation. Channels are the channels (=locations) where Conda looks for packages. The default channel is the Anaconda channel, but there are many other channels available, such as conda-forge and bioconda, which have a wider range of bioinformatics packages. To add these channels, run the following commands:
 
 ```bash
-conda config --add channels conda-forge
 conda config --add channels bioconda
+conda config --add channels conda-forge
+conda config --show channels # Verify the channel list
 ```
 
 4. Now, let's create a new conda environment for our project. We will call this environment `intro_to_sci_comp`. To create the environment, run the following command:  
@@ -255,7 +282,10 @@ conda config --add channels bioconda
 conda create -n intro_to_sci_comp python=3.10
 ```
 
-We are specifying that we want to create an environment with Python version 3.10 installed.  
+We specify that we want to create an environment with Python 3.10 pre-installed. 
+
+> [!IMPORTANT]
+> Notice that we specify the exact Python version (`3.10`) when setting up the environment (for Python, the first two version numbers are sufficient, and additional subversions don't introduce any major changes). Using an exact software version is the only way to have your results reproducible.
 
 5. To activate the environment, run the following command:  
 
@@ -271,9 +301,19 @@ conda install <package_name>
 
 You can add multiple packages by separating them with spaces. You can also specify the channel from whcih the package should be installed with `<channel>::<package_name>`, and you can specify the version of the package you want to install by appending `=<version>` to the package name. 
 
-Try installing `numpy=2.2.6` from the channel `conda-forge` in your `intro_to_sci_comp` environment, then use the `check_numpy_version.py` script to check if it works in the new conda environment.  
+Try creating a new environment with `python=3.10` and `numpy=2.2.6` (from the channel `conda-forge`). It is **strongly** recommended to install all the software and packages at once. Conda attempts to find an optimal combination of dependencies, which is only possible if it knows everything it should consider at once. **Avoid installing them individually.** Conda would eventually fail due to conflicting dependencies if you install software one at a time.
+
+\'\'\'bash
+conda create -n py310_numpy_226 python=3.10 conda-forge::numpy=2.2.6
+\'\'\'
+
+> [!NOTE]
+> Notice we used `::` to specify which Conda channel to use for `numpy` installation. This way, you can overwrite the existing list of channels and use a **specific** channel to install the package. This is recommended as it further increases the reproducibility.
+
+Then use the `check_numpy_version.py` script to check if it works in the new conda environment.  
 
 ```bash
+conda activate py310_numpy_226
 python check_numpy_version.py
 # 2.2.6
 ```
@@ -281,10 +321,19 @@ python check_numpy_version.py
 7. To ensure full reproducibility, you can export the list of packages installed in your conda environment to a `yaml` file. This file can be used to recreate the environment on another system. To export the environment, run the following command:  
 
 ```bash
-conda env export > intro_to_sci_comp.yaml
+conda env export > py310_numpy_226.yaml
 ```
 
 You should be able to spot your `python` and `numpy` packages, as well as the other dependencies that were automatically installed. At the top of the file, you should see the name of the environment and the version of conda that was used to create it.  
+
+> [!TIP]
+> Using `conda env export` includes system-specific "builds". These are not software versions _per se_ and don't change the software functionality. Reproducing the Conda environment on a **different** server using this export is unlikely to work. To only record the software versions, use:
+> 
+> \`\`\`bash
+> conda env export --no-builds > py310_numpy_226.yaml
+> \`\`\`
+
+`--no-builds` option is an optimal balance between keeping track of the exact software versions while being able to share the environment with people using a different cluster.
 
 9. To deactivate your conda enironment and return to the base environment, run the following command:  
 
@@ -304,6 +353,19 @@ When the environment is created, you should be able to see the `somatic_variant_
 conda env list
 ```
 
+Using a Conda environment YAML is the most efficient way to record and share software versions and overall setup. It is also very easy to use version control using git. 
+
+> [!NOTE]
+> git version control will be covered in one of the future courses.
+
+You can list all the installed tools in this environment
+
+\`\`\`bash
+conda list -n somatic_variant_calling
+\`\`\`
+
+How do the output software versions compare to the original environment YAML file [`somatic_variant_calling.yaml`](./somatic_variant_calling.yaml)? Any differences?
+
 Here are some useful commands for managing conda environments:  
 
 | Command | Description |
@@ -314,26 +376,28 @@ Here are some useful commands for managing conda environments:
 | `conda install <package_name>` | Install a package in the current conda environment. |
 | `conda remove <package_name>` | Remove a package from the current conda environment. |
 | `conda env export > environment.yaml` | Export the list of packages in the current conda environment to a `yaml` file. |
+| `conda env export --no-builds > environment.yaml` | Export the list of packages in the current conda environment to a `yaml` file, but without system builds. |
 | `conda deactivate` | Deactivate the current conda environment and return to the base environment. |
 | `conda env list` | List all of your conda environments on the system. |
 | `conda remove -n <env_name> --all` | Remove a conda environment and all of its packages. |
 | `conda list` | List all packages installed in the current conda environment. |
-| `conda clean -ay` | Clean up unused packages and caches to free up space. |
+| `conda list -n <env_name>` | List all packages installed in the `<env_name>` conda environment. |
+| `conda clean -a` | Clean up unused packages and caches to free up space. |
 
 **You are done when:**
 
 - You have installed Miniconda.  
 - You have created a new environment called `intro_to_sci_comp` with Python 3.10 installed.  
-- You have installed `numpy` in the `intro_to_sci_comp` environment and successfully run the `check_numpy_version.py` script.  
-- You have exported the list of packages in the `intro_to_sci_comp` environment to a `yaml` file.  
-- You have deactivated the `intro_to_sci_comp` environment and returned to the base environment.  
-- You have created a new environment called `somatic_variant_calling` from the provided `somatic_variant_calling.yaml` file.  
+- You have installed `numpy` environment and successfully run the `check_numpy_version.py` script.  
+- You have exported the list of packages in the `numpy` environment to a `yaml` file.  
+- You have deactivated the `numpy` environment and returned to the base environment.  
+- You have created a new environment called `somatic_variant_calling` from the provided `somatic_variant_calling.yaml` file and verified the software versions.  
 
-## 5. Exercise 5 Activating a conda environment in a script
+## Exercise 5: Activating a Conda environment in a script
 
-Sometimes, you may want to run a script that runs a specific software, and therefore requires conda environment to be activated. However, you cannot just use `conda activate <env_name>` in a script because the `conda` command is not available in non-interactive shells. Instead, you need to source the `conda.sh` script and then activate the environment.  
+Sometimes, you may want to run a script that runs a specific software, and therefore requires a Conda environment to be activated. However, you cannot just use `conda activate <env_name>` in a script because the `conda` command might not be available in non-interactive shells. You have to make the shell aware of your Conda installation. This can be done by sourcing the `conda.sh` script. You can then activate the environment in the script and use the installed software.  
 
-Here is an example of how to do this:  
+You can add this to the top of your script (but below `#!/bin/bash`):  
 
 ```bash
 conda_env_name="example_env"
@@ -342,7 +406,7 @@ source "${CONDA_PREFIX}/etc/profile.d/conda.sh"
 conda activate "${conda_env_name}"
 ```
 
-Try this out for yourself - create a new job script called `check_numpy_version_script.sh` which activates the `intro_to_sci_comp` conda environment and then runs the `check_numpy_version.py` script.  
+Try this out for yourself - create a new job script called `check_numpy_version_script.sh` which activates the numpy Conda environment and then runs the `check_numpy_version.py` script.  
 
 >[!NOTE]
 >When you submit the script, you must have your `base` conda environment activated. If you have another environment activated, the job will fail because the job script will not be able to find the conda environment.  
@@ -352,19 +416,22 @@ Example script:
 ```bash
 #!/bin/bash
 
-conda_env_name="intro_to_sci_comp"
+conda_env_name="py310_numpy_226"
 echo "Activating environment"
 source "${CONDA_PREFIX}/etc/profile.d/conda.sh"
 conda activate "${conda_env_name}"
 
-python check_numpy_version.py
+python3 check_numpy_version.py
 ```
 
 **You are done when:**
 
-- You have successfully run the `check_numpy_version.py`non-interactively by activating the `intro_to_sci_comp` conda environment in a `.sh` script.  
+- You have successfully run the `check_numpy_version.py`non-interactively by activating the `py310_numpy_226` conda environment in a `.sh` script.  
+
+> [!NOTE]
+> The provided Conda activation code chunk only works if you install Conda as described in this tutorial. It will likely not work if you used regular [Conda/Anaconda](https://www.anaconda.com/download), [Mamba/Miniforge](https://mamba.readthedocs.io/en/latest/installation/mamba-installation.html), or [Micromamba](https://mamba.readthedocs.io/en/latest/installation/micromamba-installation.html) (the other two alternative installers).
 
 
 ## End of Session 1
 
-Well done, you have made it to the end of the session! You can now run simple commands and scripts on a pretend computational cluster using Codespaces, and you have learned how to create and manage isolated environments using conda. See you in Session 2 to run a variant calling pipeline!  
+Well done, you have made it to the end of the session! You can now run simple commands and scripts on a Linux machine, and you have learned how to create and manage isolated environments using Conda. See you in Session 2 to run a variant calling pipeline!  
