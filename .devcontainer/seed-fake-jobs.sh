@@ -2,9 +2,9 @@
 # Submits jobs under fake trainee accounts so squeue/sacct show a
 # realistic mix of running/pending jobs instead of an empty queue when
 # trainees first look. Pending reasons are chosen to match the ones the
-# session material's exercise explicitly explains (Resources, Dependency,
-# QOSGrpJobsLimit) rather than incidental ones a real scheduler would also
-# produce (e.g. PartitionNodeLimit) but that aren't covered in the doc.
+# session material's exercise explicitly explains (Resources, Dependency)
+# rather than incidental ones a real scheduler would also produce (e.g.
+# PartitionNodeLimit) but that aren't covered in the doc.
 # Idempotent-ish: harmless to re-run, just adds more.
 set -e
 
@@ -30,15 +30,6 @@ if [ -n "$OPENFOAM_JOBID" ]; then
     --nodes=1 --ntasks=1 --mem=128M --time=1:00:00 \
     --dependency=afterany:"$OPENFOAM_JOBID" --wrap="sleep 3600" >/dev/null 2>&1 || true
 fi
-
-# Reason: QOSGrpJobsLimit - develop QOS caps at GrpJobs=5 running jobs, so
-# once 5 are running, a 6th pends on this specific reason.
-for u in alice bob carol dave eve; do
-  sudo -u "$u" sbatch --job-name=dev_task --partition=develop --qos=develop \
-    --nodes=1 --ntasks=1 --mem=128M --time=0:10:00 --wrap="sleep 600" >/dev/null 2>&1 || true
-done
-sudo -u eve sbatch --job-name=wrf_d02 --partition=develop --qos=develop \
-  --nodes=1 --ntasks=1 --mem=128M --time=0:10:00 --wrap="sleep 600" >/dev/null 2>&1 || true
 
 echo "Seeded fake jobs:"
 squeue
