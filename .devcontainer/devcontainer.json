@@ -1,5 +1,10 @@
 {
-  "image": "mcr.microsoft.com/devcontainers/universal:2",
-  "features": {},
-  "postCreateCommand": "sudo rm -f /etc/apt/sources.list.d/yarn.list && sudo apt-get update && sudo apt-get install -y --no-install-recommends tabix && sudo apt-get clean && sudo rm -rf /var/lib/apt/lists/*"
+  "name": "SLURM Training Cluster",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "slurmctld",
+  "workspaceFolder": "/data",
+  "shutdownAction": "stopCompose",
+  "remoteUser": "root",
+
+  "postCreateCommand": "chmod +x .devcontainer/provision-slurm-queues.sh && .devcontainer/provision-slurm-queues.sh"
 }
