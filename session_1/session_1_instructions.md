@@ -16,7 +16,7 @@ Today we'll cover:
 
 The first part should be mostly a refresher of the topics covered in the "Introduction to Linux" course, and we will continue building upon that.  
 
-### CodeSpaces setup  
+### Codespaces setup  
 
 We will use Codespaces to the login node of a computing cluster. You can use Codespaces to practice running simple commands and scripts on a pretend cluster without needing a CeMM account. Please review the main [README.md - A guide to GitHub Codespaces](../README.md#a-guide-to-github-codespaces) for a detailed overview of Codespaces.  
 
@@ -266,7 +266,17 @@ Follow these steps to set up conda:
 
 `bash Miniconda3-py314_26.5.3-2-Linux-x86_64.sh`
 
-Follow the prompts, then restart your terminal.  
+Follow the prompts, then restart your terminal. Type `yes` at the last prompt asking you `Do you wish to update your shell profile to automatically initialize conda?`. 
+
+ Once done, open a new terminal to make the Conda installation "visible" to the terminal.  You should see `(base)` at the very beginning of the command prompt.
+
+>[!NOTE]
+>If something goes wrong, you can uninstall the Miniconda installation with
+>
+>\`\`\`bash
+>conda deactivate # Make sure your base Conda environment is deactivated
+>~/miniconda3/uninstall.sh # Uninstall miniconda; This assumes you used the default installation location
+>\`\`\`
 
 3. Add channels to your Conda installation. Channels are the channels (=locations) where Conda looks for packages. The default channel is the Anaconda channel, but there are many other channels available, such as conda-forge and bioconda, which have a wider range of bioinformatics packages. To add these channels, run the following commands (the order in which you add channels matters):
 
