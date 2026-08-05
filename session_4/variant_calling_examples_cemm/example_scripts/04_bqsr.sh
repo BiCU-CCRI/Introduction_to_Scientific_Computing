@@ -34,7 +34,7 @@ LOG_BR="${LOG_DIR}/${SAMPLE}.base_recalibrator.log"
 LOG_BQSR="${LOG_DIR}/${SAMPLE}.apply_bqsr.log"
 
 echo "Recalibrating bases for sample ${SAMPLE}"
-gatk --java-options "-Xmx10g" BaseRecalibrator \
+gatk --java-options "-Xmx5g" BaseRecalibrator \
     -R "${REF}" \
     -I "${IN_BAM}" \
     --known-sites "${KNOWN_SNPS}" \
@@ -43,7 +43,7 @@ gatk --java-options "-Xmx10g" BaseRecalibrator \
     2> "${LOG_BR}"
 
 echo "Applying BQSR for sample ${SAMPLE}"
-gatk --java-options "-Xmx10g" ApplyBQSR \
+gatk --java-options "-Xmx5g" ApplyBQSR \
     -R "${REF}" \
     -I "${IN_BAM}" \
     --bqsr-recal-file "${RECAL_TABLE}" \

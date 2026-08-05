@@ -29,7 +29,7 @@ REF="${REF_DIR}/Homo_sapiens_assembly38.chr17.fasta"
 LOG="${LOG_DIR}/${SAMPLE}.markdup.log"
 
 echo "Marking duplicate reads for sample ${SAMPLE}"
-gatk --java-options "-Xmx10g" MarkDuplicates \
+gatk --java-options "-Xmx5g" MarkDuplicates \
     --INPUT "${IN_BAM}" \
     --OUTPUT "${OUT_BAM}" \
     --METRICS_FILE "${METRICS}" \
