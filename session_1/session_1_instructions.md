@@ -273,10 +273,10 @@ Follow the prompts, then restart your terminal. Type `yes` at the last prompt as
 >[!NOTE]
 >If something goes wrong, you can uninstall the Miniconda installation with
 >
->\`\`\`bash
+>```bash
 >conda deactivate # Make sure your base Conda environment is deactivated
 >~/miniconda3/uninstall.sh # Uninstall miniconda; This assumes you used the default installation location
->\`\`\`
+>```
 
 3. Add channels to your Conda installation. Channels are the channels (=locations) where Conda looks for packages. The default channel is the Anaconda channel, but there are many other channels available, such as conda-forge and bioconda, which have a wider range of bioinformatics packages. To add these channels, run the following commands (the order in which you add channels matters):
 
