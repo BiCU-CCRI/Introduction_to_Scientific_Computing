@@ -224,7 +224,7 @@ srun: error: Unable to allocate resources: Requested node configuration is not a
 
 **You are done when:**
 
-- You have successfully run the `submit.sh` job on a compute node via your interactive job.  
+- You have successfully run simple commands on a compute node via an interactive job.
 - You have exited your interactive job and returned to the login node.  
 - You have submitted a job that requests more resources than are available/allowed, and observed the error message.  
 
@@ -239,7 +239,7 @@ To turn a `.sh` script into a batch job script, you need to add SLURM directives
 >[!NOTE]
 >Both `.sh` and `.sbatch` scripts are just shell scripts, but `.sbatch` scripts include SLURM directives that tell SLURM what resources your job will require. You can also submit a `.sh` script to SLURM using `sbatch`, but it is good practice to use the `.sbatch` extension for scripts that are intended to be submitted to SLURM. The LearnSlurm batch job scripts are named iwth the `.sh` extension, but you can rename them to `.sbatch` if you want to.  
 
-1. First, let's take a look at an example batch job script with SLURM directives included. Take a look at the `example_job_script.sbatch` sript provided in the repository.  
+1. First, let's take a look at an example batch job script with SLURM directives included. Take a look at the `session_3/example_job_script.sbatch` sript provided in the repository.  
 
 ```bash
 #!/bin/bash
@@ -260,13 +260,14 @@ echo "This is an example job script."
 
 You can see that the SLURM directives are included at the top of the script, and that they specify the resources that the job will require. The `#SBATCH` comments are ignored by the shell, but are read by SLURM when the job is submitted.  
 
-2. Next, create a file named `hello_ccri.sbatch` using the File Explorer.  
+2. Next, create a file in `session_3` named `hello_ccri.sbatch` using the File Explorer.  
 
 3. Add the following lines to the script:
 
 ```bash
 #!/bin/bash
 echo "Hello, CCRI!"
+echo "Waiting for 30 seconds..."
 sleep 30
 echo "Job finished after 30 seconds."
 ```  
@@ -274,7 +275,7 @@ echo "Job finished after 30 seconds."
 >[!TIP]
 >Use `Ctrl + S` (Windows) or `Cmd + S` (Mac) to save your changes to the script.  
 
-4. Modify your `hello_ccri.sbatch` script to include SLURM directives, similar to the ones in the example script. You can choose your own values for the directives, but make sure to include at least the following: `--job-name`, `--time`, `--mem`, `--nodes`, `--ntasks`, `--cpus-per-task`, and `--partition`. You can also specify output and error files using the `--output` and `--error` directives, however these will not be generated in the LearnSlurm simulation. 
+4. Modify your `hello_ccri.sbatch` script to include SLURM directives, similar to the ones in the example script. You can choose your own values for the directives, but make sure to include at least the following: `--job-name`, `--time`, `--mem`, `--nodes`, `--ntasks`, `--cpus-per-task`, and `--partition`. You can also specify output and error files using the `--output` and `--error` directives, however these will not be generated in the LearnSlurm simulation.  
 
 <details>
 
@@ -298,6 +299,7 @@ echo "Job finished after 30 seconds."
 5. Now, we will submit the `.sbatch` script to SLURM using the `sbatch` command. This will allow SLURM to schedule your job on a compute node and run it in the background.  
 
 ```bash
+cd session_3/
 sbatch hello_ccri.sbatch
 ```
 
@@ -307,13 +309,15 @@ You should see the output:
 Submitted batch job <job-id>
 ```
 
-Congratulations! You have successfully submitted your first batch job to SLURM. The `--output` file you specified in your `.sbatch` script should contain the following line:
+Congratulations! You have successfully submitted your first batch job to SLURM. After a minute or so you should see the `--output` file you specified in your `.sbatch` script. Check that this contains the following lines:
 
 ```bash
 Hello, CCRI!
+Waiting for 30 seconds...
+Job finished after 30 seconds.
 ```
 
-And hopefully, the `--error` file you specified in your `.sbatch` script should be empty, since there were no errors in your job.
+And hopefully, the `--error` file you specified in your `.sbatch` script should be empty, since there were no errors in your job (we hope).
 
 Now what? We just submitted a job into the ether, but we need a way to track its status, to understand what is happening if the job is not running as it should be, and to cancel jobs if necessary. It is also useful to track the general usage of the cluster, such as how many jobs are currently running in each queue, so that you can choose which queue to submit your job in accordingly.  
 
@@ -322,8 +326,8 @@ We will learn to do this in the next section!
 
 **You are done when:** 
 
-- You have successfully created a `.sbatch` script.  
-- You have successfully submitted your `.sbatch` script to SLURM using the `sbatch` command.  
+- You have successfully created the `hello_ccri.sbatch` script.  
+- You have successfully submitted your `hello_ccri.sbatch` script to SLURM using the `sbatch` command.  
 - You have checked the output and error files generated by your job, and confirmed that the output is as expected.  
 
 ## Exercise 5: Useful commands to track cluster usage and job status  
@@ -593,6 +597,16 @@ Pick a job that is currently running to cancel. If there are no jobs running, su
 ```bash
 scancel <job_id>
 ```
+
+>[!NOTE]
+>If you cancelled your interactive job while on the compute node, you will get this error message:
+>
+>```bash
+>[codespace@node001 Introduction_to_Scientific_Computing]$ srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+[2026-08-06T13:34:26.758] error: *** STEP <job-id> ON node001 CANCELLED AT 2026-08-06T13:34:26 DUE to SIGNAL Terminated ***
+>```
+>
+>Simply press Enter to return to the login node.
 
 3. Now, run the `squeue --me` command again to check the status of your jobs.  
 
