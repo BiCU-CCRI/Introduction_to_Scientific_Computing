@@ -125,7 +125,8 @@ You will notice that for the CeMM cluster, the `--partition` and `--qos` directi
 
 <img width="715" height="471" alt="job_queues" src="https://github.com/user-attachments/assets/9e013c14-ef3e-4f16-b35a-8e98cbe54ac2" />
 
->[NOTE!]
+  
+>[!NOTE]
 >On the CeMM cluster, you must specify both `--partition` and `--qos` to choose your queue, and these must be identical. With LearnSlurm, it is sufficient to only specify `--partition`.  
 
 Once you have chosen your queue, the default `--time` and `--mem` limits will be set according to the queue's configuration. You can override these defaults by specifying your own values for `--time` and `--mem`, but you cannot exceed the maximum limits of the queue.  
@@ -174,7 +175,7 @@ Test yourself: what does each part of the command do?
 - `--mem=1G` : This specifies that the job will require 1 GB of memory.  
 - `--cpus-per-task=1` : This specifies that the job will require 1 CPU core.  
 - `--pty bash` : This is a bit unfair since we haven't covered this yet. `--pty` stands for "pseudo-terminal" and is used to allocate a terminal for the job. `bash` specifies that the job will start an interactive Bash shell.  
-<details>
+</details>
 
 Now that you have submitted your job, once the resources are allocated, you should observe that the node prompt has changed, indicating that you are now on a compute node:  
 
@@ -292,7 +293,7 @@ echo "Job finished after 30 seconds."
 #SBATCH --output=
 #SBATCH --error=
 ```
-<details>
+</details>
 
 5. Now, we will submit the `.sbatch` script to SLURM using the `sbatch` command. This will allow SLURM to schedule your job on a compute node and run it in the background.  
 
@@ -485,7 +486,7 @@ Test yourself:
 - The current state of the job is `RUNNING`.
 - The job is running in the `interactiveq` partition. 
 - The job is running on compute node `node004`.  
-<details>
+</details>
 
 >[!TIP]
 >You can also use `scontrol` to update the resources requested by a job on the fly. For example, try `scontrol update JobId=<job_id> timelimit=00:05:00` to decrease the time limit of your job to 5 minutes. This can come in handy if your job is `PENDING` due to requesting too may resources. However, increasing resources is not always allowed, and you cannot increase the number of CPUs or nodes requested for a job that is already running. 
@@ -571,7 +572,7 @@ Test yourself:
 - The total CPU time used by the job was 0 seconds (rounded down).
 - The total memory used by the job was 0 MB (rounded down).
 - The efficiency of the job is calculated as the ratio of the resources used by the job to the resources that were allocated to it. In this case, the CPU efficiency and memory efficieny are both 0.00% because the job did not use any CPU time or memory. This suggests that the job was not very resource-intensive, and that fewer resources should be requested for this job in the future.  
-<details>
+</details>
 
 It is a good idea to check the efficiency of your jobs after they have completed, and to adjust your resource requests accordingly for future jobs.  
 
