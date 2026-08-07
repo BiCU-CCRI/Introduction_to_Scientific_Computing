@@ -119,7 +119,7 @@ You might have noticed there are storage space quotas and file number quotas. Th
 
 You can also see quotas for `/home`. These are the group's users' home directories. They are kept on a separate partition. You can see that the quota is much smaller. You should save as little data as possible in your home directory. For example, changing the default Conda installation path.
 
-Your group's data manager is in charge of making sure that the group does not exceed the storage quota. As a user, your main responsibility is to make sure that you regularly transfer your data back to Isilon for long-term storage. You should be aware that files stored in `/nobackup` may be deleted without warning, so it is doubly important to regularly back up important data to Isilon.  
+Your group's data manager is in charge of making sure that the group does not exceed the storage quota. As a user, your main responsibility is to make sure that you regularly transfer your data back to Isilon for long-term storage. You should be aware that files stored in `/nobackup` may be deleted without warning, so it is doubly important to regularly back up important data to Isilon. You can see the current list of CeMM data managers at [CeMM cluster Data Managers](https://confluence.ccri.at/spaces/BiKB/pages/119799939/Getting+access+Data+Managers+and+communication+with+CeMM+IT#Gettingaccess%2CDataManagers%2CandcommunicationwithCeMMIT-CeMMclusterDataManagers) and the most up-to-date at [CeMM Data Managers (requires CeMM account)](https://cemmat.sharepoint.com/sites/data-management/Lists/CeMM%20Data%20Managers/AllItems.aspx?viewid=42b0068c%2D23a6%2D4f50%2Db5d1%2D60136f774414&as=json). Data Managers are also responsible for applying for new user accounts. If you want access to the CeMM cluster, contact your group's CeMM Data Manager for details.
 
 ## 4. Exercise 2: Creating your workspace for session 4
 
@@ -380,8 +380,10 @@ Now that you are familiar with the CeMM cluster architecture, file storage syste
 1. First, make yourself a working directory and navigate into it:
     
 ```bash
-mkdir -p /nobackup/<lab_name>/<username>/Introduction_to_Scientific_Computing/session_4/variant_calling_work_dir
-cd /nobackup/<lab_name>/<username>/Introduction_to_Scientific_Computing/session_4/variant_calling_work_dir
+mkdir variant_calling_work_dir
+cd variant_calling_work_dir
+pwd 
+# /nobackup/<lab_name>/<username>/Introduction_to_Scientific_Computing/session_4/variant_calling_work_dir
 ```
 
 Make `results` and `logs` directories like last time, and this time also make a `logs/slurm_logs` directory so you can distinguish between the output and error files from the SLURM scheduler and the output and error files from the software you are running in your scripts:
@@ -390,64 +392,62 @@ Make `results` and `logs` directories like last time, and this time also make a 
 mkdir -p results logs/slurm_logs
 ```
 
-2. Next, copy the scripts from the variant calling pipeline in Session 2 into your working directory. You can use the `cp` command to copy the scripts from `session_2/variant_calling_examples/example_scripts`:
+2. Next, copy the scripts from the variant calling pipeline in Session 2 `../../session_2/variant_calling_examples/example_scripts/` into your working directory:
 
 ```bash
 cp ../../session_2/variant_calling_examples/example_scripts/* .
 ```
 
-3. Now, turn each `.sh` script into a `.sbatch` script. We encourage you to write your own scripts, but if you get really stuck, you can check the example scripts in `session_4/variant_calling_examples/example_scripts`.  
+>[!NOTE]
+>The provided scripts are fairly similar to the scripts you created in Session 2. You could also use the ones you created yourself, but copying between Codespaces and the CeMM cluster isn't straightforward.
+
+3. Now, turn each `.sh` script into a `.sbatch` script. We encourage you to write your own scripts, but if you get really stuck, you can check the example scripts in `../variant_calling_examples_cemm/example_scripts` and copy them to the current working directory. Don't forget to verify that they are correct before you continue. "Trust, but verify" is one of the most important rules!  
 
 For each script:
 
-- Change the file extension from `.sh` to `.sbatch`.
-
-- Add SLURM directives to specify the resources you need for the job. Since we are working with test data, we can request few resources, but for a real analysis, you would need to request more resources (e.g. at least 40 GB for the `bwa` step).
-
+- [ ] Change the file extension from `.sh` to `.sbatch`.
+- [ ] Add SLURM directives to specify the resources you need for the job. Since we are working with test data, we can request a few resources, but for a real analysis, you would need to request many more. Requesting 5 GB RAM, 1 CPU, and 10 minutes of runtime should be more than enough.
 - Use the `--output` and `--error` directives to specify the names of the output and error files for the job. This will help you keep track of the progress of your analysis and troubleshoot any issues that arise.  
+- [ ] Load the appropriate modules for the software used in the script. You can use `module spider` command in the terminal first to find the modules you need, then use `module load` in your job script to load them.
+- [ ] Remember to match any software parameters that specify the number of threads to use with the number of CPUs you request in your job script.
+- [ ] Remember to change the file paths in the scripts to point to the correct locations of your input files and output directories on the CeMM cluster.  
 
-- Load the appropriate modules for the software used in the script. You can use `module spider` command in the terminal first to find the modules you need, then use `module load` in your job script to load them.
-
-- Remember to match any software parameters that specify the number of threads to use with the number of CPUs you request in your job script.
-
-- Remember to change the file paths in the scripts to point to the correct locations of your input files and output directories on the CeMM cluster.  
-
-4. Submit the scripts one by one to the SLURM scheduler using the `sbatch` command. You can check the status of your jobs using the `squeue` command. Wait until each job has completed before submitting the next one. You can check the output and error files for each job to see if there were any issues, as we did in Session 2.  
+4. Submit the scripts one by one to the SLURM scheduler using the `sbatch` command. You can check the status of your jobs using the `squeue` command. Wait until each job has completed before submitting the next one. You can also see the logs in `logs` and SLURM logs in `logs/slurm_logs` to check the output and error files for each job to see if there were any issues, as we did in Session 2.  This might take some time, but it's ok.
 
 5. Once you are done, check that all of the results and log files are present.  
 
 ```bash
-tree results
+tree -u -h results
 ```
 
 ```bash
-/path/to/results
-├── 01_fastp
-│   ├── SRR7890883.chr17_50k.html
-│   ├── SRR7890883.chr17_50k.json
-│   ├── SRR7890883.chr17_50k_R1_trimmed.fastq
-│   └── SRR7890883.chr17_50k_R2_trimmed.fastq
-├── 02_bwa
-│   ├── SRR7890883.chr17_50k.bam
-│   └── SRR7890883.chr17_50k.bam.bai
-├── 03_markdup
-│   ├── SRR7890883.chr17_50k.markdup.bai
-│   ├── SRR7890883.chr17_50k.markdup.bam
-│   └── SRR7890883.markdup.metrics.txt
-├── 04_bqsr
-│   ├── SRR7890883.recal.bai
-│   ├── SRR7890883.recal.bam
-│   ├── SRR7890883.recal.bam.bai
-│   └── SRR7890883.recal.table
-└── 05_mutect2
-    ├── SRR7890883.filtered.vcf.gz
-    ├── SRR7890883.filtered.vcf.gz.filteringStats.tsv
-    ├── SRR7890883.filtered.vcf.gz.tbi
-    ├── SRR7890883.pass.vcf.gz
-    ├── SRR7890883.pass.vcf.gz.tbi
-    ├── SRR7890883.unfiltered.vcf.gz
-    ├── SRR7890883.unfiltered.vcf.gz.stats
-    └── SRR7890883.unfiltered.vcf.gz.tbi
+results
+├── [<username>   4.0K]  01_fastp
+│   ├── [<username>   451K]  SRR7890883.chr17_50k.html
+│   ├── [<username>   111K]  SRR7890883.chr17_50k.json
+│   ├── [<username>    13M]  SRR7890883.chr17_50k_R1_trimmed.fastq
+│   └── [<username>    13M]  SRR7890883.chr17_50k_R2_trimmed.fastq
+├── [<username>   4.0K]  02_bwa
+│   ├── [<username>   7.4M]  SRR7890883.chr17_50k.bam
+│   └── [<username>   104K]  SRR7890883.chr17_50k.bam.bai
+├── [<username>   4.0K]  03_markdup
+│   ├── [<username>   142K]  SRR7890883.chr17_50k.markdup.bai
+│   ├── [<username>    10M]  SRR7890883.chr17_50k.markdup.bam
+│   └── [<username>   3.5K]  SRR7890883.markdup.metrics.txt
+├── [<username>   4.0K]  04_bqsr
+│   ├── [<username>   142K]  SRR7890883.recal.bai
+│   ├── [<username>    13M]  SRR7890883.recal.bam
+│   ├── [<username>   104K]  SRR7890883.recal.bam.bai
+│   └── [<username>   211K]  SRR7890883.recal.table
+└── [<username>   4.0K]  05_mutect2
+    ├── [<username>    97K]  SRR7890883.filtered.vcf.gz
+    ├── [<username>   1.8K]  SRR7890883.filtered.vcf.gz.filteringStats.tsv
+    ├── [<username>    11K]  SRR7890883.filtered.vcf.gz.tbi
+    ├── [<username>    59K]  SRR7890883.pass.vcf.gz
+    ├── [<username>   9.6K]  SRR7890883.pass.vcf.gz.tbi
+    ├── [<username>    86K]  SRR7890883.unfiltered.vcf.gz
+    ├── [<username>     33]  SRR7890883.unfiltered.vcf.gz.stats
+    └── [<username>    11K]  SRR7890883.unfiltered.vcf.gz.tbi
 
 5 directories, 21 files
 ```
@@ -488,36 +488,43 @@ tree logs
 
 7. Now, let's check the actual results files. 
 
-First, let's check the `fastp` HTML file. If you are using VSCode, you can open the HTML file in your web browser. If you are using a terminal, you can use the `scp` command to copy the HTML file to your local machine and open it in your web browser.  
+First, let's check the `fastp` HTML file. You have to download the HTML file locally and open it in your web browser. In VSCode, right-click on the `fastp` HTML file and "Download...". If you are using a terminal, you can use the `scp` command to copy the HTML file to your local machine. From a new terminal on your laptop (do **not** log in to the CeMM cluster):  
 
 ```bash
-scp <username>@login.int.cemm.at:/nobackup/<lab_name>/<username>/session_4/variant_calling_work_dir/results/01_fastp/SRR7890883.chr17_50k.html .
+scp <username>@login.int.cemm.at:/nobackup/<lab_name>/<username>/Introduction_to_Scientific_Computing/session_4/variant_calling_work_dir/results/01_fastp/SRR7890883.chr17_50k.html .
 ```
 
 - What is the total number of reads before and after trimming?
 - What is the average read length before and after trimming?
 - What is the number of reads that were filtered out due to low quality?
 
-Answers:
+<details>
+<summary>Answers</summary>
 
 - 100000 -> 99996
 - 125 bp -> 123 bp
 - 2
+</details>
 
 Next, check the aligment statistics.
 
 ```bash
-module load 
+module load SAMtools/1.18-GCC-12.3.0
 samtools flagstat results/02_bwa/SRR7890883.chr17_50k.bam
 ```
+
+>[!IMPORTANT]
+>We have told you not to run any computationally demanding commands on the login node. In this tutorial, we know the example results are small, and the commands will take just a second, so we can run them here. However, this is an **exception** and based on our experience.
 
 - What is the total number of reads in the `.bam` file?
 - What percentage of reads are mapped to the reference genome?
 
-Answers:
+<details>
+<summary>Answers</summary>
 
 - 100125
 - 97.38%
+</details>
 
 Next, check the `MarkDuplicates` metrics table.
 
@@ -527,7 +534,7 @@ Next, check the `MarkDuplicates` metrics table.
 Answers:
 
 - 47377
-- 0.0099 %
+- 0.99%
 
 Finally, let's check the Mutect2 results.
 
@@ -543,7 +550,11 @@ bcftools view -v indels -H results/05_mutect2/SRR7890883.pass.vcf.gz | wc -l
 
 Even though all of the previous results were the same, a different number of variants was found with `Mutect2` than in Session 2! Why do you think this might be?  
 
-Answer: The difference in the number of variants found with `Mutect2` could be due to differences in the software versions - in Session 2, our `somatic_variant_calling` environment used `gatk` v4.6.2.0, whereas our module system at CeMM does not have this version, so we used `gatk4` v4.1.8.1. It is therefore also likely that the `gatk4` dependencies are different between the two environments. Variants calling can be sensitive to these factors, leading to slight variations in the results. This is a good example of why it is good practice to document all of the software versions and dependencies used in your analysis, so that you can reproduce your results in the future.  
+<details>
+<summary>Answer</summary>
+
+The difference in the number of variants found with `Mutect2` could be due to differences in the software versions - in Session 2, our `somatic_variant_calling` environment used `gatk` v4.6.2.0, whereas our module system at CeMM does not have this version, so we used `gatk4` v4.1.8.1. It is therefore also likely that the `gatk4` dependencies are different between the two environments. Variants calling can be sensitive to these factors, leading to slight variations in the results. This is a good example of why it is good practice to document all of the software versions and dependencies used in your analysis, so that you can reproduce your results in the future.  
+</details>
 
 ## 6. Exercise 4: Running a Jupyter Notebook session on the CeMM cluster  
 
