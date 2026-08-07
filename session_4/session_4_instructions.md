@@ -627,7 +627,7 @@ Click on the link starting `http://d021.int.cemm.at:8513/lab?token=...` to acces
 ![fastforward](../images/fastforward.png)
     
 
-5. Do you see any errors? Why? What if we try to install a package that's not included in the pre-configured JupyterLab module? Try running section 6.  
+5. Do you see any errors? Why? What if we try to install a package that's not included in the pre-configured JupyterLab module? Try running section 6 of the notebook.  
 
 If you are interested in using a package that is not included in the pre-configured JupyterLab module, you can create your own conda environment and use it in Jupyter Notebook. Check `extra_cemm_cluster_instructions/jupyterlab_with_custom_env.md` in the main directory for instructions on how to do this.  
 
