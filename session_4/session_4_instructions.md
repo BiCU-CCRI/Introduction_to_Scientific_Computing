@@ -1,12 +1,14 @@
 # Introduction to Scientific Computing - Session 4  
 
-Welcome to Session 4 of the Introduction to Scientific Computing course! For this session we will be focusing on running R and Jupyter Notebook from the CeMM cluster.  
+Welcome to Session 4 of the Introduction to Scientific Computing course! For this session we will be focusing on running interactive RStudio and Jupyter Notebook on the CeMM cluster.  
+
+If you don't have access to the CeMM cluster, please join a colleague who does.
 
 ## Overview
   
 Today we'll cover:  
 
-1. Exercise 1: Logging onto a computing cluster using SSH  
+1. Exercise 1: Logging onto the CeMM cluster using SSH  
 2. Understanding the CeMM cluster architecture  
 3. Understanding the CeMM cluster file storage systems  
 4. Exercise 2: Environment management using the module system
@@ -22,9 +24,13 @@ The first step to accessing the CeMM cluster, or any high performance computing 
 
 ### Logging onto the CeMM cluster from the terminal  
 
-1. Make sure you are connected to the CCRI network (either via VPN or on-site at CCRI).  
+1. Make sure you are connected to the St. Anna CCRI network (either on-site at St. Anna CCRI or via VPN).  
 
-2. Open a terminal on your local machine (Linux or Mac) or use a terminal emulator like PuTTY (Windows).  
+2. Open a terminal on your local machine (Linux or Mac) or use a terminal emulator like [MobaXterm](MobaXterm) or [PuTTY](https://putty.org/index.html) on Windows.  
+
+>[!TIP]
+>You can also use [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install) (WSL) if you have it installed on your Windows. 
+
 
 3. Use the following command to connect to the CeMM cluster:  
 
@@ -40,7 +46,13 @@ The first step to accessing the CeMM cluster, or any high performance computing 
 
 2. Cmd + Shift + P (Mac) or Ctrl + Shift + P (Windows) to open the command palette.  
 
-3. Type "Remote-SSH: Connect to Host..." and select it.  
+3. Type "Remote-SSH: Connect to Host..." and select it. 
+4. 
+
+>[!TIP]You can also use the small `><` green button at the bottom left and select "Connect to Host...    Remote-SSH".
+>
+><img width="36" height="22" alt="Image" src="https://github.com/user-attachments/assets/88d40e1f-446a-489b-90dc-13a9c019339a" />
+
 
 4. Enter the following in the input box: `<username>@login.int.cemm.at` and press Enter.  
 
@@ -58,7 +70,11 @@ https://cemmat.sharepoint.com/sites/data-management
 ############################################################################
 ```
 
-You can now start running commands and scripts on the cluster. How exciting.  
+If the terminal didn't pop up, you should at least see ">< SSH: login.int.cemm.at" at the small green button at bottom left.
+
+<img width="166" height="26" alt="Image" src="https://github.com/user-attachments/assets/895ec065-d411-4b44-b561-2b5e1d62ac03" />
+
+You can now start running commands and jobs on the cluster. How exciting.  
 
 ## 2. Understanding the CeMM cluster architecture
 
