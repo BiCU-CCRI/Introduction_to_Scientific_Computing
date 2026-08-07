@@ -365,10 +365,22 @@ bash check_numpy_version_module.sh
 
 Did you get the same output as previously? Why did we save the output of `module list` into a log file?
 
+You can now test unloading all the modules we loaded previously, and test run the script.
+
+\`\`\`bash
+module purge 
+module list
+# No modules loaded
+bash check_numpy_version_module.sh
+\`\`\`
+
+Did you get the same output as previously? Why did we save the output of `module list` into a log file?
+
 **You are done when:** 
 
 - You are comfortable loading and unloading modules using the module system.  
 - You can run the `../session_1/check_numpy_version.py` script successfully after loading the appropriate modules.  
+- You created and successfully ran a script that both loads the modules and runs `../session_1/check_numpy_version.py` script.
 - You created and successfully ran a script that both loads the modules and runs `../session_1/check_numpy_version.py` script.
 
 ## 5. Exercise 3: Variant calling on the CeMM cluster
@@ -558,14 +570,14 @@ The difference in the number of variants found with `Mutect2` could be due to di
 
 ## 6. Exercise 4: Running a Jupyter Notebook session on the CeMM cluster  
 
->[TIP!]
+>[!TIP]
 >The BiCU have set up a [GitHub repository](https://github.com/BiCU-CCRI/running_rstudio_or_jupyterlab) specifically for running RStudio and Jupyter Notebook on the CeMM cluster. The scripts used in Session 4 are copied from this repository.
 
 **Goal:** Learn how to run a Jupyter Notebook session on the CeMM cluster.
 
-Many scientists use Jupyter Notebook for data analysis and visualization. In this exercise, we will learn how to run a Jupyter Notebook session on the CeMM cluster. This allows you to undertake analyses which require more computational resources than your local laptop can provide.  
+Many scientists use [JupyterLab](https://jupyter.org/) (or Jupyter Notebook) for data analysis and visualization. In this exercise, we will learn how to run a Jupyter Notebook session on the CeMM cluster. This allows you to undertake analyses that require more computational resources than your local laptop can provide.  
 
-The CeMM cluster provides a Jupyterlab module that you can load to run a Jupyter Notebook session. This module is pre-configured with a set of commonly used Python packages for data analysis and visualization.  
+The CeMM cluster provides a Jupyterlab module that you can load to run a JupyterLab session. This module is pre-configured with a set of commonly used Python packages for data analysis and visualization.  
 
 1. Navigate to the `session_4/jupyterlab/` directory.  
 
@@ -576,8 +588,8 @@ The CeMM cluster provides a Jupyterlab module that you can load to run a Jupyter
 #SBATCH --partition=interactiveq
 #SBATCH --qos=interactiveq
 #SBATCH --cpus-per-task=1
-#SBATCH --mem=8G
-#SBATCH --time=12:00:00
+#SBATCH --mem=3G
+#SBATCH --time=00:30:00
 #SBATCH --job-name=jupyter-lab
 #SBATCH --output=jupyter-lab-%j.log
 
@@ -603,34 +615,37 @@ Can you recognize the following concepts we learnt about in Sessions 1-3?
 To access the server, open this file in a browser:
     file:///home/<username>/.local/share/jupyter/runtime/jpserver-179870-open.html
 Or copy and paste one of these URLs:
-    http://d021.int.cemm.at:8513/lab?token=1e434bed38321564f9d1953064f260c9e253bc8b67f59e88
+    http://d0<some_integer>.int.cemm.at:8513/lab?token=1e434bed38321564f9d1953064f260c9e253bc8b67f59e88
     http://127.0.0.1:8513/lab?token=1e434bed38321564f9d1953064f260c9e253bc8b67f59e88
 ```
 
 Click on the link starting `http://d021.int.cemm.at:8513/lab?token=...` to access the Jupyter Notebook session in your web browser. You should now be able to use Jupyter Notebook in your web browser!  
 
-4. Let's try running an example analysis with the `example_notebook.ipynb` notebook. You can open the notebook in Jupyterlab. Run the cells to produce the example plot.  
+4. Let's try running an example analysis with the `example_notebook.ipynb` notebook. You can open the notebook in JupyterLab by simply double-clicking on it. Run the cells to produce the example plot using the "fast-forward" icon on the top and "Restart".
+ 
+<img width="24" height="16" alt="Image" src="https://github.com/user-attachments/assets/704fcd6a-399e-4259-b988-f4f7d4ab9f0f" />
+    
 
-5. What if we try to install a package that's not included in the pre-configured Jupyterlab module? Try running section 6.  
+5. Do you see any errors? Why? What if we try to install a package that's not included in the pre-configured JupyterLab module? Try running section 6.  
 
-If you are interested in using a package that is not included in the pre-configured Jupyterlab module, you can create your own conda environment and use it in Jupyter Notebook. Check `extra_cemm_cluster_instructions/jupyterlab_with_custom_env.md` for instructions on how to do this.  
+If you are interested in using a package that is not included in the pre-configured JupyterLab module, you can create your own conda environment and use it in Jupyter Notebook. Check `extra_cemm_cluster_instructions/jupyterlab_with_custom_env.md` in the main directory for instructions on how to do this.  
 
 **You are done when:**
 
-- You have successfully started a Jupyter Notebook session on the CeMM cluster.
+- You have successfully started a JupyteLab session on the CeMM cluster.
 - You have produced the example plot using the `example_notebook.ipynb` notebook.  
 
 ## 7. Exercise 5: Running an RStudio session on the CeMM cluster  
 
 **Goal:** Learn how to run an RStudio session on the CeMM cluster.  
 
-Many scientists use R - specifically RStudio - for data analysis and visualization. In this exercise, we will learn how to run an RStudio session on the CeMM cluster. This allows you to undertake analyses which require more computational resources than your local laptop can provide.  
+Many scientists use R - specifically using RStudio - for data analysis and visualization. In this exercise, we will learn how to run an RStudio session on the CeMM cluster. This allows you to undertake analyses that require more computational resources than your local laptop can provide.  
 
 Let's start an RStudio session on the CeMM cluster.  
 
-1. Log onto the CeMM cluster and navigate to your local copy of `Introduction_to_Scientific_Computing/session_4/rstudio/`.  
+1. Navigate to `session_4/rstudio`.  
 
-2. We will use the `run_rstudio_apptainer_cemm.sbatch` script to start an RStudio session. First, let's view the script contents.  
+2. We will use the `run_rstudio_apptainer_cemm.sbatch` script to start an RStudio session. First, let's view the script contents:
 
 ```bash
 #!/bin/bash
@@ -642,7 +657,7 @@ Let's start an RStudio session on the CeMM cluster.
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=40G
 #SBATCH --time=12:00:00
-#SBATCH --output=logs/rstudio_apptainer_%j.log #slurm writes everything to --output if --error logs/rstudio_apptainer_%j.err is not set
+#SBATCH --output=rstudio_apptainer_%j.log # Slurm writes everything to --output when --error is not set
 
 set -ueo pipefail
 
@@ -665,6 +680,7 @@ echo "Job node IP address:   $(nslookup $(hostname) | grep Address: | tail -1 | 
 echo "======================"
 
 module load apptainer/1.1.9
+module load Python/3.11.3-GCCcore-12.3.0
 
 if [[ -z "${TMPDIR:-}" ]]; then
     TMPDIR="/tmp"
@@ -779,15 +795,19 @@ It looks more complicated than the JupyterLab scripts, but you should still be a
 - the `cat` command
 - the `seff` command
 
-Can you find the line where we set the password? Feel free to change this if you like, but don't use anything sensitive, and DON'T commit it to GitHub!  
+Can you find the line where we set the password? Feel free to change this if you like, but don't use anything sensitive. Be careful to **NOT** commit it to GitHub even if accessing the interactive session is limited to only your user, and you have to be logged in to the protected network!  
 
-The script works by running an `apptainer` container with RStudio Server installed. It sets up a temporary directory for the RStudio session, configures the R environment, and starts the RStudio Server on a random port between 8000 and 9000 (these are the ports we can access from the CCRI network). The output of the script is a URL that you can use to access the RStudio session in your web browser.  
+The script works by running an `apptainer` container with RStudio Server installed. It sets up a temporary directory for the RStudio session, configures the R environment, and starts the RStudio Server on a random port between 8000 and 9000 (these are the ports we can access from the St. Anna CCRI network). The output of the script is a URL that you can use to access the RStudio session in your web browser.  
 
 >[NOTE!]
->Apptainer is another way to manage software environments, and is more reproducible than conda or modules, but out of the scope of this course. You can find more information about Apptainer [here](https://apptainer.org/).
+>Apptainer is another way to manage software environments, and is more reproducible than Conda or modules, but out of the scope of this course. You can find more information about Apptainer [here](https://apptainer.org/).
 
-3. Submit the script to SLURM using `sbatch` and wait for the output file to be created in `logs/rstudio_apptainer_<job-id>.log`. You should see a message like this:
+3. Submit the script to SLURM using `sbatch` and wait for the output file to be created in `rstudio_apptainer_<job-id>.log`. You should see a message like this:
 
+>[!CAUTION]
+>Before submitting the RStudio sbatch script, make sure the previous interactive JupyterLab job is finished. Each user is allowed only a single interactive job at the same time on the same cluster!
+>You can check this with:
+>
 ```
 ======================
 Working directory:     /path/to/Introduction_to_Scientific_Computing/session_4/rstudio
@@ -809,11 +829,18 @@ Job started at: Fri Jul 31 13:32:27 CEST 2026
 
 Click on the link in the output. Log onto the RStudio session using your CeMM cluster username and the password you set in the script. You should now be able to use RStudio in your web browser!  
 
-4. Try to run the `example_script.R` in the Rstudio server to produce the example plot. Loading packages and manipulating data in the RStudio session is exactly the same as on your local machine. You can also save your work in the RStudio session, and it will be saved in your home directory on the CeMM cluster.  
+4. Try to run the `example_script.R` in the Rstudio server to produce the example plot. Simply click on the `example_script.R` at the bottom right and keep clicking "Run" on the top until you reach the end. You can also select all the lines in the script with your mouse, then click the "Run" button once (it runs either the current line or all selected lines).
 
-5. Remember to `scancel` the job once you are done with your RStudio session.  
+<img width="48" height="18" alt="Image" src="https://github.com/user-attachments/assets/e50de123-b6b1-4dc7-8970-6fb2d0b74a1e" />
 
->[NOTE!]
+Loading packages and manipulating data in the RStudio session is exactly the same as on your local machine. You can also save your work in the RStudio session, and it will be saved in your home directory on the CeMM cluster.  
+
+5. Remember to `scancel` the job once you close the RStudio session tab in your web browser, as we checked at the beginning of this exercise (checking the JupyterLab job status).  
+
+>[!TIP]
+We recommend regularly checking and canceling unused jobs. Each running job consumes your [fair share](https://slurm.schedmd.com/SLUG19/Priority_and_Fair_Trees.pdf), which, in the long term, can slow down the execution of your jobs at the CeMM cluster.
+
+>[!NOTE]
 >To manage your R environments, we recommend using `renv`. You can find more information about `renv` [here](https://rstudio.github.io/renv/articles/renv.html).  
 
 **You are done when:**
