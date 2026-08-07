@@ -1,15 +1,15 @@
 #!/bin/bash
 
 #SBATCH --job-name=fastp
-#SBATCH --output=logs/slurm_logs/fastp_%j.out
-#SBATCH --error=logs/slurm_logs/fastp_%j.err
+#SBATCH --output=logs/slurm_logs/01_fastp_%j.out
+#SBATCH --error=logs/slurm_logs/01_fastp_%j.err
 #SBATCH --time=00:05:00
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=3G
 #SBATCH --partition=tinyq
 #SBATCH --qos=tinyq
 
-set -euo pipefail # Exit on error, undefined variable, or error in a pipeline
+set -euo pipefail
 
 module load fastp/0.23.2-GCC-11.3.0
 
@@ -38,4 +38,5 @@ fastp \
     --detect_adapter_for_pe \
     --thread 1 \
     --html "${FASTP_HTML}" \
-    --json "${FASTP_JSON}" > "${LOG}" 2>&1
+    --json "${FASTP_JSON}" \
+    > "${LOG}" 2>&1

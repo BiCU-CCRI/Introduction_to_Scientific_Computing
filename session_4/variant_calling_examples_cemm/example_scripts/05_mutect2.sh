@@ -1,8 +1,8 @@
 #!/bin/bash
 
 #SBATCH --job-name=mutect2
-#SBATCH --output=logs/slurm_logs/mutect2_%j.out
-#SBATCH --error=logs/slurm_logs/mutect2_%j.err
+#SBATCH --output=logs/slurm_logs/05_mutect2_%j.out
+#SBATCH --error=logs/slurm_logs/05_mutect2_%j.err
 #SBATCH --time=00:10:00
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=5G

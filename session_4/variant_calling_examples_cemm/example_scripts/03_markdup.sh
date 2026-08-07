@@ -1,8 +1,8 @@
 #!/bin/bash
 
 #SBATCH --job-name=mark_dup
-#SBATCH --output=logs/slurm_logs/markdup_%j.out
-#SBATCH --error=logs/slurm_logs/markdup_%j.err
+#SBATCH --output=logs/slurm_logs/03_markdup_%j.out
+#SBATCH --error=logs/slurm_logs/03_markdup_%j.err
 #SBATCH --time=00:05:00
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=5G
@@ -36,4 +36,5 @@ gatk --java-options "-Xmx5g" MarkDuplicates \
     --REFERENCE_SEQUENCE "${REF}" \
     --CREATE_INDEX true \
     --VALIDATION_STRINGENCY SILENT \
-    --OPTICAL_DUPLICATE_PIXEL_DISTANCE 2500 > "${LOG}" 2>&1
+    --OPTICAL_DUPLICATE_PIXEL_DISTANCE 2500 \
+    > "${LOG}" 2>&1

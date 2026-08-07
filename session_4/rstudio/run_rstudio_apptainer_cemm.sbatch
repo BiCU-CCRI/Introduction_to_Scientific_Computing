@@ -30,6 +30,7 @@ echo "Job node IP address:   $(nslookup $(hostname) | grep Address: | tail -1 | 
 echo "======================"
 
 module load apptainer/1.1.9
+module load Python/3.11.3-GCCcore-12.3.0
 
 if [[ -z "${TMPDIR:-}" ]]; then
     TMPDIR="/tmp"
@@ -54,7 +55,7 @@ cat >"${rstudio_server_config_dir}/.Rprofile" <<END
 source("${rstudio_server_config_dir}/.Ractivate.R")
 END
 
-# Location or .Rprofile - project-wide
+# Location of .Rprofile - project-wide
 cat >".Renviron" <<END
 R_PROFILE_USER="${rstudio_server_config_dir}/.Rprofile"
 TMPDIR="${TMPDIR}"

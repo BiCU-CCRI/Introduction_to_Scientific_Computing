@@ -1,15 +1,15 @@
 #!/bin/bash
 
 #SBATCH --job-name=bwa
-#SBATCH --output=logs/slurm_logs/bwa_%j.out
-#SBATCH --error=logs/slurm_logs/bwa_%j.err
+#SBATCH --output=logs/slurm_logs/02_bwa_%j.out
+#SBATCH --error=logs/slurm_logs/02_bwa_%j.err
 #SBATCH --time=00:05:00
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=3G
 #SBATCH --partition=tinyq
 #SBATCH --qos=tinyq
 
-set -euo pipefail # Exit on error, undefined variable, or error in a pipeline
+set -euo pipefail
 
 module load BWA/0.7.17-GCCcore-11.3.0
 module load SAMtools/1.18-GCC-12.3.0
