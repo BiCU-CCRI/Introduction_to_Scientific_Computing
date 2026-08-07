@@ -5,6 +5,10 @@
   "workspaceFolder": "/workspaces/Introduction_to_Scientific_Computing",
   "shutdownAction": "stopCompose",
   "remoteUser": "codespace",
+  "hostRequirements": {
+    "cpus": 4,
+    "memory": "8gb"
+  },
 
   "postCreateCommand": "sudo bash .devcontainer/provision-slurm-queues.sh && sudo bash .devcontainer/seed-fake-jobs.sh"
 }
