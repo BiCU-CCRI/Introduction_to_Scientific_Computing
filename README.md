@@ -13,42 +13,47 @@ Below you can find a description of the topics that will be covered in each sess
 3. Exercise 3: Running a simple scientific computing script  
 4. Exercise 4: Environment management using Conda
 5. Exercise 5: Activating a Conda environment in a script  
-6. TODO: Project organization and file conventions (?)
-7. TODO: Data/metadata provenance                  (?)
  
 ### Session 2 – Variant calling (Codespaces)
 
-- Intro to sequencing data formats used in this training (fastq, bam, vcf)  
-- Read QC and trimming  
-- Alignment  
-- Variant calling  
-- Filtering and sanity checks  
+1. Intro to the project, sequencing data formats, and the somatic variant calling workflow
+2. Exercise 1: Setting up your project
+3. Exercise 2: Read QC and trimming
+4. Exercise 3: Alignment
+5. Exercise 4: Marking PCR duplicates,
+6. Exercise 5: Base quality score recalibration (BQSR)
+7. Exercise 6: Variant calling
  
 ### Session 3 – SLURM basics (LearnSlurm)
 
-- Why resource managers exist on shared clusters  
-- SLURM directives  
-- SLURM queues  
-- Submitting and monitoring jobs (`sbatch`, `salloc`, `srun`, `squeue`, `sacct`)  
-- Cancelling jobs (`scancel`)  
-- Tracking job usage (`seff`)  
+1. Exercise 1: Learning when to use a compute node instead of a login node  
+2. SLURM basics  
+3. SLURM directives  
+4. SLURM queues  
+5. Exercise 2: Using `srun` to start an interactive job  
+6. Exercise 3: Running simple commands and scripts using the command line on a compute node via an interactive job  
+7. Exercise 4: Running a simple `.sbatch` script on a compute node  
+8. Exercise 5: Useful commands to track cluster usage and job status  
  
 ### Session 4 – Variant calling and interactive work on the CeMM cluster (CeMM cluster)
 
-- Logging into the CeMM cluster  
-- Navigating the CeMM filesystem  
-- Environment management using the module system  
-- Converting `.sh` scripts into `.sbatch` scripts  
-- Running the variant calling pipeline on the CeMM cluster  
-- Interactive work: interactive sessions, RStudio, and JupyterLab on the CeMM cluster  
-- Wrap-up  
+1. Exercise 1: Logging onto the CeMM cluster using SSH  
+2. Understanding the CeMM cluster architecture  
+3. Understanding the CeMM cluster file storage systems  
+4. Exercise 2: Creating your workspace for session 4
+5. Exercise 3: Environment management using the module system
+6. Exercise 4: Variant calling on the CeMM cluster
+7. Exercise 5: Running a Jupyter Notebook session on the CeMM cluster 
+8. Exercise 6: Running an RStudio session on the CeMM cluster 
 
 ## Prerequisites
 
 ### Required pre-requisites
 
 - Intro to Linux (or pre-existing basic knowledge of Linux commands and bash scripting)
- - [GitHub](https://github.com/signup) account (free) with enough Codespaces (minimum of 20 hours usage left)
+
+- [GitHub](https://github.com/signup) account (free) with enough Codespaces (minimum of 20 hours usage left)
+
 ### Recommended pre-requisites
 
 - CeMM cluster account  
@@ -77,8 +82,7 @@ For Sessions 1 and 2, we will use Github Codespaces to provide a cloud-based Lin
 4. Click **Create codespace on main**.
 5. Wait for the environment to build - this can take a few minutes the first time.
 
-<img width="825" height="443" alt="codespaces_1" src="https://github.com/user-attachments/assets/4c0c86b3-6269-4efc-8bd7-84fe00bb9b4e" />
-
+![codespaces_1](images/codespaces_1.png)
 
 Once it is ready, you will have a complete Linux environment running in your browser, including a terminal where you can run commands. All participants have the same Linux environment, which makes it easier to share the code and go through the tutorials.
 
@@ -93,7 +97,7 @@ You can view and manage your Codespaces at [https://github.com/codespaces](https
 
 **When you have finished using Codespaces:** Remember to delete your Codespace if you no longer need it. Codespaces that are left unused can continue to count towards your storage and usage limits. You can always create a new Codespace from this repository again in the future if needed.
 
-<img width="1160" height="543" alt="codespaces_2" src="https://github.com/user-attachments/assets/9d0670fb-ee8b-48ec-84ff-c92f96172610" />
+![codespaces_2](images/codespaces_2.png)
 
 
 >[!TIP]
@@ -109,7 +113,7 @@ For Session 3, we will use [LearnSlurm](https://learnslurm.com/index), a free on
 
 2. Select "> Launch Trainer" to start the SLURM training environment.
 
-<img width="966" height="381" alt="learnslurm" src="https://github.com/user-attachments/assets/19e1916c-2db6-4358-ae22-0246071d1358" />
+![launch_trainer](images/launch_trainer.png)
 
 
 You now have a fake high-performance computing cluster running in your browser, including a terminal where you experiment with common SLURM commands. Similarly to Codespaces, LearnSlurm also doesn't have access to your local files, so you can play around without being worried about deleting anything by accident.  
