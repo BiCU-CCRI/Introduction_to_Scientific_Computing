@@ -82,8 +82,7 @@ For Sessions 1 and 2, we will use Github Codespaces to provide a cloud-based Lin
 4. Click **Create codespace on main**.
 5. Wait for the environment to build - this can take a few minutes the first time.
 
-<img width="825" height="443" alt="codespaces_1" src="https://github.com/user-attachments/assets/4c0c86b3-6269-4efc-8bd7-84fe00bb9b4e" />
-
+![codespaces_1](images/codespaces_1.png)
 
 Once it is ready, you will have a complete Linux environment running in your browser, including a terminal where you can run commands. All participants have the same Linux environment, which makes it easier to share the code and go through the tutorials.
 
@@ -98,7 +97,7 @@ You can view and manage your Codespaces at [https://github.com/codespaces](https
 
 **When you have finished using Codespaces:** Remember to delete your Codespace if you no longer need it. Codespaces that are left unused can continue to count towards your storage and usage limits. You can always create a new Codespace from this repository again in the future if needed.
 
-<img width="1160" height="543" alt="codespaces_2" src="https://github.com/user-attachments/assets/9d0670fb-ee8b-48ec-84ff-c92f96172610" />
+![codespaces_2](images/codespaces_2.png)
 
 
 >[!TIP]
@@ -114,7 +113,7 @@ For Session 3, we will use [LearnSlurm](https://learnslurm.com/index), a free on
 
 2. Select "> Launch Trainer" to start the SLURM training environment.
 
-<img width="966" height="381" alt="learnslurm" src="https://github.com/user-attachments/assets/19e1916c-2db6-4358-ae22-0246071d1358" />
+![launch_trainer](images/launch_trainer.png)
 
 
 You now have a fake high-performance computing cluster running in your browser, including a terminal where you experiment with common SLURM commands. Similarly to Codespaces, LearnSlurm also doesn't have access to your local files, so you can play around without being worried about deleting anything by accident.  

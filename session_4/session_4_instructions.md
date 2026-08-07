@@ -52,7 +52,7 @@ The first step to accessing the CeMM cluster, or any high performance computing 
 
 >[!TIP]You can also use the small `><` green button at the bottom left and select "Connect to Host...    Remote-SSH".
 >
-><img width="36" height="22" alt="Image" src="https://github.com/user-attachments/assets/88d40e1f-446a-489b-90dc-13a9c019339a" />
+>![green_button](../images/green_button.png)
 
 
 4. Enter the following in the input box: `<username>@login.int.cemm.at` and press Enter.  
@@ -73,7 +73,7 @@ https://cemmat.sharepoint.com/sites/data-management
 
 If the terminal didn't pop up, you should at least see ">< SSH: login.int.cemm.at" at the small green button at bottom left.
 
-<img width="166" height="26" alt="Image" src="https://github.com/user-attachments/assets/895ec065-d411-4b44-b561-2b5e1d62ac03" />
+![green_login](../images/green_login.png)
 
 You can now start running commands and jobs on the cluster. How exciting.  
 
@@ -87,7 +87,7 @@ To run more computationally intensive jobs, you must use a **compute node**. Com
 
 Here is an overview of the different node types currently available on the CeMM cluster:
 
-<img width="1223" height="367" alt="node_types" src="https://github.com/user-attachments/assets/5cac0861-c0e8-48de-8b4b-9476dbc0a062" />
+![node_types](../images/node_types.png)
 
 ## 3. Understanding the CeMM cluster file storage systems  
 
@@ -102,7 +102,7 @@ Let's take a look at what your lab already has in `/nobackup` by running the fol
 >[!TIP]
 >If you are using VSCode and don't see a terminal window, select "Terminal" and "New Terminal" on the very top
 >
-><img width="282" height="59" alt="Image" src="https://github.com/user-attachments/assets/ee581d89-15d7-4917-8657-d17c214ae1b6" />
+>![new_terminal](../images/new_terminal.png)
 
 ```bash
 ls /nobackup/<lab_name>
@@ -624,7 +624,7 @@ Click on the link starting `http://d021.int.cemm.at:8513/lab?token=...` to acces
 
 4. Let's try running an example analysis with the `example_notebook.ipynb` notebook. You can open the notebook in JupyterLab by simply double-clicking on it. Run the cells to produce the example plot using the "fast-forward" icon on the top and "Restart".
  
-<img width="24" height="16" alt="Image" src="https://github.com/user-attachments/assets/704fcd6a-399e-4259-b988-f4f7d4ab9f0f" />
+![fastforward](../images/fastforward.png)
     
 
 5. Do you see any errors? Why? What if we try to install a package that's not included in the pre-configured JupyterLab module? Try running section 6.  
@@ -840,7 +840,7 @@ Click on the link in the output. Log onto the RStudio session using your CeMM cl
 
 4. Try to run the `example_script.R` in the Rstudio server to produce the example plot. Simply click on the `example_script.R` at the bottom right and keep clicking "Run" on the top until you reach the end. You can also select all the lines in the script with your mouse, then click the "Run" button once (it runs either the current line or all selected lines).
 
-<img width="48" height="18" alt="Image" src="https://github.com/user-attachments/assets/e50de123-b6b1-4dc7-8970-6fb2d0b74a1e" />
+![run](../images/run.png)
 
 Loading packages and manipulating data in the RStudio session is exactly the same as on your local machine. You can also save your work in the RStudio session, and it will be saved in your home directory on the CeMM cluster.  
 
