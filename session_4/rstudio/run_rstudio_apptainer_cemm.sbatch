@@ -86,9 +86,6 @@ ${workdir}:/home/$(whoami),\
 /nobackup:/nobackup,/research:/research"
 export APPTAINER_BIND
 
-# Generate a random 20-character password
-
-
 # Do not suspend idle sessions
 # Alternative to setting session-timeout-minutes=0 in /etc/rstudio/rsession.conf
 # https://github.com/rstudio/rstudio/blob/v1.4.1106/src/cpp/server/ServerSessionManager.cpp#L126

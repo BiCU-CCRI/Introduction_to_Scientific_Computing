@@ -11,10 +11,11 @@ Today we'll cover:
 1. Exercise 1: Logging onto the CeMM cluster using SSH  
 2. Understanding the CeMM cluster architecture  
 3. Understanding the CeMM cluster file storage systems  
-4. Exercise 2: Environment management using the module system
-5. Exercise 3: Variant calling on the CeMM cluster
-6. Exercise 4: Running a Jupyter Notebook session on the CeMM cluster 
-7. Exercise 5: Running an RStudio session on the CeMM cluster 
+4. Exercise 2: Creating your workspace for session 4
+5. Exercise 3: Environment management using the module system
+6. Exercise 4: Variant calling on the CeMM cluster
+7. Exercise 5: Running a Jupyter Notebook session on the CeMM cluster 
+8. Exercise 6: Running an RStudio session on the CeMM cluster 
 
 ## 1. Exercise 1: Logging onto a computing cluster using SSH  
 
@@ -156,7 +157,7 @@ cd Introduction_to_Scientific_Computing/session_4
 - You have successfully created a workspace for yourself in your lab's folder in `/nobackup`.
 - You have successfully cloned the `Introduction_to_Scientific_Computing` repository into your workspace and navigated into the `session_4` folder
 
-## Exercise 2: Environment management using the module system  
+## 5. Exercise 3: Environment management using the module system  
 
 **Goal:** Learn how to load and unload software modules.
 
@@ -356,23 +357,23 @@ python3 ../session_1/check_numpy_version.py
 
 You can now test unloading all the modules we loaded previously, and test run the script.
 
-\`\`\`bash
+```bash
 module purge 
 module list
 # No modules loaded
 bash check_numpy_version_module.sh
-\`\`\`
+```
 
 Did you get the same output as previously? Why did we save the output of `module list` into a log file?
 
 You can now test unloading all the modules we loaded previously, and test run the script.
 
-\`\`\`bash
+```bash
 module purge 
 module list
 # No modules loaded
 bash check_numpy_version_module.sh
-\`\`\`
+```
 
 Did you get the same output as previously? Why did we save the output of `module list` into a log file?
 
@@ -383,7 +384,7 @@ Did you get the same output as previously? Why did we save the output of `module
 - You created and successfully ran a script that both loads the modules and runs `../session_1/check_numpy_version.py` script.
 - You created and successfully ran a script that both loads the modules and runs `../session_1/check_numpy_version.py` script.
 
-## 5. Exercise 3: Variant calling on the CeMM cluster
+## 6. Exercise 4: Variant calling on the CeMM cluster
 
 **Goal:** Repeat the variant calling pipeline from Session 2, this time on the CeMM cluster using SLURM job scripts.
 
@@ -465,35 +466,35 @@ results
 ```
 
 ```bash
-tree logs
+tree -u -h logs
 ```
 
 ```bash
-/path/to/logs/
-├── 01_fastp
-│   └── SRR7890883.fastp.log
-├── 02_bwa
-│   └── SRR7890883.bwa.log
-├── 03_markdup
-│   └── SRR7890883.markdup.log
-├── 04_bqsr
-│   ├── SRR7890883.apply_bqsr.log
-│   └── SRR7890883.base_recalibrator.log
-├── 05_mutect2
-│   ├── SRR7890883.filter_mutect_calls.log
-│   ├── SRR7890883.mutect2.log
-│   └── SRR7890883.select_pass_variants.log
-└── slurm_logs
-    ├── bqsr_13108580.err
-    ├── bqsr_13108580.out
-    ├── bwa_13108574.err
-    ├── bwa_13108574.out
-    ├── fastp_13108573.err
-    ├── fastp_13108573.out
-    ├── markdup_13108577.err
-    ├── markdup_13108577.out
-    ├── mutect2_13108581.err
-    └── mutect2_13108581.out
+logs/
+├── [<username>    4.0K]  01_fastp
+│   └── [<username>    1.5K]  SRR7890883.fastp.log
+├── [<username>    4.0K]  02_bwa
+│   └── [<username>    1.8K]  SRR7890883.bwa.log
+├── [<username>    4.0K]  03_markdup
+│   └── [<username>    4.8K]  SRR7890883.markdup.log
+├── [<username>    4.0K]  04_bqsr
+│   ├── [<username>    3.1K]  SRR7890883.apply_bqsr.log
+│   └── [<username>    5.1K]  SRR7890883.base_recalibrator.log
+├── [<username>    4.0K]  05_mutect2
+│   ├── [<username>    4.2K]  SRR7890883.filter_mutect_calls.log
+│   ├── [<username>    5.6K]  SRR7890883.mutect2.log
+│   └── [<username>    3.4K]  SRR7890883.select_pass_variants.log
+└── [<username>    4.0K]  slurm_logs
+    ├── [<username>     398]  bqsr_13108580.err
+    ├── [<username>     124]  bqsr_13108580.out
+    ├── [<username>     220]  bwa_13108574.err
+    ├── [<username>      63]  bwa_13108574.out
+    ├── [<username>       0]  fastp_13108573.err
+    ├── [<username>      28]  fastp_13108573.out
+    ├── [<username>       0]  markdup_13108577.err
+    ├── [<username>      46]  markdup_13108577.out
+    ├── [<username>       0]  mutect2_13108581.err
+    └── [<username>     224]  mutect2_13108581.out
 
 6 directories, 18 files
 ```
@@ -543,10 +544,12 @@ Next, check the `MarkDuplicates` metrics table.
 - How many read pairs were examined?
 - What was the percentage of reads that were marked as duplicated?  
 
-Answers:
+<details>
+<summary>Answers</summary>
 
 - 47377
 - 0.99%
+</details>
 
 Finally, let's check the Mutect2 results.
 
@@ -568,7 +571,7 @@ Even though all of the previous results were the same, a different number of var
 The difference in the number of variants found with `Mutect2` could be due to differences in the software versions - in Session 2, our `somatic_variant_calling` environment used `gatk` v4.6.2.0, whereas our module system at CeMM does not have this version, so we used `gatk4` v4.1.8.1. It is therefore also likely that the `gatk4` dependencies are different between the two environments. Variants calling can be sensitive to these factors, leading to slight variations in the results. This is a good example of why it is good practice to document all of the software versions and dependencies used in your analysis, so that you can reproduce your results in the future.  
 </details>
 
-## 6. Exercise 4: Running a Jupyter Notebook session on the CeMM cluster  
+## 7. Exercise 5: Running a Jupyter Notebook session on the CeMM cluster  
 
 >[!TIP]
 >The BiCU have set up a [GitHub repository](https://github.com/BiCU-CCRI/running_rstudio_or_jupyterlab) specifically for running RStudio and Jupyter Notebook on the CeMM cluster. The scripts used in Session 4 are copied from this repository.
@@ -594,9 +597,7 @@ The CeMM cluster provides a Jupyterlab module that you can load to run a Jupyter
 #SBATCH --output=jupyter-lab-%j.log
 
 port=$(shuf -i8000-9000 -n1)
-node=$(hostname).int.cemm.at
-user=$(whoami)
-host ${node}
+node="$(hostname).int.cemm.at"
 
 module load JupyterLab-R-autocomplete/4.9.0-foss-2023a-Python-3.11.3-R-4.2.3
 
@@ -635,7 +636,7 @@ If you are interested in using a package that is not included in the pre-configu
 - You have successfully started a JupyteLab session on the CeMM cluster.
 - You have produced the example plot using the `example_notebook.ipynb` notebook.  
 
-## 7. Exercise 5: Running an RStudio session on the CeMM cluster  
+## 8. Exercise 6: Running an RStudio session on the CeMM cluster  
 
 **Goal:** Learn how to run an RStudio session on the CeMM cluster.  
 
@@ -655,9 +656,9 @@ Let's start an RStudio session on the CeMM cluster.
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
-#SBATCH --mem=40G
-#SBATCH --time=12:00:00
-#SBATCH --output=rstudio_apptainer_%j.log # Slurm writes everything to --output when --error is not set
+#SBATCH --mem=4G
+#SBATCH --time=00:30:00
+#SBATCH --output=rstudio_apptainer_%j.log #slurm writes everything to --output if --error logs/rstudio_apptainer_%j.err is not set
 
 set -ueo pipefail
 
@@ -705,7 +706,7 @@ cat >"${rstudio_server_config_dir}/.Rprofile" <<END
 source("${rstudio_server_config_dir}/.Ractivate.R")
 END
 
-# Location or .Rprofile - project-wide
+# Location of .Rprofile - project-wide
 cat >".Renviron" <<END
 R_PROFILE_USER="${rstudio_server_config_dir}/.Rprofile"
 TMPDIR="${TMPDIR}"
@@ -742,7 +743,8 @@ export APPTAINER_BIND
 export APPTAINERENV_RSTUDIO_SESSION_TIMEOUT=0
 APPTAINERENV_USER="$(whoami)"
 export APPTAINERENV_USER
-export APPTAINERENV_PASSWORD="test0"
+APPTAINERENV_PASSWORD="$(openssl rand -base64 24 | tr -d '/+=' | head -c 20)"
+export APPTAINERENV_PASSWORD
 
 # Get unused socket between 8000 and 9000 (these are accessible within the CCRI network):
 readonly PORT=$(python -c '
@@ -766,6 +768,9 @@ readonly HOSTNAME=$(hostname)
 cat 1>&2 <<END
 To access the RStudio Server, cmd + click for Mac/ctrl + click for Windows the link or copy-paste this to your web browser:
 http://${HOSTNAME}.int.cemm.at:${PORT}
+
+Rstudio user: $(whoami)
+RStudio password: ${APPTAINERENV_PASSWORD}
 END
 
 echo "======================"
@@ -808,7 +813,12 @@ The script works by running an `apptainer` container with RStudio Server install
 >Before submitting the RStudio sbatch script, make sure the previous interactive JupyterLab job is finished. Each user is allowed only a single interactive job at the same time on the same cluster!
 >You can check this with:
 >
-```
+>```bash
+>squeue --me
+>scancel <job-id> # In case the JupyterLab job is stil running
+>```
+
+```bash
 ======================
 Working directory:     /path/to/Introduction_to_Scientific_Computing/session_4/rstudio
 Job name:              rstudio_apptainer
@@ -824,7 +834,6 @@ To access the RStudio Server, cmd + click for Mac/ctrl + click for Windows the l
 http://d009.int.cemm.at:8779
 ======================
 Job started at: Fri Jul 31 13:32:27 CEST 2026
-
 ```
 
 Click on the link in the output. Log onto the RStudio session using your CeMM cluster username and the password you set in the script. You should now be able to use RStudio in your web browser!  
