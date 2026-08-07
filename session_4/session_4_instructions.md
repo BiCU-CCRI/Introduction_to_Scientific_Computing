@@ -804,7 +804,7 @@ Can you find the line where we set the password? Feel free to change this if you
 
 The script works by running an `apptainer` container with RStudio Server installed. It sets up a temporary directory for the RStudio session, configures the R environment, and starts the RStudio Server on a random port between 8000 and 9000 (these are the ports we can access from the St. Anna CCRI network). The output of the script is a URL that you can use to access the RStudio session in your web browser.  
 
->[NOTE!]
+>[!NOTE]
 >Apptainer is another way to manage software environments, and is more reproducible than Conda or modules, but out of the scope of this course. You can find more information about Apptainer [here](https://apptainer.org/).
 
 3. Submit the script to SLURM using `sbatch` and wait for the output file to be created in `rstudio_apptainer_<job-id>.log`. You should see a message like this:
