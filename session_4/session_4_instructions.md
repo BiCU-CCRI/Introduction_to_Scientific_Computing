@@ -82,9 +82,9 @@ The CeMM cluster is a high-performance computing environment that consists of mu
 
 When you first log in, you are on a **login node**. Login nodes are used for interactive tasks such as editing files, writing code, and submitting jobs. However, they are not meant for running long computations or resource-intensive tasks.
 
-To run more computationally intensive jobs, you should use a **compute node**. Compute nodes are designed to handle heavy workloads and can be accessed by submitting jobs through a job scheduler (SLURM). We will go over SLURM and how to submit jobs to compute nodes in the next session.  
+To run more computationally intensive jobs, you must use a **compute node**. Compute nodes are designed to handle heavy workloads and can be accessed by submitting jobs through a job scheduler (SLURM). We went over SLURM and how to submit jobs to compute nodes in the previous session.  
 
-Here is an overview of the different node types available on the CeMM cluster:
+Here is an overview of the different node types currently available on the CeMM cluster:
 
 <img width="1223" height="367" alt="node_types" src="https://github.com/user-attachments/assets/5cac0861-c0e8-48de-8b4b-9476dbc0a062" />
 
@@ -92,24 +92,32 @@ Here is an overview of the different node types available on the CeMM cluster:
 
 The CeMM cluster has two main file storage systems: `/nobackup` and `/research`. Each of these storage systems serves different purposes and has different characteristics.  
 
-- `/research` : This is a backed-up file system used by the CeMM research groups for storing raw data only. As CCRI research groups, we will not use `/research` except in rare cases, since our main storage system is the Isilon file system hosted at the CCRI. Some exceptions are for example adjunct PIs who may store raw data on `/research`, and shared resources provided by BiCU which are stored in `/research/lab_ccri_bicu/public`.
+- `/research` : This is a backed-up file system used by the groups for storing the most important data (for example, raw data). St. Anna CCRI research groups have limited storage available on `/research` and we only use it in rare cases, since our main and backed-up storage system is the Isilon file system hosted at the St. Anna CCRI. CeMM research groups or adjunct PIs generally have more storage on `/research`.
 
-- `/nobackup` : As the name suggests, this is a non-backed-up file system that is used for temporary storage of data and files, for example while running analyses. This is the main file system that we will use as CCRI users. Each lab has a dedicated folder in `/nobackup` where they can store their data and files. The path to your lab's folder is `/nobackup/<lab_name>`.  
+- `/nobackup`: As the name suggests, this is a non-backed-up file system that is used for temporary storage of data and files, for example, while running analyses. This is the main file system that we will use as St. Anna CCRI users. Each lab has a dedicated folder in `/nobackup` where they can store their data and files. The path to your lab's folder is `/nobackup/<lab_name>`. Lab names are usually assigned as `lab_<PI_last_name>`.  
 
 Let's take a look at what your lab already has in `/nobackup` by running the following command on the login node:
+
+>[!TIP]
+>If you are using VSCode and don't see a terminal window, select "Terminal" and "New Terminal" on the very top
+>
+><img width="282" height="59" alt="Image" src="https://github.com/user-attachments/assets/ee581d89-15d7-4917-8657-d17c214ae1b6" />
 
 ```bash
 ls /nobackup/<lab_name>
 ```  
 
-Both `/nobackup` and `/research` have storage quotas that limit the amount of data that can be stored per group. The storage quota for `/nobackup` is 24 TB per lab, while the storage quota for `/research` is 100 GB per lab member.  
+Both `/nobackup` and `/research` have storage quotas that limit the amount of data that can be stored per group.  
 
 Let's check how much storage your lab is currently using by running the following commands on the login node:
 
 ```bash
-lfs quota -h -g <lab_name> /nobackup/
-lfs quota -h -g <lab_name> /research/
+lfs quota -h -g <lab_name>
 ```
+
+You might have noticed there are storage space quotas and file number quotas. The CeMM cluster uses two quota layers: one for file size and another for the number of files. Exceeding either quota will trigger `No space left on device` errors.
+
+You can also see quotas for `/home`. These are the group's users' home directories. They are kept on a separate partition. You can see that the quota is much smaller. You should save as little data as possible in your home directory. For example, changing the default Conda installation path.
 
 Your group's data manager is in charge of making sure that the group does not exceed the storage quota. As a user, your main responsibility is to make sure that you regularly transfer your data back to Isilon for long-term storage. You should be aware that files stored in `/nobackup` may be deleted without warning, so it is doubly important to regularly back up important data to Isilon.  
 
@@ -123,11 +131,11 @@ Your group's data manager is in charge of making sure that the group does not ex
 cd /nobackup/<lab_name>
 ```
 
-2. If it doesn't already exist, create a folder with your username and navigate into it:  
+2. If your user doesn't already have a subdirectory here, create a directory with your username and navigate into it:  
 
 ```bash
-mkdir -p <username>
-cd <username>
+mkdir -p "$USER"
+cd "$USER"/
 ```
 
 3. Clone this repository into your workspace:
@@ -136,7 +144,7 @@ cd <username>
 git clone https://github.com/BiCU-CCRI/Introduction_to_Scientific_Computing.git
 ```
 
-You should see s new folder called `Introduction_to_Scientific_Computing` in your workspace. Navigate into the `session_4` folder:
+You should see a new folder called `Introduction_to_Scientific_Computing` in your workspace. Navigate into the `session_4` folder:
 
 ```bash
 cd Introduction_to_Scientific_Computing/session_4
@@ -144,6 +152,7 @@ cd Introduction_to_Scientific_Computing/session_4
 
 **You are done when:**
 
+- You have successfully logged into the CeMM cluster 
 - You have successfully created a workspace for yourself in your lab's folder in `/nobackup`.
 - You have successfully cloned the `Introduction_to_Scientific_Computing` repository into your workspace and navigated into the `session_4` folder
 
@@ -151,16 +160,20 @@ cd Introduction_to_Scientific_Computing/session_4
 
 **Goal:** Learn how to load and unload software modules.
 
-In Session 1, we learned how to manage software environments using conda. However, on a computing cluster, it is often more efficient to use a module system to manage software environments.  
+In Session 1, we learned how to manage software environments using Conda. However, on a computing cluster, it is often more convenient to use a module system to manage software.  
 
-Many clusters use a module system to manage software environments. This allows us to easily load and unload different versions of software as needed without having to build and install them ourselves.
+Many clusters use a module system to manage software environments. This allows us to easily load and unload different software versions as needed, without having to build and install them ourselves. The huge advantage is the convenience - you don't have to install anything on your own. The disadvantage is that it's more difficult to keep track of software versions for reproducibility, and that it relies on software installations you cannot control.
+
+>[!IMPORTANT]
+>If you decide to use Conda, make sure you change the installation directory to `/nobackup/<your_username>`. The default installation directory is your `$HOME` directory (which, as we know, has very limited space), and Conda environments can take up quite a lot of storage.
+
 
 Here are some basic commands to get you started with the module system:  
 
 | Command | Description |
 |---------|-------------|
 | `module avail` | List all available modules on the system. Enter `q` to quit. |
-| `module spider <module_name>` | Search for a module and display information about it. Enter `q` to quit. |
+| `module spider <module_name>` | Search for a module and display information about it. Enter `q` to quit. **Tip:** This is a fuzzy search - you don't have to know the exact name of the software or the module. Just type the tool name you want to search for, and it will give you _the best guess_ |
 | `module load <module_name>` | Load a specific module into your environment. |
 | `module unload <module_name>` | Unload a specific module from your environment. |
 | `module list` | List all currently loaded modules in your environment. |
@@ -168,21 +181,24 @@ Here are some basic commands to get you started with the module system:
 | `module help <module_name>` | Display help information for a specific module. |
 | `module show <module_name>` | Display detailed information about a specific module, including its path and dependencies. | 
 
-Let's try to run a simple Python script which loads the `numpy` module and prints its version.  
+Let's try to run a simple Python script which loads the `numpy` library and prints its version.  
 
->[NOTE!]
+>[!NOTE]
 >If you are already using conda on the CeMM cluster and have Python installed in your base environment, please deactivate your base environment before running the commands below.  
 
 2. Try to run the script from Session 1 that checks the `numpy` version without loading any modules first:
 
 ```bash
-python ../session_1/check_numpy_version.py
+python3 ../session_1/check_numpy_version.py
 ```
 
 You should get the following error message:  
 
 ```bash
-bash: python: command not found
+Traceback (most recent call last):
+  File "../session_1/check_numpy_version.py", line 1, in <module>
+    import numpy as np
+ModuleNotFoundError: No module named 'numpy'
 ```
 
 3. Now, using the commands above, try to find a Python module and load it. Then, try to run the script again.  
@@ -240,14 +256,16 @@ module spider Python
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ```
 
+Please choose `module load Python/3.10.8-GCCcore-12.2.0` so we all use the same version.
+
 ```bash
 module load Python/3.10.8-GCCcore-12.2.0
 module list
-# 12) Python/3.10.8-GCCcore-12.2.0
-python check_numpy_version.py
+# Python/3.10.8-GCCcore-12.2.0
+python3 ../session_1/check_numpy_version.py
 ```
 
-Hm, now we have Python loaded, but not `numpy`. You should get the following error message:
+Hm, loading a Python module didn't work. We still don't have `numpy`. You should see the same error message as before:
 
 ```bash
 Traceback (most recent call last):
@@ -256,28 +274,16 @@ Traceback (most recent call last):
 ModuleNotFoundError: No module named 'numpy'
 ```
 
-4. Now, let's try to find a `numpy` module and load it. Then, try to run the script again.  
+4. Now, let's try to find a `numpy` library module and load it. Then, try to run the script again.  
 
 ```bash
 module spider numpy
 ```
 
 ```bash
------------------------------------------------------------------------------------------------
-  numpy: numpy/2.3.1 (E)
------------------------------------------------------------------------------------------------
-    This extension is provided by the following modules. To access the extension you must load one of the following modules. Note that any module names in parentheses show the module location in the software hierarchy.
-
-
-       lang/SciPy-bundle/2025.06-gfbf-2025a
-       SciPy-bundle/2025.06-gfbf-2025a
-
-
-Names marked by a trailing (E) are extensions provided by another module.
-
------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   numpy:
------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      Versions:
         numpy/1.16.6 (E)
         numpy/1.20.3 (E)
@@ -293,12 +299,13 @@ Names marked by a trailing (E) are extensions provided by another module.
 Names marked by a trailing (E) are extensions provided by another module.
 
 
------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   For detailed information about a specific "numpy" package (including how to load the modules) use the module's full name.
   Note that names that have a trailing (E) are extensions provided by other modules.
   For example:
 
      $ module spider numpy/2.3.1
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------
 ```
 
@@ -321,10 +328,10 @@ module load SciPy-bundle/2025.06-gfbf-2025a
 #  11) zlib/1.2.12-GCCcore-12.2.0 => zlib/1.3.1-GCCcore-14.2.0
 ```
 
-The `SciPy-bundle` module has reloaded several other modules, including `Python`, to newer versions. Now, let's check if the script runs successfully:
+The `SciPy-bundle` module has reloaded several other modules, including `Python`, to newer versions.  This means that the same modules were already _activated_ by one of the previously loaded modules (the Python3 module) but with a different version. Now, let's check if the script runs successfully:
 
 ```bash
-python check_numpy_version.py
+python3 ../session_1/check_numpy_version.py
 # 2.3.1
 ```
 
@@ -332,34 +339,37 @@ python check_numpy_version.py
 
 To load modules in a job script, you can simply use the `module load` command in your script.  
 
-Create a new job script called `check_numpy_version_module_job.sbatch` which loads the `Python/3.10.8-GCCcore-12.2.0` and `SciPy-bundle/2025.06-gfbf-2025a` modules, and then runs the `check_numpy_version.py` script.  
+Create a new job script called `check_numpy_version_module.sh` which loads the `Python/3.10.8-GCCcore-12.2.0` and `SciPy-bundle/2025.06-gfbf-2025a` modules, and then runs the `../session_1/check_numpy_version.py` script.  
 
 Example script:  
 
 ```bash
 #!/bin/bash
 
-#SBATCH --job-name=check_numpy_version_module_job
-#SBATCH --output=check_numpy_version_module_job.out
-#SBATCH --error=check_numpy_version_module_job.err
-#SBATCH --time=00:10:00
-#SBATCH --mem=1G
-#SBATCH --nodes=1
-#SBATCH --ntasks=1
-#SBATCH --cpus-per-task=1
-#SBATCH --partition=tinyq
-#SBATCH --qos=tinyq
-
 module load Python/3.10.8-GCCcore-12.2.0
 module load SciPy-bundle/2025.06-gfbf-2025a
 
-python check_numpy_version.py
+module list > check_numpy_version.log 2>&1
+
+python3 ../session_1/check_numpy_version.py
 ```
+
+You can now test unloading all the modules we loaded previously, and test run the script.
+
+\`\`\`bash
+module purge 
+module list
+# No modules loaded
+bash check_numpy_version_module.sh
+\`\`\`
+
+Did you get the same output as previously? Why did we save the output of `module list` into a log file?
 
 **You are done when:** 
 
 - You are comfortable loading and unloading modules using the module system.  
-- You can run the `check_numpy_version.py` script successfully after loading the appropriate modules.  
+- You can run the `../session_1/check_numpy_version.py` script successfully after loading the appropriate modules.  
+- You created and successfully ran a script that both loads the modules and runs `../session_1/check_numpy_version.py` script.
 
 ## 5. Exercise 3: Variant calling on the CeMM cluster
 
