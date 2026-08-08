@@ -296,8 +296,8 @@ echo "Job finished after 30 seconds."
 ```
 </details>
 
-  >[!TIP]
-  >`--ntasks` controls how many separate processes Slurm launches, not how many CPUs you get — for most everyday scripts and tools, keep `--ntasks=1` and use `--cpus-per-task` instead. If you set `--ntasks=2` on a program that isn't designed for it, Slurm/srun would just launch two independent copies of the same script simultaneously, each unaware of the other.
+>[!TIP]
+>`--ntasks` controls how many separate processes Slurm launches, not how many CPUs you get — for most everyday scripts and tools, keep `--ntasks=1` and use `--cpus-per-task` instead. If you set `--ntasks=2` on a program that isn't designed for it, Slurm/srun would just launch two independent copies of the same script simultaneously, each unaware of the other.
  
 5. Now, we will submit the `.sbatch` script to SLURM using the `sbatch` command. This will allow SLURM to schedule your job on a compute node and run it in the background.  
 

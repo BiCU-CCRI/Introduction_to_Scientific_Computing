@@ -210,21 +210,35 @@ Try the following:
 You can see that you can use the command line to run commands or scripts on a compute node just like you would on a login node. The main difference is that you can now run commands that require more resources, such as more memory or CPU cores, without worrying about overloading the login node. Running an interactive job is the closest you can get to the previous CCRI setup, and is a good way to test your code before submitting it as a batch job.  
 
 3. To exit your interative job, simply type `exit` and press `Enter`. This will return you to the `salloc` shell on the login node. You can confirm this by running the `hostname` command again, which should now display the name of the login node. Note that you are still holding the resources you allocated. Type `exit` once more to release the allocation. 
-You should see a confirmation message like:
 
->[!NOTE]
->Since LearnSlurm is a simulation, you will not get an error if you try to request more resources than are available on the cluster. However, if you try to request more resources than are available on the CeMM cluster, you will get an error message. For example, if you try to request more than 12 hours on the `interativeq`, you will get the following error message:  
->
->```bash
->srun: error: Unable to allocate resources: Requested time limit is invalid (missing or exceeds some limit)
->```
->Remember to check the queue limits before submitting a job, and make sure to request resources that are within the limits of the queue. 
+You should see a confirmation message like:  
+
+```bash
+salloc: Relinquishing job allocation 4821101
+```
+
+4. Let's try to request more resources than are available/allowed. Try to request 500G with `salloc`:
+
+```bash
+salloc --time=1-00:00:00 --mem=500G --cpus-per-task=1  
+```
+
+You should get the following error:  
+
+```bash
+salloc: error: Requested node configuration is not available
+salloc: note: largest node in partition compute has 256G
+```
+
+>[!IMPORTANT]
+>Remember to check the queue limits before submitting a job, and make sure to request resources that are within the limits of the queue.  
 
 **You are done when:**
 
 - You have successfully run simple commands on a compute node via an interactive job.  
 - You have exited your interactive job and returned to the login node.
 - You have exited the `salloc` allocation and released the resources you requested.
+- You have submitted a job that requests more resources than are available/allowed, and observed the error message.  
 
 ## Exercise 4: Running a simple `.sbatch` script on a compute node  
 
@@ -258,62 +272,63 @@ echo "This is an example job script."
 
 You can see that the SLURM directives are included at the top of the script, and that they specify the resources that the job will require. The `#SBATCH` comments are ignored by the shell, but are read by SLURM when the job is submitted.  
 
-2. Next, create a file named `hello_ccri.sbatch`.  
-
-```bash
-touch hello_ccri.sbatch
-```
-
-3. Open the script in `nano` and add the following lines to the script:
+2. Next, take a look at `submit.sh` in LearnSlurm. Can you spot the similarities and differences between `submit.sh` and `example_job_script.sbatch`?  
 
 ```bash
 #!/bin/bash
-echo "Hello, CCRI!"
+#SBATCH --job-name=myjob
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=8G
+#SBATCH --time=01:00:00
+#SBATCH --partition=compute
+#SBATCH --output=logs/slurm-%j.out
+#SBATCH --error=logs/slurm-%j.err
+echo "Job started: $(date)"
+echo "Node: $SLURMD_NODENAME"
+echo "Job ID: $SLURM_JOB_ID"
+echo "Tasks: $SLURM_NTASKS"
+sleep 5
+echo "Done: $(date)"
 ```
 
-To use `nano`, run the following command:  
+>[!NOTE]
+>Both `.sh` and `.sbatch` scripts are just shell scripts, but `.sbatch` scripts include SLURM directives that tell SLURM what resources your job will require. You can also submit a `.sh` script to SLURM using `sbatch`, but it is good practice to use the `.sbatch` extension for scripts that are intended to be submitted to SLURM. The LearnSlurm batch job scripts are named iwth the `.sh` extension, but you can rename them to `.sbatch` if you want to.  
+
+>[!TIP]
+>`--ntasks` controls how many separate processes Slurm launches, not how many CPUs you get — for most everyday scripts and tools, keep `--ntasks=1` and use `--cpus-per-task` instead. If you set `--ntasks=2` on a program that isn't designed for it, Slurm/srun would just launch two independent copies of the same script simultaneously, each unaware of the other.
+ 
+3. Now, we will submit the `submit.sh` script to SLURM using the `sbatch` command. This will allow SLURM to schedule your job on a compute node and run it in the background.  
 
 ```bash
-nano hello_ccri.sbatch
+sbatch submit.sh
 ```
-
-To save your work in `nano`, press `Ctrl + O`, then press `Enter`. To exit, press `Ctrl + X`.  
-
-4. Modify your `hello_ccri.sbatch` script to include SLURM directives. Open the script in `nano` and add SLURM directives to your script, similar to the ones in the example script. You can choose your own values for the directives, but make sure to include at least the following: `--job-name`, `--time`, `--mem`, `--nodes`, `--ntasks`, `--cpus-per-task`, and `--partition`. You can also specify output and error files using the `--output` and `--error` directives.
-
- >[!TIP]
- >`--ntasks` controls how many separate processes Slurm launches, not how many CPUs you get — for most everyday scripts and tools, keep `--ntasks=1` and use `--cpus-per-task` instead. If you set `--ntasks=2` on a program that isn't designed for it, Slurm/srun would just launch two independent copies of the same script simultaneously, each unaware of the other.
-5. Now, we will submit the `.sbatch` script to SLURM using the `sbatch` command. This will allow SLURM to schedule your job on a compute node and run it in the background.  
-
-```bash
-sbatch hello_ccri.sbatch
-```
-
-You should see the output:
 
 ```bash
 Submitted batch job <job-id>
 ```
 
-Congratulations! You have successfully submitted your first batch job to SLURM.  
+Congratulations! You have successfully submitted your first batch job to SLURM. After a minute or so you should see the `--output`and `--error` files specified in `submit.sh` appear in the `logs/` directory. Check that `logs/slurm-<job-id>.out` contains the following lines:
 
->[!NOTE]
-> The `--output` file would contain the following line:
->
->```bash
->Hello, CCRI!
->```
+```bash
+Job started: <datetime>
+Node: node004
+Job ID: <job-id>
+Tasks: 1
+(sleep 5: simulated)
+Done: <datetime>
+```
+
+And hopefully, `logs/slurm-<job-id>.err` should be empty, since there were no errors in your job (we hope).
 
 Now what? We just submitted a job into the ether, but we need a way to track its status, to understand what is happening if the job is not running as it should be, and to cancel jobs if necessary. It is also useful to track the general usage of the cluster, such as how many jobs are currently running in each queue, so that you can choose which queue to submit your job in accordingly.  
 
 We will learn to do this in the next section!  
 
-
 **You are done when:** 
-
-- You have successfully created a `.sbatch` script.  
-- You have successfully submitted your `.sbatch` script to SLURM using the `sbatch` command.  
-- You have checked the slurm output file generated by your job, and confirmed that the output is as expected.
+  
+- You have successfully submitted the `submit.sh` script to SLURM using the `sbatch` command.  
+- You have checked the output and error files generated by your job, and confirmed that the output is as expected.  
 
 ## Exercise 5: Useful commands to track cluster usage and job status  
 
@@ -333,11 +348,11 @@ Try it yourself:
 1. Run the `sinfo` command. You should see an output similar to:
 
 ```bash
-PARTITION  AVAIL  TIMELIMIT  NODES  STATE                                     NODELIST
-compute*   up     7-00:00:00 8      2 mix, 2 alloc, 2 idle, 1 drain, 1 down   node[001-008]
-gpu        up     2-00:00:00 3      1 alloc, 2 idle                           gpu[01-03]
-highmem    up     3-00:00:00 2      2 idle                                    fat[01-02]
-debug      up     0-01:00:00 2      2 idle                                    dbg[01-02]
+PARTITION  AVAIL  TIMELIMIT  NODES  STATE         NODELIST
+compute*   up     7-00:00:00 8      2 mix, 2 alloc, 2 idle, 1 drain, 1 down  node[001-008]
+gpu        up     2-00:00:00 3      1 alloc, 2 idle   gpu[01-03]
+highmem    up     3-00:00:00 2      2 idle            fat[01-02]
+debug      up     0-01:00:00 2      2 idle            dbg[01-02]
 ```
 
 From this output, you can see the partitions, their availability, time limits, number of nodes, state, and node list. The state can be:
@@ -345,8 +360,10 @@ From this output, you can see the partitions, their availability, time limits, n
 - `idle`: The node is available for use. 
 - `alloc`: The node is currently allocated to a job.
 - `mix`: The node is partially allocated to a job, and partially available for use.
+- `plnd`: The node is planned for use, but is not currently allocated to a job. This can happen if the node is being taken offline for maintenance, or if it is experiencing hardware issues.  
 - `drain`: The node is not available for use, and is being drained of jobs. This can happen if the node is being taken offline for maintenance, or if it is experiencing hardware issues.  
 - `down`: The node is not available for use, and is down. This can happen if the node is experiencing hardware issues, or if it has been taken offline for maintenance.  
+- `n/a`: The node is not available for use, and is not in a state that can be used. This can happen if the node is experiencing hardware issues, or if it has been taken offline for maintenance.  
 
 This output can be helpful in deciding which queue or nodes to submit your job to, as you may want to avoid queues that have a high number of jobs in the `alloc` state, or nodes that are in the `drain` or `down` states.  
 
@@ -354,14 +371,14 @@ This output can be helpful in deciding which queue or nodes to submit your job t
 
 ```bash
 JOBID      PARTITION  NAME         USER     ST  TIME      NODES NODELIST(REASON)
-4820988    compute    openfoam_run alice    R   4:04:51   8     node[001-003,006]
-4820991    compute    gromacs_md   bob      R   1:47:39   4     node[004-005,001-002]
-4820999    gpu        ml_train     carol    R   1:26:48   1     gpu01
+4820988    compute    openfoam_run alice    R   3:34:10   8     node[001-003,006]
+4820991    compute    gromacs_md   bob      R   1:16:58   4     node[004-005,001-002]
+4820999    gpu        ml_train     carol    R   0:56:07   1     gpu01
 4821003    compute    postprocess  dave     PD  0:00:00   1     (Resources)
 4821007    compute    wrf_d02      eve      PD  0:00:00   2     (Priority)
 4821008    highmem    bigmem_job   frank    PD  0:00:00   1     (QOSGrpJobsLimit)
 4821009    gpu        gpu_train    grace    PD  0:00:00   1     (ReqNodeNotAvail)
-4821010    compute    my_sim       user     R   0:47:49   2     node[004-005]
+4821010    compute    my_sim       user     R   0:17:08   2     node[004-005]
 4821011    debug      test_run     user     PD  0:00:00   1     (Priority)
 ```
 
@@ -375,10 +392,10 @@ Examples of reasons why a job may be pending include:
 - `Dependency` : This means that your job is pending because it is waiting for another job to complete. For example, if you submitted a job that depends on the output of another job, your job will be pending until the other job completes.  
 - `QOSGrpJobsLimit` : This means that your job is pending because your group has reached its limit for the number of jobs that can be running at the same time on that queue.  
 - `ReqNodeNotAvail` : This means that your job is pending because the node(s) that you requested are not available. For example, if you requested a specific node that is currently down or in maintenance, your job will be pending until that node becomes available.  
+- `(Nodes required for job are DOWN, DRAINED or reserved for jobs in higher priority partitions)` : What it says on the tin.
 
 >[!NOTE]
 >The CeMM cluster operates on a "fair share" basis, which means that the more you use the cluster, the lower your priority will be. This is to ensure that all users have fair access to the cluster resources. This is why it is important to choose the appropriate queue for your job, and to reserve the minimum resources necessary for your job to run successfully. **If you reserve more resources than you need, your job will have a lower priority and may take longer to start running.**
-
 
 3. Now, try the `squeue -p <queue>` command to show only jobs from a specific partition. For example, to show only jobs from the `compute` partition, run the following command:
 
@@ -399,9 +416,7 @@ There are several commands that you can use to track the status of your currentl
 
 Try this for yourself:
 
-1. Start another interactive job using the `salloc` and `srun` commands, as you did in Exercise 2. You can use the same resource requests as before.  
-
-2. Use the `squeue --me` command to check the status of your job. You should see your job in the queue, with a status of `R` (running) or `PD` (pending).  
+1. Use the `squeue --me` command to check the status of your job. You should see your job in the queue, with a status of `R` (running) or `PD` (pending).  
 
 ```bash
 squeue --me
@@ -409,13 +424,12 @@ squeue --me
 
 Example output:  
 ```
-JOBID      PARTITION  NAME         USER     ST  TIME      NODES   NODELIST(REASON)
-4821010    compute    my_sim       user     R   0:51:42   2       node[004-005]
-4821011    debug      test_run     user     PD  0:00:00   1       (Priority)
-4821104    compute    interactive  user     R   0:00:08   1       node004
+JOBID      PARTITION  NAME         USER     ST  TIME      NODES NODELIST(REASON)
+4821010    compute    my_sim       user     R   0:19:20   2     node[004-005]
+4821011    debug      test_run     user     PD  0:00:00   1     (Priority)
 ```
 
-Here, you can see that the interactive job has been running on node `node004` for 8 seconds. The job ID is `4821104`, which you will need for the next step.
+Here, you can see that the `my_sim` job has been running on nodes `node[004-005]` for 19 minutes and 20 seconds. The job ID is `4821010`, which you will need for the next step.
 
 4. Use the `scontrol show job <job_id>` command to show detailed information about your job. You can find the job ID from the output of the `squeue` command.  
 
@@ -426,15 +440,16 @@ scontrol show job <job_id>
 Here is an example output:
 
 ```bash
-JobId=4821104 JobName=interactive
+JobId=4821010 JobName=my_sim
    UserId=user(1001) GroupId=users(1001) MCS_label=N/A
    Priority=50000 Nice=0 Account=users QOS=normal WCKey=*default
    JobState=R Reason=None Dependency=(null)
-   RunTime=0:01:03 TimeLimit=1-00:00:00 SubmitTime=2026-07-28T11:06:23
-   Partition=compute NodeList=node004 BatchHost=node004
-   NumNodes=1 NumCPUs=1 NumTasks=1
-   TRES=cpu=1,mem=4G,node=1
-   WorkDir=/home/user
+   RunTime=0:20:10 TimeLimit=7-00:00:00 SubmitTime=2026-08-08T13:33:30
+   Partition=compute NodeList=node[004-005] BatchHost=node[004-005]
+   NumNodes=2 NumCPUs=128 NumTasks=128 CPUs/Task=1
+   MinMemoryNode=256G Requeue=1 Restarts=0
+   TRES=cpu=128,mem=256G,node=2
+   WorkDir=/home/user/logs
 ```
 
 Test yourself:  
@@ -446,10 +461,10 @@ Test yourself:
 
 Answers:
 
-- The resources requested for this job were 1 CPU core, 4 GB of memory, and 1 node.  
-- The current state of the job is `R` = `RUNNING`.  
-- The job is running in the `compute` partition.  
-- The job is running on compute node `node004`.  
+- The resources requested for this job were 2 nodes, 128 CPUs, and 256 GB of memory.
+- The current state of the job is `R`, which means that the job is currently running.
+- The job is running in the `compute` partition.
+- The job is running on compute nodes `node[004-005]`.
 
 >[!TIP]
 >You can also use `scontrol` to update the resources requested by a job on the fly. For example, try `scontrol update JobId=<job_id> timelimit=00:05:00` to decrease the time limit of your job to 5 minutes. This can come in handy if your job is `PENDING` due to requesting too may resources. However, increasing resources is not always allowed, and you cannot increase the number of CPUs or nodes requested for a job that is already running. 
@@ -466,16 +481,15 @@ Here is an example output:
 
 ```bash
 JobID         JobName       Partition     State         Elapsed       ExitCode      
-------------- ------------- ------------- ------------- ------------- -------------- 
-4821010       my_sim        compute       RUNNING       1:02:48       N/A           
-4821104       interactive   compute       RUNNING       0:11:14       N/A           
-4821103       interactive   compute       CANCELLED     00:01:00      0:0           
-4821102       myjob2        compute       COMPLETED     00:00:10      0:0           
-4821101       myjob         compute       COMPLETED     00:00:10      0:0           
+-------------- -------------- -------------- -------------- -------------- -------------- 
+4821010       my_sim        compute       RUNNING       0:20:59       N/A           
+4821103       myjob         compute       COMPLETED     00:00:10      0:0           
+4821102       interactive   compute       CANCELLED     00:01:00      0:0           
+4821101       interactive   compute       CANCELLED     00:01:00      0:0           
 4820900       test_run      debug         COMPLETED     00:04:32      0:0           
 4820850       build_01      compute       FAILED        00:12:01      1:0           
 4820800       param_sweep   compute       COMPLETED     2:14:55       0:0           
-4820750       gpu_test      gpu           TIMEOUT       12:00:00      0:1           
+4820750       gpu_test      gpu           TIMEOUT       12:00:00      0:1          
 ```
 
 This output shows the job ID, job name, partition, account, allocated CPUs, state, and exit code for each job.  
@@ -577,13 +591,6 @@ JobID         JobName       Partition     State         Elapsed       ExitCode
 4820800       param_sweep   compute       COMPLETED     2:14:55       0:0           
 4820750       gpu_test      gpu           TIMEOUT       12:00:00      0:1    
 ```
-
->[!NOTE]
-> In LearnSlurm, the output files specified in the `--output` and `--error` directives will not be generated, but in a real SLURM environment, they will be created in your current working directory. On the CeMM cluster, the `--error` file would contain the following line:  
->
->```bash
->slurmstepd: error: *** JOB 13064631 ON d016 CANCELLED AT 2026-07-27T17:20:36 ***
->```
 
 >[!TIP]
 >To cancel all of your jobs running on a specific queue, you can use the `scancel --me --partition=compute` command, which will cancel all jobs in the `compute` queue. You can replace `compute` with the name of any other queue to cancel all jobs in that queue.  
