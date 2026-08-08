@@ -26,7 +26,7 @@ Today we'll cover:
 
 We will use Codespaces to the login node of a computing cluster. You can use Codespaces to practice running simple commands and scripts on a pretend cluster without needing a CeMM account. Please review the main [README.md - A guide to GitHub Codespaces](../README.md#a-guide-to-github-codespaces) for a detailed overview of Codespaces.  
 
-1. Navigate to the [`session_3`](https://github.com/BiCU-CCRI/Introduction_to_Scientific_Computing/tree/session_3) branch.
+1. Navigate to the [`session-3`](https://github.com/BiCU-CCRI/Introduction_to_Scientific_Computing/tree/session-3) branch.
 
 2. Click on the green "Code" button.
 
