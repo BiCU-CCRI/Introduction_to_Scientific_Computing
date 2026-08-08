@@ -24,7 +24,7 @@ Below you can find a description of the topics that will be covered in each sess
 6. Exercise 5: Base quality score recalibration (BQSR)
 7. Exercise 6: Variant calling
  
-### Session 3 – SLURM basics (LearnSlurm)
+### Session 3 – SLURM basics (Codespaces)
 
 1. Exercise 1: Learning when to use a compute node instead of a login node  
 2. SLURM basics  
@@ -105,7 +105,7 @@ You can view and manage your Codespaces at [https://github.com/codespaces](https
 
 ## A guide to LearnSlurm
 
-For Session 3, we will use [LearnSlurm](https://learnslurm.com/index), a free online platform that allows you to practice using SLURM commands in a simulated environment. It provides a virtual cluster where you can submit jobs, manage queues, and learn SLURM commands without needing access to the CeMM cluster.  
+If Codespaces doesn't work for Session 3, our backup is [LearnSlurm](https://learnslurm.com/index), a free online platform that allows you to practice using SLURM commands in a simulated environment. It provides a virtual cluster where you can submit jobs, manage queues, and learn SLURM commands without needing access to the CeMM cluster.  
 
 ### Setting up LearnSlurm
 
@@ -117,5 +117,3 @@ For Session 3, we will use [LearnSlurm](https://learnslurm.com/index), a free on
 
 
 You now have a fake high-performance computing cluster running in your browser, including a terminal where you experiment with common SLURM commands. Similarly to Codespaces, LearnSlurm also doesn't have access to your local files, so you can play around without being worried about deleting anything by accident.  
-
-The downside of LearnSlurm is that it doesn't actually run jobs, but rather simulates their running. This means that you won't be able to see the output of commands that require actual computation, but you will still be able to practice using SLURM commands to submit and track jobs.  
