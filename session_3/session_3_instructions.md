@@ -22,7 +22,7 @@ Today we'll cover:
 ### Codespaces setup  
 
 >[!IMPORTANT]
->For session 3, we need to run CodeSpaces from a different branch of the repository to launch an environment which simulates SLURM. Please pay attention to the instructions below.  
+>For session 3, we need to run Codespaces from a different branch of the repository to launch an environment which simulates SLURM. Please pay attention to the instructions below.
 
 We will use Codespaces to the login node of a computing cluster. You can use Codespaces to practice running simple commands and scripts on a pretend cluster without needing a CeMM account. Please review the main [README.md - A guide to GitHub Codespaces](../README.md#a-guide-to-github-codespaces) for a detailed overview of Codespaces.  
 
@@ -93,7 +93,7 @@ To submit a job to a compute node via SLURM, you have several options:
 
 - `sbatch` : Submit a non-interactive job to the queue. This is useful for running tasks that don't require user interaction.  
 - `srun` : Start a job interactively. This is useful for testing and debugging your code.  
-- `salloc` : Allocate resources on a compute node for a job. For some clusters, you must allocate resources before starting a job interatively. This is not the case on the CeMM cluster, but it is still good to know.  
+- `salloc` : Allocate resources on a compute node for a job. For some clusters, you must allocate resources before starting a job interactively. This is not the case on the CeMM cluster, but it is still good to know.
 
 We will focus on `srun` and `sbatch` in this session. You will get a chance to use both of these commands in the following exercises. First, we will cover the extra information you need to provide to SLURM when submitting a job, which is done using SLURM directives.  
 
@@ -140,7 +140,7 @@ Now it's time to put everything together and start running jobs on the compute n
 >[!NOTE]
 >On the CeMM cluster, you cannot run more than one interactive job per user at a time. Interactive jobs are also limited to 12 hours maximum.  
 
-1. Open your CodeSpaces.  
+1. Open your Codespace.
 
 Take a minute to notice the prompt in the terminal. It should look like this:  
 
@@ -204,7 +204,7 @@ Try the following:
 
 You can see that you can use the command line to run commands or scripts on a compute node just like you would on a login node. The main difference is that you can now run commands that require more resources, such as more memory or CPU cores, without worrying about overloading the login node. Running an interactive job is the closest you can get to the previous CCRI setup, and is a good way to test your code before submitting it as a batch job.  
 
-3. To exit your interative job, simply type `exit` and press `Enter`. This will return you to the login node. You can confirm this by running the `hostname` command again, which should now display the name of the login node.  
+3. To exit your interactive job, simply type `exit` and press `Enter`. This will return you to the login node. You can confirm this by running the `hostname` command again, which should now display the name of the login node.
 
 4. Let's try to request more resources than are available/allowed. Try to request 50G on the interactive queue:
 
@@ -234,12 +234,12 @@ srun: error: Unable to allocate resources: Requested node configuration is not a
 
 Now, we will submit a SLURM **batch job** script to the queue using the `sbatch` command. This will allow you to run your script on a compute node without needing to be logged in interactively.  
 
-To turn a `.sh` script into a batch job script, you need to add SLURM directives at the top of the script. The directives are the same as those found in Table 1. In an `srun` commmand, you specify the directives as command line arguments, but in a batch job script, you specify them as comments at the top of the script. These comments start with `#SBATCH`, and are followed by the directive and its value.  
+To turn a `.sh` script into a batch job script, you need to add SLURM directives at the top of the script. The directives are the same as those found in Table 1. In an `srun` command, you specify the directives as command line arguments, but in a batch job script, you specify them as comments at the top of the script. These comments start with `#SBATCH`, and are followed by the directive and its value.
 
 >[!NOTE]
->Both `.sh` and `.sbatch` scripts are just shell scripts, but `.sbatch` scripts include SLURM directives that tell SLURM what resources your job will require. You can also submit a `.sh` script to SLURM using `sbatch`, but it is good practice to use the `.sbatch` extension for scripts that are intended to be submitted to SLURM. The LearnSlurm batch job scripts are named iwth the `.sh` extension, but you can rename them to `.sbatch` if you want to.  
+>Both `.sh` and `.sbatch` scripts are just shell scripts, but `.sbatch` scripts include SLURM directives that tell SLURM what resources your job will require. You can also submit a `.sh` script to SLURM using `sbatch`, but it is good practice to use the `.sbatch` extension for scripts that are intended to be submitted to SLURM. The LearnSlurm batch job scripts are named with the `.sh` extension, but you can rename them to `.sbatch` if you want to.
 
-1. First, let's take a look at an example batch job script with SLURM directives included. Take a look at the `session_3/example_job_script.sbatch` sript provided in the repository.  
+1. First, let's take a look at an example batch job script with SLURM directives included. Take a look at the `session_3/example_job_script.sbatch` script provided in the repository.
 
 ```bash
 #!/bin/bash
@@ -275,7 +275,7 @@ echo "Job finished after 30 seconds."
 >[!TIP]
 >Use `Ctrl + S` (Windows) or `Cmd + S` (Mac) to save your changes to the script.  
 
-4. Modify your `hello_ccri.sbatch` script to include SLURM directives, similar to the ones in the example script. You can choose your own values for the directives, but make sure to include at least the following: `--job-name`, `--time`, `--mem`, `--nodes`, `--ntasks`, `--cpus-per-task`, and `--partition`. You can also specify output and error files using the `--output` and `--error` directives, however these will not be generated in the LearnSlurm simulation.  
+4. Modify your `hello_ccri.sbatch` script to include SLURM directives, similar to the ones in the example script. You can choose your own values for the directives, but make sure to include at least the following: `--job-name`, `--time`, `--mem`, `--nodes`, `--ntasks`, `--cpus-per-task`, `--partition`, and `--qos`. You should also specify output and error files using the `--output` and `--error` directives.
 
 <details>
 
@@ -297,7 +297,7 @@ echo "Job finished after 30 seconds."
 </details>
 
 >[!TIP]
->`--ntasks` controls how many separate processes Slurm launches, not how many CPUs you get — for most everyday scripts and tools, keep `--ntasks=1` and use `--cpus-per-task` instead. If you set `--ntasks=2` on a program that isn't designed for it, Slurm/srun would just launch two independent copies of the same script simultaneously, each unaware of the other.
+>`--ntasks` requests resources for separate processes, not a number of CPU cores — for most everyday single-process scripts and tools, keep `--ntasks=1` and use `--cpus-per-task` for multithreaded programs. In an `sbatch` job, setting `--ntasks=2` does not run the batch script twice; it makes two tasks available and causes a later `srun` step with no task override to launch two processes.
  
 5. Now, we will submit the `.sbatch` script to SLURM using the `sbatch` command. This will allow SLURM to schedule your job on a compute node and run it in the background.  
 
@@ -496,7 +496,7 @@ Test yourself:
 </details>
 
 >[!TIP]
->You can also use `scontrol` to update the resources requested by a job on the fly. For example, try `scontrol update JobId=<job_id> timelimit=00:05:00` to decrease the time limit of your job to 5 minutes. This can come in handy if your job is `PENDING` due to requesting too may resources. However, increasing resources is not always allowed, and you cannot increase the number of CPUs or nodes requested for a job that is already running. 
+>You can also use `scontrol` to update the resources requested by a job on the fly. For example, try `scontrol update JobId=<job_id> timelimit=00:05:00` to decrease the time limit of your job to 5 minutes. This can come in handy if your job is `PENDING` due to requesting too many resources. However, increasing resources is not always allowed, and you cannot increase the number of CPUs or nodes requested for a job that is already running.
   
 ### Tracking completed jobs - sacct, seff 
 
@@ -617,7 +617,7 @@ scancel <job_id>
 squeue --me
 ```
 
-You should see that the job you cancelled is no longer in the queue or briefly shows a status of CG (short for "completing") in the ST column while Slurm finishes cleaning up its resources. Once the cleanup is complete, the job will be removed."
+You should see that the job you cancelled is no longer in the queue or briefly shows a status of CG (short for "completing") in the ST column while Slurm finishes cleaning up its resources. Once the cleanup is complete, the job will be removed.
 
 4. You can also use the `sacct` command to check the status of the cancelled job.  
 
