@@ -130,8 +130,36 @@ From the prompt, you can see that you are on a login node `login-01`. You can co
 
 2. Start an interactive session using the following commands:  
 
+First run  
 
-First run
+```bash  
+salloc --time=1-00:00:00 --mem=4G --cpus-per-task=1  
+```  
+
+You should see output similar to  
+
+```bash  
+salloc: Granted job allocation <job-id>  
+salloc: Waiting for resource configuration  
+salloc: Nodes node004 are ready for job  
+```  
+
+Then run  
+
+```bash  
+srun --pty bash  
+```  
+
+You should see output similar to  
+
+```bash  
+srun: running bash on node004  
+```  
+or  
+```bash  
+srun: using allocation <job-id> on node004  
+srun: interactive shell on node004 — type 'exit' to return to login-01  
+```  
 
 Test yourself: what does each part of the command do?  
 
@@ -140,16 +168,19 @@ Test yourself: what does each part of the command do?
 - `--mem=4G`
 - `--cpus-per-task=1`
 - `srun`
-- `--pty bash -I` (we haven't covered this, but have a guess)
+- `--pty bash` (we haven't covered this, but have a guess)
 
-Answers:
+<details>
+
+<summary>Answers:</summary>
 
 - `salloc` : This is the command to allocate resources on a compute node for a job.  
 - `--time 1-00:00:00` : This specifies that the job will have a maximum runtime of 1 day.  
 - `--mem=4G` : This specifies that the job will require 4 GB of memory.  
 - `--cpus-per-task=1` : This specifies that the job will require 1 CPU core.  
 - `srun` : This is the command to start a job on a compute node.  
-- `--pty bash` : This is a bit unfair since we haven't covered this yet. `--pty` stands for "pseudo-terminal" and is used to allocate a terminal for the job. `bash` specifies that the job will start an interactive Bash shell. 
+- `--pty bash` : This is a bit unfair since we haven't covered this yet. `--pty` stands for "pseudo-terminal" and is used to allocate a terminal for the job. `bash` specifies that the job will start an interactive Bash shell.  
+</details>
 
 Now that you have submitted your job, once the resources are allocated, you should observe that the node prompt has changed, indicating that you are now on a compute node:  
 
@@ -515,8 +546,11 @@ scancel <job_id>
 
 >[!NOTE]
 >If you cancelled your interactive job while on the compute node in LearnSlurm, you will get this error message:
->
->
+>  
+>```bash  
+>scancel: Job <job-id> (interactive) cancelled.  
+>``` 
+
 3. Now, run the `squeue --me` command again to check the status of your jobs.  
 
 ```bash

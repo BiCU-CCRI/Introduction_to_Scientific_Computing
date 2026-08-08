@@ -593,7 +593,7 @@ If you need to cancel a job that is currently running or pending, you can use th
 squeue --me
 ```
 
-Pick a job that is currently running to cancel. If there are no jobs running, submit the `hello_ccri.sbatch` job again and *wait for it to start running**.  
+Pick a job that is currently running to cancel. If there are no jobs running, submit the `hello_ccri.sbatch` job again and **wait for it to start running**.  
 
 2. Use the `scancel` command to cancel the job. Replace `<job_id>` with the job ID of the job you want to cancel.  
 
@@ -606,7 +606,7 @@ scancel <job_id>
 >
 >```bash
 >[codespace@node001 Introduction_to_Scientific_Computing]$ srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
-[2026-08-06T13:34:26.758] error: *** STEP <job-id> ON node001 CANCELLED AT 2026-08-06T13:34:26 DUE to SIGNAL Terminated ***
+>[2026-08-06T13:34:26.758] error: *** STEP <job-id> ON node001 CANCELLED AT 2026-08-06T13:34:26 DUE to SIGNAL Terminated ***
 >```
 >
 >Simply press Enter to return to the login node.
