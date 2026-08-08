@@ -13,7 +13,6 @@ Today we'll cover:
 5. Exercise 4: Marking PCR duplicates,
 6. Exercise 5: Base quality score recalibration (BQSR)  
 7. Exercise 6: Variant calling  
-8. TODO: Exercise 7: Variant filtering and sanity checks  (?)
 
 ## 1. Intro to the project, sequencing data formats, and the GATK best practices workflow
 
