@@ -16,7 +16,7 @@ Today we'll cover:
 4. SLURM queues  
 5. Exercise 2: Using `srun` to start an interactive job  
 6. Exercise 3: Running simple commands and scripts using the command line on a compute node via an interactive job  
-7. Exercise 4: Running a simple `.sbatch` script on a compute node  
+7. Exercise 4: Submitting a simple `.sbatch` script to a compute node  
 8. Exercise 5: Useful commands to track cluster usage and job status  
 
 ### Codespaces setup  
@@ -71,7 +71,7 @@ Test yourself with the following examples:
 
 1. Use a login node. This is a quick and simple task that doesn't require much memory or time.  
 2. Use a compute node. This task is resource-intensive and will take a long time to complete, so it's best to run it on a compute node.  
-3. Use a login node. Generating a small plot is a quick task that doesn't require much memory or time, so it's fine to run it on a login node.  
+3. Either. Generating a small plot is a quick task that doesn't require much memory or time, so it's fine to run it on a login node.  
 4. Use a compute node. Even though generating a plot may seem like a simple task, if the dataset is large, loading the data into memory may take a long time and use a lot of memory.  
 5. Use a compute node. Even though the dataset is small, testing a pipeline may take some time to complete, and an unfinished pipeline may unexpectedly use a lot of resources, for example the default pipeline settings may reserve multiple CPUs.  
 6. Use a compute node. Even though the command is simple, it may take a long time to complete.  
@@ -206,7 +206,7 @@ You can see that you can use the command line to run commands or scripts on a co
 
 3. To exit your interative job, simply type `exit` and press `Enter`. This will return you to the login node. You can confirm this by running the `hostname` command again, which should now display the name of the login node.  
 
-4. let's try to request more resources than are available/allowed. Try to request 50G on the interactive queue:
+4. Let's try to request more resources than are available/allowed. Try to request 50G on the interactive queue:
 
 ```bash
 srun --partition=interactiveq --qos=interactiveq --time 00:20:00 --mem=50G --cpus-per-task=1 --pty bash
@@ -228,7 +228,7 @@ srun: error: Unable to allocate resources: Requested node configuration is not a
 - You have exited your interactive job and returned to the login node.  
 - You have submitted a job that requests more resources than are available/allowed, and observed the error message.  
 
-## Exercise 4: Running a simple `.sbatch` script on a compute node  
+## Exercise 4: Submitting a simple `.sbatch` script to a compute node  
 
 **Goal:** Learn to run a simple `.sbatch` script on a compute node.
 
