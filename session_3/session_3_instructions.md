@@ -2,7 +2,7 @@
 
 Welcome to Session 3 of the Introduction to Scientific Computing course! Glad to see you enjoyed Sessions 1 & 2 enough to come back for more. 
 
-So far, we have been running commands from the terminal of your local machine. This means you are limited to the resources available on your laptop, which is usually around 4-16 GB of RAM and 2-8 CPU cores. This is fine for small tasks, but if you want to run more complex or resource-intensive tasks, you will need to use a compute node on a scientific computing cluster. For example, mapping reads froma human sample to the reference genome often requires around 32 GB of RAM, and training a machine learning model often requires GPUs and multiple CPU cores. These tasks are not feasible on a laptop, but they can be run on a scientific computing cluster.  
+So far, we have been running commands from the terminal of your local machine. This means you are limited to the resources available on your laptop, which is usually around 4-16 GB of RAM and 2-8 CPU cores. This is fine for small tasks, but if you want to run more complex or resource-intensive tasks, you will need to use a compute node on a scientific computing cluster. For example, mapping reads from a human sample to the reference genome often requires around 32 GB of RAM, and training a machine learning model often requires GPUs and multiple CPU cores. These tasks are not feasible on a laptop, but they can be run on a scientific computing cluster.  
 
 Since scientific computing is therefore often done on a cluster, it is important to know how to run tasks on one. Today we will learn about how to submit jobs on a scientific computing cluster using a workload manager called SLURM.  
 
@@ -22,11 +22,11 @@ Today we'll cover:
 ### Codespaces setup  
 
 >[!IMPORTANT]
->For session 3, we need to run CodeSpaces from a different branch of the repository to launch an environmeni which simulates SLURM. Please pay attention to the instructions below.  
+>For session 3, we need to run CodeSpaces from a different branch of the repository to launch an environment which simulates SLURM. Please pay attention to the instructions below.  
 
 We will use Codespaces to the login node of a computing cluster. You can use Codespaces to practice running simple commands and scripts on a pretend cluster without needing a CeMM account. Please review the main [README.md - A guide to GitHub Codespaces](../README.md#a-guide-to-github-codespaces) for a detailed overview of Codespaces.  
 
-1. Navigate to [https://github.com/BiCU-CCRI/Introduction_to_Scientific_Computing/tree/session_3]()
+1. Navigate to the [`session_3`](https://github.com/BiCU-CCRI/Introduction_to_Scientific_Computing/tree/session_3) branch.
 
 2. Click on the green "Code" button.
 
@@ -296,6 +296,9 @@ echo "Job finished after 30 seconds."
 ```
 </details>
 
+  >[!TIP]
+  >`--ntasks` controls how many separate processes Slurm launches, not how many CPUs you get — for most everyday scripts and tools, keep `--ntasks=1` and use `--cpus-per-task` instead. If you set `--ntasks=2` on a program that isn't designed for it, Slurm/srun would just launch two independent copies of the same script simultaneously, each unaware of the other.
+ 
 5. Now, we will submit the `.sbatch` script to SLURM using the `sbatch` command. This will allow SLURM to schedule your job on a compute node and run it in the background.  
 
 ```bash
@@ -423,7 +426,7 @@ There are several commands that you can use to track the status of your currentl
 
 Try this for yourself:
 
-1. Start another interactive job using the `srun` command. You can use the same resource requests as before.  
+1. Start another interactive job using the `srun` command. You can use the same *valid* resource requests as before.  
 
 2. Use the `squeue --me` command to check the status of your job. You should see your job in the queue, with a status of `R` (running) or `PD` (pending).  
 
@@ -575,7 +578,7 @@ Test yourself:
 - The total wall-clock time for the job was 30 seconds.
 - The total CPU time used by the job was 0 seconds (rounded down).
 - The total memory used by the job was 0 MB (rounded down).
-- The efficiency of the job is calculated as the ratio of the resources used by the job to the resources that were allocated to it. In this case, the CPU efficiency and memory efficieny are both 0.00% because the job did not use any CPU time or memory. This suggests that the job was not very resource-intensive, and that fewer resources should be requested for this job in the future.  
+- The efficiency of the job is calculated as the ratio of the resources used by the job to the resources that were allocated to it. In this case, the CPU efficiency and memory efficiency are both 0.00% because the job did not use any CPU time or memory. This suggests that the job was not very resource-intensive, and that fewer resources should be requested for this job in the future.  
 </details>
 
 It is a good idea to check the efficiency of your jobs after they have completed, and to adjust your resource requests accordingly for future jobs.  
@@ -614,7 +617,7 @@ scancel <job_id>
 squeue --me
 ```
 
-You should see that the job you cancelled is no longer in the queue.  
+You should see that the job you cancelled is no longer in the queue or briefly shows a status of CG (short for "completing") in the ST column while Slurm finishes cleaning up its resources. Once the cleanup is complete, the job will be removed."
 
 4. You can also use the `sacct` command to check the status of the cancelled job.  
 
@@ -644,7 +647,7 @@ JobID           JobName  Partition    Account  AllocCPUS      State ExitCode
 15.batch          batch                 users          2  CANCELLED     0:15 ***  
 ```
 
-Now, check the error file for the cancelled job. You should see a message similar to the following:
+If an error file was specified for the job, it should contain a message similar to the following:
 
 ```bash
 [2026-08-06T12:12:09.516] error: *** JOB 15 ON node004 CANCELLED AT 2026-08-06T12:12:09 DUE to SIGNAL Terminated ***
