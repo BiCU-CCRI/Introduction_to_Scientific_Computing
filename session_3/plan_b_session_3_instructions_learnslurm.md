@@ -1,6 +1,6 @@
 # Introduction to Scientific Computing - Session 3 
 
-Welcome to Session 2 of the Introduction to Scientific Computing course! Glad to see you enjoyed Sessions 1 & 2 enough to come back for more.  
+Welcome to Session 3 of the Introduction to Scientific Computing course! Glad to see you enjoyed Sessions 1 & 2 enough to come back for more.  
 
 ## Overview
   
@@ -104,7 +104,7 @@ You will notice that for the CeMM cluster, the `--partition` and `--qos` directi
 
 <img width="715" height="471" alt="job_queues" src="https://github.com/user-attachments/assets/9e013c14-ef3e-4f16-b35a-8e98cbe54ac2" />
 
->[NOTE!]
+>[!NOTE]
 >On the CeMM cluster, you must specify both `--partition` and `--qos` to choose your queue, and these must be identical. With LearnSlurm, it is sufficient to only specify `--partition`.  
 
 Once you have chosen your queue, the default `--time` and `--mem` limits will be set according to the queue's configuration. You can override these defaults by specifying your own values for `--time` and `--mem`, but you cannot exceed the maximum limits of the queue.  
@@ -130,14 +130,8 @@ From the prompt, you can see that you are on a login node `login-01`. You can co
 
 2. Start an interactive session using the following commands:  
 
-```bash
-salloc --time=1-00:00:00 --mem=4G --cpus-per-task=1
-# salloc: Granted job allocation 4821101
-# salloc: Waiting for resource configuration
-# salloc: Nodes node004 are ready for job
-srun --pty bash -I
-# [srun: running bash on node004]
-```
+
+First run
 
 Test yourself: what does each part of the command do?  
 
@@ -152,10 +146,10 @@ Answers:
 
 - `salloc` : This is the command to allocate resources on a compute node for a job.  
 - `--time 1-00:00:00` : This specifies that the job will have a maximum runtime of 1 day.  
-- `--mem=4G` : This specifies that the job will require 1 GB of memory.  
+- `--mem=4G` : This specifies that the job will require 4 GB of memory.  
 - `--cpus-per-task=1` : This specifies that the job will require 1 CPU core.  
 - `srun` : This is the command to start a job on a compute node.  
-- `--pty bash -I` : This is a bit unfair since we haven't covered this yet. `--pty` stands for "pseudo-terminal" and is used to allocate a terminal for the job. `bash -I` specifies that the job will start an interactive Bash shell.  
+- `--pty bash` : This is a bit unfair since we haven't covered this yet. `--pty` stands for "pseudo-terminal" and is used to allocate a terminal for the job. `bash` specifies that the job will start an interactive Bash shell. 
 
 Now that you have submitted your job, once the resources are allocated, you should observe that the node prompt has changed, indicating that you are now on a compute node:  
 
@@ -181,11 +175,11 @@ Try the following:
 - Run the `ls` command to list the files in your current directory.  
 - Run the `pwd` command to print the current working directory.  
 - Run the `echo` command to print a message to the terminal, for example: `echo "Hello, CCRI!"`.  
-- Run the example script `bash submit.sh` - you will not get an output as LearnSlurm is only a simulation, but you can see that the command runs without error.  
 
 You can see that you can use the command line to run commands or scripts on a compute node just like you would on a login node. The main difference is that you can now run commands that require more resources, such as more memory or CPU cores, without worrying about overloading the login node. Running an interactive job is the closest you can get to the previous CCRI setup, and is a good way to test your code before submitting it as a batch job.  
 
-3. To exit your interative job, simply type `exit` and press `Enter`. This will return you to the login node. You can confirm this by running the `hostname` command again, which should now display the name of the login node.  
+3. To exit your interative job, simply type `exit` and press `Enter`. This will return you to the `salloc` shell on the login node. You can confirm this by running the `hostname` command again, which should now display the name of the login node. Note that you are still holding the resources you allocated. Type `exit` once more to release the allocation. 
+You should see a confirmation message like:
 
 >[!NOTE]
 >Since LearnSlurm is a simulation, you will not get an error if you try to request more resources than are available on the cluster. However, if you try to request more resources than are available on the CeMM cluster, you will get an error message. For example, if you try to request more than 12 hours on the `interativeq`, you will get the following error message:  
@@ -197,8 +191,9 @@ You can see that you can use the command line to run commands or scripts on a co
 
 **You are done when:**
 
-- You have successfully run the `submit.sh` job on a compute node via your interactive job.  
-- You have exited your interactive job and returned to the login node.  
+- You have successfully run simple commands on a compute node via an interactive job.  
+- You have exited your interactive job and returned to the login node.
+- You have exited the `salloc` allocation and released the resources you requested.
 
 ## Exercise 4: Running a simple `.sbatch` script on a compute node  
 
@@ -253,8 +248,10 @@ nano hello_ccri.sbatch
 
 To save your work in `nano`, press `Ctrl + O`, then press `Enter`. To exit, press `Ctrl + X`.  
 
-4. Modify your `hello_ccri.sbatch` script to include SLURM directives. Open the script in `nano` and add SLURM directives to your script, similar to the ones in the example script. You can choose your own values for the directives, but make sure to include at least the following: `--job-name`, `--time`, `--mem`, `--nodes`, `--ntasks`, `--cpus-per-task`, and `--partition`. You can also specify output and error files using the `--output` and `--error` directives, however these will not be generated in the LearnSlurm simulation.  
+4. Modify your `hello_ccri.sbatch` script to include SLURM directives. Open the script in `nano` and add SLURM directives to your script, similar to the ones in the example script. You can choose your own values for the directives, but make sure to include at least the following: `--job-name`, `--time`, `--mem`, `--nodes`, `--ntasks`, `--cpus-per-task`, and `--partition`. You can also specify output and error files using the `--output` and `--error` directives.
 
+ >[!TIP]
+ >`--ntasks` controls how many separate processes Slurm launches, not how many CPUs you get — for most everyday scripts and tools, keep `--ntasks=1` and use `--cpus-per-task` instead. If you set `--ntasks=2` on a program that isn't designed for it, Slurm/srun would just launch two independent copies of the same script simultaneously, each unaware of the other.
 5. Now, we will submit the `.sbatch` script to SLURM using the `sbatch` command. This will allow SLURM to schedule your job on a compute node and run it in the background.  
 
 ```bash
@@ -270,7 +267,7 @@ Submitted batch job <job-id>
 Congratulations! You have successfully submitted your first batch job to SLURM.  
 
 >[!NOTE]
-> In LearnSlurm, the output files specified in the `--output` and `--error` directives will not be generated, but in a real SLURM environment, they will be created in your current working directory. The `--output` file would contain the following line:
+> The `--output` file would contain the following line:
 >
 >```bash
 >Hello, CCRI!
@@ -285,6 +282,7 @@ We will learn to do this in the next section!
 
 - You have successfully created a `.sbatch` script.  
 - You have successfully submitted your `.sbatch` script to SLURM using the `sbatch` command.  
+- You have checked the slurm output file generated by your job, and confirmed that the output is as expected.
 
 ## Exercise 5: Useful commands to track cluster usage and job status  
 
@@ -357,7 +355,7 @@ Examples of reasons why a job may be pending include:
 squeue -p compute
 ```
 
-You should observe that the output is filtered to show only jobs from the `tinyq` queue. This can be useful if you want to check the status of your job in a specific queue, or if you want to see how many jobs are currently running in a specific queue.  
+You should observe that the output is filtered to show only jobs from the `compute` queue. This can be useful if you want to check the status of your job in a specific queue, or if you want to see how many jobs are currently running in a specific queue.  
 
 ### Tracking currently running jobs - squeue, scontrol
 
@@ -423,7 +421,7 @@ Answers:
 - The job is running on compute node `node004`.  
 
 >[!TIP]
->You can also use `scontrol` to update the resources requested by a job on the fly. For example, try `scontrol update JobId=<job_id> timelimit=00:05:00` to decrease the time limit of your job to 5 minutes. This can come in handy if your job is `PENDING` due to requesting too may resources. However, increasing resources is not always allowed, and you cannot increase the number of CPUs or nodes requested for a job that is already running. The time limit will not update on LearnSlurm, but it will update on a real SLURM cluster.  
+>You can also use `scontrol` to update the resources requested by a job on the fly. For example, try `scontrol update JobId=<job_id> timelimit=00:05:00` to decrease the time limit of your job to 5 minutes. This can come in handy if your job is `PENDING` due to requesting too may resources. However, increasing resources is not always allowed, and you cannot increase the number of CPUs or nodes requested for a job that is already running. 
   
 ### Tracking completed jobs - sacct (& seff)  
 
@@ -515,6 +513,10 @@ Pick a job that is currently running to cancel.
 scancel <job_id>
 ```
 
+>[!NOTE]
+>If you cancelled your interactive job while on the compute node in LearnSlurm, you will get this error message:
+>
+>
 3. Now, run the `squeue --me` command again to check the status of your jobs.  
 
 ```bash
@@ -571,6 +573,6 @@ JobID         JobName       Partition     State         Elapsed       ExitCode
 - You have successfully tracked the status of your jobs using the `squeue --me`, `scontrol`, and `sacct` commands.  
 - You have successfully cancelled a job using the `scancel` command.  
 
-## End of Session 2
+## End of Session 3
 
-Yay, you have made it to the end of Session 2! You should now have a good understanding of how to submit jobs to SLURM, track their status, and cancel them if necessary. You should also have a good understanding of the different SLURM queues, and how to choose the appropriate queue for your job based on its resource requirements and expected runtime. See you in Session 4 to run some bioinformatics tools on the CeMM cluster!  
+Yay, you have made it to the end of Session 3! You should now have a good understanding of how to submit jobs to SLURM, track their status, and cancel them if necessary. You should also have a good understanding of the different SLURM queues, and how to choose the appropriate queue for your job based on its resource requirements and expected runtime. See you in Session 4 to run some bioinformatics tools on the CeMM cluster!  
