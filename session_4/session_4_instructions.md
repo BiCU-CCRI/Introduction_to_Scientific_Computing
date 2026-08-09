@@ -48,12 +48,11 @@ The first step to accessing the CeMM cluster, or any high performance computing 
 2. Cmd + Shift + P (Mac) or Ctrl + Shift + P (Windows) to open the command palette.  
 
 3. Type "Remote-SSH: Connect to Host..." and select it. 
-4. 
 
->[!TIP]You can also use the small `><` green button at the bottom left and select "Connect to Host...    Remote-SSH".
+>[!TIP]
+>You can also use the small `><` green button at the bottom left and select "Connect to Host...    Remote-SSH".
 >
 >![green_button](../images/green_button.png)
-
 
 4. Enter the following in the input box: `<username>@login.int.cemm.at` and press Enter.  
 
