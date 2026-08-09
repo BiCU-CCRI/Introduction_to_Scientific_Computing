@@ -557,7 +557,7 @@ Once the PCR duplicates are marked, we will perform base quality score recalibra
 
 1. Create a script called `04_bqsr.sh` in your working directory to run BQSR.  
 
-This script takes the duplicate marked `.bam` file as input and performs base quality score recalibration (BQSR) by using known SNP and indel sites to model and correct systematic errors in the sequencing quality scores, then apply the recalibration. The 2 "known sites" files - one for SNPs and one for indels - are found in `../../example_data/known_sites`. We will also index the `.bam` file again as this is required for the variant calling step. For more information about the commands and arguments, check the [GATK BaseRecalibrator documentation](https://gatk.broadinstitute.org/hc/en-us/articles/13832708374939-BaseRecalibrator) and [GATK ApplyBQSR documentation](https://gatk.broadinstitute.org/hc/en-us/articles/13832692459163-ApplyBQSR).  
+This script takes the duplicate marked `.bam` file as input and performs base quality score recalibration (BQSR) by using known SNP and indel sites to model and correct systematic errors in the sequencing quality scores, then apply the recalibration. The 2 "known sites" files - one for SNPs and one for indels - are found in `../../example_data/known_sites`. For more information about the commands and arguments, check the [GATK BaseRecalibrator documentation](https://gatk.broadinstitute.org/hc/en-us/articles/13832708374939-BaseRecalibrator) and [GATK ApplyBQSR documentation](https://gatk.broadinstitute.org/hc/en-us/articles/13832692459163-ApplyBQSR).  
 
 You can use the following command for `gatk BaseRecalibrator` and `gatk ApplyBQSR` as a starting point. Remember to change the change the paths of the input and output files to match your own filepaths, and to make the `results/04_bqsr` and `logs/04_bqsr` subdirectories as we did for the previous steps. Remember that if you get stuck you can use the example script `variant_calling_examples/04_bqsr.sh` as a reference.  
 
@@ -576,9 +576,6 @@ gatk --java-options "-Xmx5g" ApplyBQSR \
     --bqsr-recal-file "sample.recal.table" \
     -O "sample.recal.bam" \
     2> "bqsr.log"
-
-samtools index \
-    "sample.recal.bam"
 ```
 
 2. Once you have written your script, run it and check that the output files are produced.  
@@ -592,7 +589,6 @@ ls -lh results/04_bqsr
 total 12M
 -rw-rw-rw- 1 codespace codespace 142K Aug  4 14:43 SRR7890883.recal.bai
 -rw-rw-rw- 1 codespace codespace  11M Aug  4 14:43 SRR7890883.recal.bam
--rw-rw-rw- 1 codespace codespace 105K Aug  4 14:43 SRR7890883.recal.bam.bai
 -rw-rw-rw- 1 codespace codespace 211K Aug  4 14:43 SRR7890883.recal.table
 ```
 
