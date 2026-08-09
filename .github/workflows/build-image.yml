@@ -1,0 +1,39 @@
+name: Build and push SLURM training image
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".devcontainer/Dockerfile"
+      - ".github/workflows/build-image.yml"
+
+env:
+  IMAGE_NAME: ghcr.io/bicu-ccri/slurm-training-cluster
+  IMAGE_TAG: "25.11.4"
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .devcontainer
+          file: .devcontainer/Dockerfile
+          push: true
+          tags: |
+            ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+            ${{ env.IMAGE_NAME }}:latest
