@@ -186,7 +186,7 @@ Let's try to run a simple Python script which loads the `numpy` library and prin
 >[!NOTE]
 >If you are already using conda on the CeMM cluster and have Python installed in your base environment, please deactivate your base environment before running the commands below.  
 
-2. Try to run the script from Session 1 that checks the `numpy` version without loading any modules first:
+1. Try to run the script from Session 1 that checks the `numpy` version without loading any modules first:
 
 ```bash
 python3 ../session_1/check_numpy_version.py
@@ -201,7 +201,7 @@ Traceback (most recent call last):
 ModuleNotFoundError: No module named 'numpy'
 ```
 
-3. Now, using the commands above, try to find a Python module and load it. Then, try to run the script again.  
+2. Now, using the commands above, try to find a Python module and load it. Then, try to run the script again.  
 
 ```bash
 module spider Python
@@ -269,12 +269,12 @@ Hm, loading a Python module didn't work. We still don't have `numpy`. You should
 
 ```bash
 Traceback (most recent call last):
-  File "path/to/Introduction_to_Scientific_Computing/session_3/check_numpy_version.py", line 1, in <module>
+  File "path/to/Introduction_to_Scientific_Computing/session_1/check_numpy_version.py", line 1, in <module>
     import numpy as np
 ModuleNotFoundError: No module named 'numpy'
 ```
 
-4. Now, let's try to find a `numpy` library module and load it. Then, try to run the script again.  
+3. Now, let's try to find a `numpy` library module and load it. Then, try to run the script again.  
 
 ```bash
 module spider numpy
@@ -365,22 +365,10 @@ bash check_numpy_version_module.sh
 
 Did you get the same output as previously? Why did we save the output of `module list` into a log file?
 
-You can now test unloading all the modules we loaded previously, and test run the script.
-
-```bash
-module purge 
-module list
-# No modules loaded
-bash check_numpy_version_module.sh
-```
-
-Did you get the same output as previously? Why did we save the output of `module list` into a log file?
-
 **You are done when:** 
 
 - You are comfortable loading and unloading modules using the module system.  
 - You can run the `../session_1/check_numpy_version.py` script successfully after loading the appropriate modules.  
-- You created and successfully ran a script that both loads the modules and runs `../session_1/check_numpy_version.py` script.
 - You created and successfully ran a script that both loads the modules and runs `../session_1/check_numpy_version.py` script.
 
 ## 6. Exercise 4: Variant calling on the CeMM cluster
@@ -498,7 +486,7 @@ logs/
 6 directories, 18 files
 ```
 
-7. Now, let's check the actual results files. 
+6. Now, let's check the actual results files. 
 
 First, let's check the `fastp` HTML file. You have to download the HTML file locally and open it in your web browser. In VSCode, right-click on the `fastp` HTML file and "Download...". If you are using a terminal, you can use the `scp` command to copy the HTML file to your local machine. From a new terminal on your laptop (do **not** log in to the CeMM cluster):  
 
@@ -846,7 +834,7 @@ Loading packages and manipulating data in the RStudio session is exactly the sam
 5. Remember to `scancel` the job once you close the RStudio session tab in your web browser, as we checked at the beginning of this exercise (checking the JupyterLab job status).  
 
 >[!TIP]
-We recommend regularly checking and canceling unused jobs. Each running job consumes your [fair share](https://slurm.schedmd.com/SLUG19/Priority_and_Fair_Trees.pdf), which, in the long term, can slow down the execution of your jobs at the CeMM cluster.
+>We recommend regularly checking and canceling unused jobs. Each running job consumes your [fair share](https://slurm.schedmd.com/SLUG19/Priority_and_Fair_Trees.pdf), which, in the long term, can slow down the execution of your jobs at the CeMM cluster.
 
 >[!NOTE]
 >To manage your R environments, we recommend using `renv`. You can find more information about `renv` [here](https://rstudio.github.io/renv/articles/renv.html).  

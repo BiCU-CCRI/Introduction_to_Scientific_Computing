@@ -69,7 +69,7 @@ To submit a job to a compute node via SLURM, you have several options:
 
 - `sbatch` : Submit a non-interactive job to the queue. This is useful for running tasks that don't require user interaction.  
 - `srun` : Start a job interactively. This is useful for testing and debugging your code.  
-- `salloc` : Allocate resources on a compute node for a job. For some clusters, you must allocate resources before starting a job interatively. This is not the case on the CeMM cluster, but it is still good to know.  
+- `salloc` : Allocate resources on a compute node for a job. For some clusters, you must allocate resources before starting a job interactively. This is not the case on the CeMM cluster, but it is still good to know.  
 
 We will focus on `srun` and `sbatch` in this session. You will get a chance to use both of these commands in the following exercises. First, we will cover the extra information you need to provide to SLURM when submitting a job, which is done using SLURM directives.  
 
@@ -101,7 +101,7 @@ You will notice that for the CeMM cluster, the `--partition` and `--qos` directi
 
 <img width="715" height="471" alt="job_queues" src="https://github.com/user-attachments/assets/9e013c14-ef3e-4f16-b35a-8e98cbe54ac2" />
 
->[NOTE!]
+>[!NOTE]
 >On the CeMM cluster, you must specify both `--partition` and `--qos` to choose your queue, and these must be identical. With LearnSlurm, it is sufficient to only specify `--partition`.  
 
 Once you have chosen your queue, the default `--time` and `--mem` limits will be set according to the queue's configuration. You can override these defaults by specifying your own values for `--time` and `--mem`, but you cannot exceed the maximum limits of the queue.  
@@ -200,7 +200,7 @@ Hello, CCRI!
 
 You can see that the script runs successfully on the compute node, and that you can use the command line to run commands on a compute node just like you would on a login node. The main difference is that you can now run commands that require more resources, such as more memory or CPU cores, without worrying about overloading the login node. Running an interactive job is the closest you can get to the previous CCRI setup, and is a good way to test your code before submitting it as a batch job.  
 
-4. To exit your interative job, simply type `exit` and press `Enter`. This will return you to the login node. You can confirm this by running the `hostname` command again, which should now display the name of the login node.  
+4. To exit your interactive job, simply type `exit` and press `Enter`. This will return you to the login node. You can confirm this by running the `hostname` command again, which should now display the name of the login node.  
 
 5. What happens when we try to request more resources than are allowed for the queue? Try to request longer than 12 hours on the `interactiveq`. What happens?  
 
@@ -224,12 +224,12 @@ Remember to check the queue limits before submitting a job, and make sure to req
 
 Now, we will turn your `hello_ccri.sh` script into a SLURM **batch job** script (`.sbatch`), which can be submitted to the queue using the `sbatch` command. This will allow you to run your script on a compute node without needing to be logged in interactively.  
 
-To turn a `.sh` script into a `.sbatch` script, you need to add SLURM directives at the top of the script. The directives are the same as those found in Table 1. In an `srun` commmand, you specify the directives as command line arguments, but in a `.sbatch` script, you specify them as comments at the top of the script. These comments start with `#SBATCH`, and are followed by the directive and its value.  
+To turn a `.sh` script into a `.sbatch` script, you need to add SLURM directives at the top of the script. The directives are the same as those found in Table 1. In an `srun` command, you specify the directives as command line arguments, but in a `.sbatch` script, you specify them as comments at the top of the script. These comments start with `#SBATCH`, and are followed by the directive and its value.  
 
 >[!NOTE]
 >Both `.sh` and `.sbatch` scripts are just shell scripts, but `.sbatch` scripts include SLURM directives that tell SLURM what resources your job will require. Technically, you can also submit a `.sh` script (with SLURM directives) to SLURM using `sbatch`, but it is good practice to use the `.sbatch` extension for scripts that are intended to be submitted to SLURM. It is also possible to run a `.sbatch` script interactively using `bash`, since the SLURM directives are just comments that are ignored by the shell.
 
-1. First, let's take a look at a example `.sbatch` script with SLURM directives included.
+1. First, let's take a look at an example `.sbatch` script with SLURM directives included.
 
 ```bash
 cat example_job_script.sbatch
@@ -466,11 +466,11 @@ JobId=13063801 JobName=hello
    MinCPUsNode=1 MinMemoryNode=1G MinTmpDiskNode=0
    Features=(null) DelayBoot=00:00:00
    OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
-   Command=/path/to/Introduction_to_Scientific_Computing/session_2/hello_ccri.sbatch
-   WorkDir=/path/to/Introduction_to_Scientific_Computing/session_2
-   StdErr=/path/to/Introduction_to_Scientific_Computing/session_2/hello_13063801.err
+   Command=/path/to/Introduction_to_Scientific_Computing/session_3/hello_ccri.sbatch
+   WorkDir=/path/to/Introduction_to_Scientific_Computing/session_3
+   StdErr=/path/to/Introduction_to_Scientific_Computing/session_3/hello_13063801.err
    StdIn=/dev/null
-   StdOut=/path/to/Introduction_to_Scientific_Computing/session_2/hello_13063801.out
+   StdOut=/path/to/Introduction_to_Scientific_Computing/session_3/hello_13063801.out
    TresPerTask=cpu=1
 ```
 
@@ -488,10 +488,10 @@ Answers:
 - The current state of the job is `RUNNING`.  
 - The job is running in the `tinyq` partition.  
 - The job is running on compute node `d023`.  
-- The path to the output file for this job is `/path/to/Introduction_to_Scientific_Computing/session_2/hello_13063801.out`.  
+- The path to the output file for this job is `/path/to/Introduction_to_Scientific_Computing/session_3/hello_13063801.out`.  
 
 >[!TIP]
->You can also use `scontrol` to update the resources requested by a job on the fly. For example, try `scontrol update JobId=<job_id> timelimit=00:05:00` to decrease the time limit of your job to 5 minutes. This can come in handy if your job is `PENDING` due to requesting too may resources. However, increasing resources is not always allowed, and you cannot increase the number of CPUs or nodes requested for a job that is already running.  
+>You can also use `scontrol` to update the resources requested by a job on the fly. For example, try `scontrol update JobId=<job_id> timelimit=00:05:00` to decrease the time limit of your job to 5 minutes. This can come in handy if your job is `PENDING` due to requesting too many resources. However, increasing resources is not always allowed, and you cannot increase the number of CPUs or nodes requested for a job that is already running.  
 
 ### Tracking completed jobs - sacct, seff  
 
@@ -560,7 +560,7 @@ Answers:
 - The total memory used by the job was 676 KB.
 - The efficiency of the job is calculated as the ratio of the resources used by the job to the resources that were allocated to it. In this case, the CPU efficiency is 0.00% because the job did not use any CPU time, and the memory efficiency is 0.06% because the job used only a small fraction of the allocated memory.  
 
-From this output, you can see that the effiency was very low, suggesting that fewer resources should be requested for this job in the future. It is a good idea to check the efficiency of your jobs after they have completed, and to adjust your resource requests accordingly for future jobs.  
+From this output, you can see that the efficiency was very low, suggesting that fewer resources should be requested for this job in the future. It is a good idea to check the efficiency of your jobs after they have completed, and to adjust your resource requests accordingly for future jobs.  
 
 ### Cancelling jobs - scancel
 

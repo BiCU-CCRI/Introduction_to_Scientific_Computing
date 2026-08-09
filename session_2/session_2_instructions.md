@@ -10,7 +10,7 @@ Today we'll cover:
 2. Exercise 1: Setting up your project  
 3. Exercise 2: Read QC and trimming  
 4. Exercise 3: Alignment  
-5. Exercise 4: Marking PCR duplicates,
+5. Exercise 4: Marking PCR duplicates
 6. Exercise 5: Base quality score recalibration (BQSR)  
 7. Exercise 6: Variant calling  
 
@@ -37,7 +37,7 @@ Here is some more detailed information about `.fastq`, `.bam`, and `.vcf` files:
   ```
 
 - `.bam` files
-  These files contain the aligned sequencing reads in a binary format. The [`.bam`](from the official SAM format documentation https://samtools.github.io/hts-specs/SAMv1.pdf) file contains information about the alignment, including the position of each read in the reference genome, the quality of the alignment, and any mismatches or gaps in the alignment.  
+  These files contain the aligned sequencing reads in a binary format. The [`.bam`](https://samtools.github.io/hts-specs/SAMv1.pdf) file contains information about the alignment, including the position of each read in the reference genome, the quality of the alignment, and any mismatches or gaps in the alignment.  
 
   ```txt
   SRR7890883.53176591     99      chr17   63371   60      125M    =       63425   179     GCCACCGTGAGGGAGGAGCTGGGCCGCACGCGGGCTGCTGGGAGGCAGGCAGGGACTTGGCCCCGGGAGGCCGCCGTGGGGGCAAGAGCTGGGCCTGGAGAGGCCCCTGGGAGGCAAGGGCGGGGAFFFFKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKFKKKKKKKKKKKKKFKKKKKKKKKKKKKKKKKKKFFKKKKKKKKKKKKKKKKKKKKKKKKKFKKKFKKK<KKKKKKKKKKKKK   NM:i:0  MD:Z:125        MC:Z:125M       MQ:i:60 AS:i:125        XS:i:0  RG:Z:SRR7890883.lib1
@@ -207,8 +207,7 @@ Why do you think you only see `N`s?
 Check the top rows of the `vcf` file while skipping the comment lines (starting with `#`):
 
 ```bash
-zcat ../../example_data/known_sites/Mills_and_1000G_gold_standard.indels.hg38.chr17.vcf.
-gz | grep -v "^#" | head
+zcat ../../example_data/known_sites/Mills_and_1000G_gold_standard.indels.hg38.chr17.vcf.gz | grep -v "^#" | head
 zcat ../../example_data/known_sites/dbsnp_146.hg38.chr17.vcf.gz | grep -v "^#" | head
 ```
 
@@ -239,7 +238,7 @@ chr17   79910   rs9747307       A       G       .       .       RS=9747307;RSPOS
 ```
 
 >[!NOTE]
-> Here, we used `grep -v` to return lines other than the matching ones. We combined it with `"^#" which matches `#` but only if they are at the very beginning of a line `^` ("anchor" is to the line start). Altogether, this command returns all the lines that don't start with `#`.
+> Here, we used `grep -v` to return lines other than the matching ones. We combined it with `"^#"` which matches `#` but only if they are at the very beginning of a line `^` ("anchor" is to the line start). Altogether, this command returns all the lines that don't start with `#`.
 
 **You are done when**:
 
@@ -609,7 +608,7 @@ Finally, it's time to run `Mutect2` to call somatic variants. We will compare ou
 
 This script will take the recalibrated `.bam` file as an input, then use the `Mutect2` software to identify candidate somatic variants. The germline resource is a population database of common inherited variants which helps the caller distinguish likely germline polymorphisms from true somatic mutations, and is found in `../../example_data/germline_resource/gnomAD.r2.1.1.GRCh38.chr17.75pct.PASS.AC.AF.only.vcf.gz`. We will use this to _simulate_ the healthy sample to pair with the tumor sample. The candidate variants are then filtered to remove likely false positives (`FilterMutectCalls`), and only variants that pass all filters are retained in the final VCF (`SelectVariants`). For more details about the arguments used, see the [GATK Mutect2 documentation](https://gatk.broadinstitute.org/hc/en-us/articles/360037593851-Mutect2).  
 
-You can use the following commands as a starting point. Remember to change the change the paths of the input and output files to match your own filepaths, and to make the `results/05_mutect2` and `logs/05_mutect2` subdirectories as we did for the previous steps. Remember that if you get stuck you can use the example script `variant_calling_examples/04_bqsr.sh` as a reference.  
+You can use the following commands as a starting point. Remember to change the change the paths of the input and output files to match your own filepaths, and to make the `results/05_mutect2` and `logs/05_mutect2` subdirectories as we did for the previous steps. Remember that if you get stuck you can use the example script `variant_calling_examples/05_mutect2.sh` as a reference.  
 
 ```bash
 gatk --java-options "-Xmx5g" Mutect2 \

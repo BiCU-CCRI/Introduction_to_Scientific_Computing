@@ -106,7 +106,7 @@ You should observe the output printed to the terminal:
 Hello, CCRI!
 ```
 
-> [!IMPORTANT]
+>[!IMPORTANT]
 > What happens if you try to execute the script with `./hello_ccri.sh` and why? How do you fix it?
 
 2. Now, redirect the output of the script to a new file called `hello_ccri_output.txt` using the following command:
@@ -136,7 +136,7 @@ You should see this output:
 
 which indicates that there is 1 line, 2 words, and 13 characters in the output.  
 
-> [!TIP]
+>[!TIP]
 > You can also run `bash hello_ccri.sh | wc -l` to only see the number of lines.
 
 **You are done when**:  
@@ -212,7 +212,7 @@ Counting the number of reads in the fastq file:
 
 **You are done when**:  
 
-- You have successfully run `print_and_count_reads.sh, you observed the expected output, and you understand why.
+- You have successfully run `print_and_count_reads.sh`, you observed the expected output, and you understand why.
 
 **Extension - if you finish early:**
 
@@ -224,7 +224,7 @@ bash -x print_and_count_reads.sh
 
 What's different? Can you explain what's happening?
 
-## Exercise 4: Environment management using conda  
+## 4. Exercise 4: Environment management using conda  
 
 **Goal:** Learn how to create and manage isolated environments using Conda.  
 
@@ -232,7 +232,7 @@ So far, we have been using simple shell commands and scripts to run our analyses
 
 If you are working on several projects, you may want to use the same (or different) versions of the same software for each project. This is where Conda comes in handy. Conda is a package manager that allows you to create isolated "environments" for your projects, each with its own set of dependencies. Using Conda also allows you to more easily share the exact software versions (environment) with others, ensuring analysis reproducibility. It also makes it easier to install all software dependencies with minimal effort.
 
-> [!TIP]
+>[!TIP]
 > It is good practice to create a new Conda environment for each project you work on and keep track of the installed software versions.  
 
 Follow these steps to set up conda:  
@@ -241,7 +241,7 @@ Follow these steps to set up conda:
 
 `wget https://repo.anaconda.com/miniconda/Miniconda3-py314_26.5.3-2-Linux-x86_64.sh`
 
-> [!NOTE]
+>[!NOTE]
 > [`miniconda`](https://www.anaconda.com/docs/getting-started/concepts/anaconda-or-miniconda) is an alternative `conda` installed with much smaller space requirements.
 
 2. Install `miniconda`
@@ -287,10 +287,10 @@ conda create -n intro_to_sci_comp python=3.10 conda-forge::numpy=2.2.6
 
 We specify that we want to create an environment with Python 3.10 and `numpy=2.2.6` (from the channel `conda-forge`) pre-installed.
 
-> [!IMPORTANT]
+>[!IMPORTANT]
 > Notice that we specify the exact Python version (`3.10`) when setting up the environment (for Python, the first two version numbers are sufficient, and additional subversions don't introduce any major changes). Using an exact software version is the only way to have your results reproducible.
 
-> [!NOTE]
+>[!NOTE]
 > Notice we used `::` to specify which Conda channel to use for `numpy` installation. This way, you can overwrite the existing list of channels and use a **specific** channel to install the package. This is recommended as it further increases the reproducibility.
 
 5. To activate the environment, run the following command:  
@@ -305,7 +305,7 @@ conda activate intro_to_sci_comp
 conda install <package_name>
 ```
 
-You can add multiple packages by separating them with spaces. You can also specify the channel from whcih the package should be installed with `<channel>::<package_name>`, and you can specify the version of the package you want to install by appending `=<version>` to the package name. 
+You can add multiple packages by separating them with spaces. You can also specify the channel from which the package should be installed with `<channel>::<package_name>`, and you can specify the version of the package you want to install by appending `=<version>` to the package name. 
 
 It is **strongly** recommended to install all the software and packages at once. Conda attempts to find an optimal combination of dependencies, which is only possible if it knows everything it should consider at once. **Avoid installing them individually.** Conda would eventually fail due to conflicting dependencies if you install software one at a time.
 
@@ -325,7 +325,7 @@ conda env export > intro_to_sci_comp.yaml
 
 You should be able to spot your `python` and `numpy` packages, as well as the other dependencies that were automatically installed. At the top of the file, you should see the name of the environment and the version of conda that was used to create it.  
 
-> [!TIP]
+>[!TIP]
 > Using `conda env export` includes system-specific "builds". These are not software versions _per se_ and don't change the software functionality. Reproducing the Conda environment on a **different** server using this export is unlikely to work. To only record the software versions, use:
 > 
 > ```bash
@@ -334,13 +334,13 @@ You should be able to spot your `python` and `numpy` packages, as well as the ot
 
 `--no-builds` option is an optimal balance between keeping track of the exact software versions while being able to share the environment with people using a different cluster.
 
-9. To deactivate your conda enironment and return to the base environment, run the following command:  
+8. To deactivate your conda environment and return to the base environment, run the following command:  
 
 ```bash
 conda deactivate
 ```
 
-10. To create an environment from a `yaml` file, we will use the provided `.yaml` that will create the environment we need for the following session. Run the following command:  
+9. To create an environment from a `yaml` file, we will use the provided `.yaml` that will create the environment we need for the following session. Run the following command:  
 
 ```bash
 conda env create -f somatic_variant_calling.yaml
@@ -354,7 +354,7 @@ conda env list
 
 Using a Conda environment YAML is the most efficient way to record and share software versions and overall setup. It is also very easy to use version control using git.  
 
-> [!NOTE]
+>[!NOTE]
 > git version control will be covered in one of the future courses.
 
 You can list all the installed tools in this environment
@@ -391,8 +391,8 @@ Here are some useful commands for managing conda environments:
 - You have installed Miniconda.  
 - You have created a new environment called `intro_to_sci_comp` with Python 3.10 and numpy 2.2.6 installed.  
 - You have successfully run the `check_numpy_version.py` script.  
-- You have exported the list of packages in the `numpy` environment to a `yaml` file.  
-- You have deactivated the `numpy` environment and returned to the base environment.  
+- You have exported the list of packages in the `intro_to_sci_comp` environment to a `yaml` file.  
+- You have deactivated the `intro_to_sci_comp` environment and returned to the base environment.  
 - You have created a new environment called `somatic_variant_calling` from the provided `somatic_variant_calling.yaml` file and verified the software versions.  
 
 ## 5. Optional - Exercise 5: Activating a Conda environment in a script
@@ -428,9 +428,9 @@ python3 check_numpy_version.py
 
 **You are done when:**
 
-- You have successfully run the `check_numpy_version.py`non-interactively by activating the `intro_to_sci_comp` conda environment in a `.sh` script.  
+- You have successfully run the `check_numpy_version.py` non-interactively by activating the `intro_to_sci_comp` conda environment in a `.sh` script.  
 
-> [!NOTE]
+>[!NOTE]
 > The provided Conda activation code chunk only works if you install Conda as described in this tutorial. It will likely not work if you used regular [Conda/Anaconda](https://www.anaconda.com/download), [Mamba/Miniforge](https://mamba.readthedocs.io/en/latest/installation/mamba-installation.html), or [Micromamba](https://mamba.readthedocs.io/en/latest/installation/micromamba-installation.html) (the other two alternative installers).
 
 

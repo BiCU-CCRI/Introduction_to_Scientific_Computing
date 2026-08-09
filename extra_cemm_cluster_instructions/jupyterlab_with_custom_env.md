@@ -48,7 +48,7 @@ host ${node}
 jupyter lab --no-browser --port=${port} --ip=${node}
 ```
 
-5. Submit the `jupyterlab_customenv.sbatch` to SLURM, and click the link in the output to access the Jupyter Notebook session in your web browser.  
+6. Submit the `jupyterlab_customenv.sbatch` to SLURM, and click the link in the output to access the Jupyter Notebook session in your web browser.  
 
-6. To set your own environment as the kernel, click the `Kernel` menu, then `Change kernel`, and select your environment from the list. You should now be able to use Jupyter Notebook in your web browser with your own conda environment!  
+7. To set your own environment as the kernel, click the `Kernel` menu, then `Change kernel`, and select your environment from the list. You should now be able to use Jupyter Notebook in your web browser with your own conda environment!  
 

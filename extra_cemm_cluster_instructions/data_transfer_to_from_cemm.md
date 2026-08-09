@@ -13,11 +13,11 @@ We recommend using `rsync` for data transfer. The `rsync` program is a fast and 
 
 Let's try it with an example file. Navigate to one of your folders on Isilon using the `011Sv123` server, and make an example file. Then, transfer this file to the `session_4` directory on the CeMM cluster using the `rsync` command.  
 
->[TIP!]
+>[!TIP]
 >Always run a dry run of the `rsync` command first to see what files will be transferred. You can do this by adding the `--dry-run` argument to the command.  
 
 >[!NOTE]
->Be careful about the `<source>` and `<destination>` arguments. The `rsync` command will copy files from the `<source>` to the `<destination>`. If you get these arguments wrong, you may end up overwriting files on the CeMM cluster or Isilon. When you end a path with a backslash `\`, it means "copy the contents of this directory", whereas if you don't end with a backslash, it means "copy this directory and its contents".
+>Be careful about the `<source>` and `<destination>` arguments. The `rsync` command will copy files from the `<source>` to the `<destination>`. If you get these arguments wrong, you may end up overwriting files on the CeMM cluster or Isilon. When you end a path with a forward slash `/`, it means "copy the contents of this directory", whereas if you don't end with a slash, it means "copy this directory and its contents".
 >For example:
 >`rsync -r /path/to/source/ /path/to/destination/` will copy the contents of the `source` directory to the `destination` directory, whereas
 >`rsync -r /path/to/source /path/to/destination/` will copy the `source` directory and its contents to the `destination` directory.

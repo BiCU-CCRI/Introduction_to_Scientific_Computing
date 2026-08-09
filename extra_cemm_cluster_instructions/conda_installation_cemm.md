@@ -34,7 +34,7 @@ Now, edit your `~/.bashrc` file to point to the new location of your conda insta
 Old `~/.bashrc`:  
 
 ```bash
- >>> conda initialize >>>
+# >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$('/home/ccasey/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
@@ -53,7 +53,7 @@ unset __conda_setup
 New `~/.bashrc`:  
 
 ```bash
- >>> conda initialize >>>
+# >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$('/nobackup/<lab_name>/<username>/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
