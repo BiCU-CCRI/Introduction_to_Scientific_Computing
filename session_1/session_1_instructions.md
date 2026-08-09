@@ -128,7 +128,7 @@ cat hello_ccri_output.txt
 bash hello_ccri.sh | wc
 ```
 
-You should see this outlput:
+You should see this output:
 
 ```bash
 1       2      13

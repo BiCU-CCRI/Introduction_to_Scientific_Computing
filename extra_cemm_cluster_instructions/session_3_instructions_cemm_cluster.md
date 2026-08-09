@@ -1,6 +1,6 @@
-# Introduction to Scientific Computing - Session 2  
+# Introduction to Scientific Computing - Session 3  
 
-Welcome to Session 2 of the Introduction to Scientific Computing course! Glad to see you enjoyed Session 1 enough to come back for more.  
+Welcome to Session 3 of the Introduction to Scientific Computing course! Glad to see you enjoyed Sessions 1 & 2 enough to come back for more.  
 
 ## Overview
   
@@ -650,4 +650,4 @@ slurmstepd: error: *** JOB 13064631 ON d016 CANCELLED AT 2026-07-27T17:20:36 ***
 
 ## End of Session 3
 
-Yay, you have made it to the end of Session 2! You should now have a good understanding of how to submit jobs to SLURM, track their status, and cancel them if necessary. You should also have a good understanding of the different queues on the CeMM cluster, and how to choose the appropriate queue for your job based on its resource requirements and expected runtime. See you in Session 3 to run some real bioinformatics tools!  
+Yay, you have made it to the end of Session 3! You should now have a good understanding of how to submit jobs to SLURM, track their status, and cancel them if necessary. You should also have a good understanding of the different queues on the CeMM cluster, and how to choose the appropriate queue for your job based on its resource requirements and expected runtime. See you in Session 4 to run some real bioinformatics tools on the CeMM cluster!  

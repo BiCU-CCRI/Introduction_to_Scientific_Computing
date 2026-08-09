@@ -5,7 +5,7 @@
 #SBATCH --error=logs/slurm_logs/03_markdup_%j.err
 #SBATCH --time=00:05:00
 #SBATCH --cpus-per-task=1
-#SBATCH --mem=5G
+#SBATCH --mem=6G
 #SBATCH --partition=tinyq
 #SBATCH --qos=tinyq
 
