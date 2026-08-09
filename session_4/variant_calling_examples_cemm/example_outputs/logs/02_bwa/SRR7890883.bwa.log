@@ -10,7 +10,7 @@
 [M::mem_pestat] low and high boundaries for proper pairs: (1, 469)
 [M::mem_pestat] skip orientation RF as there are not enough pairs
 [M::mem_pestat] skip orientation RR as there are not enough pairs
-[M::mem_process_seqs] Processed 81168 reads in 6.734 CPU sec, 6.755 real sec
+[M::mem_process_seqs] Processed 81168 reads in 6.067 CPU sec, 6.087 real sec
 [M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (1, 8083, 1, 0)
 [M::mem_pestat] skip orientation FF as there are not enough pairs
 [M::mem_pestat] analyzing insert size distribution for orientation FR...
@@ -20,7 +20,7 @@
 [M::mem_pestat] low and high boundaries for proper pairs: (1, 498)
 [M::mem_pestat] skip orientation RF as there are not enough pairs
 [M::mem_pestat] skip orientation RR as there are not enough pairs
-[M::mem_process_seqs] Processed 18828 reads in 1.717 CPU sec, 1.694 real sec
+[M::mem_process_seqs] Processed 18828 reads in 1.535 CPU sec, 1.574 real sec
 [main] Version: 0.7.17-r1188
 [main] CMD: bwa mem -t 1 -M -R @RG\tID:SRR7890883.lib1\tSM:SRR7890883\tLB:lib1\tPL:ILLUMINA\tPU:SRR7890883.lib1 ../../example_data/ref/Homo_sapiens_assembly38.chr17.fasta results/01_fastp/SRR7890883.chr17_50k_R1_trimmed.fastq results/01_fastp/SRR7890883.chr17_50k_R2_trimmed.fastq
-[main] Real time: 9.248 sec; CPU: 8.582 sec
+[main] Real time: 8.179 sec; CPU: 7.732 sec

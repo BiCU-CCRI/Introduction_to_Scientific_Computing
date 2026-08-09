@@ -49,7 +49,3 @@ gatk --java-options "-Xmx5g" ApplyBQSR \
     --bqsr-recal-file "${RECAL_TABLE}" \
     -O "${OUT_BAM}" \
     2> "${LOG_BQSR}"
-
-echo "Indexing aligned reads"
-samtools index \
-    "${OUT_BAM}"
