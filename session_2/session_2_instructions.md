@@ -317,7 +317,7 @@ echo "All done!"
 >
 >Adding this line tells the computer: "If any mistake happens, stop everything immediately."
 ><details>
-><summary>Defails on `-euo pipefail` options</summary>
+><summary>Details on `-euo pipefail` options</summary>
 >Here is what each piece does in plain English:
 >
 >`-e` (Stop on Error): Imagine cooking with a recipe. If step 2 says "boil water" and your stove is broken, a normal script ignores it and moves on to "add pasta to the cold pot." The `-e` flag forces the script to throw up its hands and quit the moment a step fails.
@@ -425,7 +425,7 @@ total 7.5M
 3. Inspect the `.bam` file by viewing the first three alignments:
 
 ```bash
-samtools view SRR7890883.chr17_50k.bam | head -n 3
+samtools view results/02_bwa/SRR7890883.chr17_50k.bam | head -n 3
 ```
 
 ```
@@ -540,7 +540,7 @@ Test yourself:
 <summary>Answers</summary>
 
 - 47377
-- 0.0099 %
+- 0.99 %
 </details>
 
 **You are done when:**

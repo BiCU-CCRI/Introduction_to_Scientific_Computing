@@ -248,7 +248,9 @@ Follow these steps to set up conda:
 
 `bash Miniconda3-py314_26.5.3-2-Linux-x86_64.sh`
 
-Follow the prompts, then restart your terminal. Type `yes` at the last prompt asking you `Do you wish to update your shell profile to automatically initialize conda?`.  
+Follow the prompts: Enter > yes > Enter > yes (be sure to type `yes` at the last prompt asking you `Do you wish to update your shell profile to automatically initialize conda?`)
+
+Restart your terminal.
 
 Once done, open a new terminal to make the Conda installation "visible" to the terminal.  You should see `(base)` at the very beginning of the command prompt.
 
