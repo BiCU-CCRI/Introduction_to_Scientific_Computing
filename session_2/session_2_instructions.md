@@ -179,6 +179,22 @@ Test yourself:
 - What does each line of the `.fastq` file represent?  
 - How many reads are in each file?  
 
+<details>
+<summary>Answers</summary>
+
+[FASTQ](https://en.wikipedia.org/wiki/FASTQ_format) file format:
+
+- Line 1 begins with a '@' character and is followed by a sequence identifier and an optional description (like a FASTA title line).
+- Line 2 is the raw sequence letters.
+- Line 3 begins with a '+' character and is optionally followed by the same sequence identifier (and any description) again.
+- Line 4 encodes the quality values for the sequence in Field 2, and must contain the same number of symbols as letters in the sequence.
+
+Number of reads:
+
+- 50000 reads
+
+</details>
+
 7. The genomic reference files are in the `../../example_data/ref` directory. The `Homo_sapiens_assembly38.chr17.fasta` is the reference human genome in `fasta` format, subsampled to only chromosome 17. The remaining files in the directory are index or metadata files associated with the genome which are required for the software we are going to be using.  
 
 Check the beginning of the reference `fasta`:
@@ -243,7 +259,7 @@ chr17   79910   rs9747307       A       G       .       .       RS=9747307;RSPOS
 **You are done when**:
 
 - You have created a working directory and output directories for your analysis.  
-- You have activated a Conda environment with the required software.  
+- You have activated a conda environment with the required software.  
 - You have familiarized yourself with the input data.   
 
 ## 3. Exercise 2: Read QC and trimming  
@@ -259,7 +275,7 @@ chr17   79910   rs9747307       A       G       .       .       RS=9747307;RSPOS
 (somatic_variant_calling) @<your_username> ➜ /workspaces/Introduction_to_Scientific_Computing/session_2/variant_calling_work_dir (main) $
 ```
 
-showing that your Conda environment is activated and that you are in the `variant_calling_work_dir` directory. To double check the full path to the directory, run the following command:  
+showing that your conda environment is activated and that you are in the `variant_calling_work_dir` directory. To double check the full path to the directory, run the following command:  
 
 ```bash
 pwd
