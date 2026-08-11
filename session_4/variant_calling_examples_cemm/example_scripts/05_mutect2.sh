@@ -1,5 +1,4 @@
 #!/bin/bash
-
 #SBATCH --job-name=mutect2
 #SBATCH --output=logs/slurm_logs/05_mutect2_%j.out
 #SBATCH --error=logs/slurm_logs/05_mutect2_%j.err

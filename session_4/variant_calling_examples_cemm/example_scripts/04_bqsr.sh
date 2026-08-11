@@ -1,5 +1,4 @@
 #!/bin/bash
-
 #SBATCH --job-name=bqsr
 #SBATCH --output=logs/slurm_logs/04_bqsr_%j.out
 #SBATCH --error=logs/slurm_logs/04_bqsr_%j.err

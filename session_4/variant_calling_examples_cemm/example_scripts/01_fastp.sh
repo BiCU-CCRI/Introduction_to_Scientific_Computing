@@ -1,5 +1,4 @@
 #!/bin/bash
-
 #SBATCH --job-name=fastp
 #SBATCH --output=logs/slurm_logs/01_fastp_%j.out
 #SBATCH --error=logs/slurm_logs/01_fastp_%j.err

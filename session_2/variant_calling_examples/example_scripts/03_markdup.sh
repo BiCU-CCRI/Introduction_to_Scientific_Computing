@@ -25,4 +25,5 @@ gatk --java-options "-Xmx5g" MarkDuplicates \
     --REFERENCE_SEQUENCE "${REF}" \
     --CREATE_INDEX true \
     --VALIDATION_STRINGENCY SILENT \
-    --OPTICAL_DUPLICATE_PIXEL_DISTANCE 2500 > "${LOG}" 2>&1
+    --OPTICAL_DUPLICATE_PIXEL_DISTANCE 2500 \
+    > "${LOG}" 2>&1

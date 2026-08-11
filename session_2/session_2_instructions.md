@@ -326,13 +326,13 @@ echo "All done!"
 ```
 
 >[!NOTE]
->Think of `set -euo pipefail` as safety gear for your code.
+>Think of set `-euo pipefail` as safety gear for your code.
 >
 >Normally, when a Bash script runs into a mistake, it ignores the problem, pretends nothing went wrong, and keeps executing the rest of the instructions. This can destroy files or create massive hidden bugs.
 >
 >Adding this line tells the computer: "If any mistake happens, stop everything immediately."
 ><details>
-><summary>Details on `-euo pipefail` options</summary>
+><summary>Details on -euo pipefail options</summary>
 >Here is what each piece does in plain English:
 >
 >`-e` (Stop on Error): Imagine cooking with a recipe. If step 2 says "boil water" and your stove is broken, a normal script ignores it and moves on to "add pasta to the cold pot." The `-e` flag forces the script to throw up its hands and quit the moment a step fails.
@@ -443,7 +443,7 @@ total 7.5M
 samtools view results/02_bwa/SRR7890883.chr17_50k.bam | head -n 3
 ```
 
-```
+```txt
 SRR7890883.53176591     99      chr17   63371   60      125M    =       63425   179     GCCACCGTGAGGGAGGAGCTGGGCCGCACGCGGGCTGCTGGGAGGCAGGCAGGGACTTGGCCCCGGGAGGCCGCCGTGGGGGCAAGAGCTGGGCCTGGAGAGGCCCCTGGGAGGCAAGGGCGGGGAFFFFKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKFKKKKKKKKKKKKKFKKKKKKKKKKKKKKKKKKKFFKKKKKKKKKKKKKKKKKKKKKKKKKFKKKFKKK<KKKKKKKKKKKKK   NM:i:0  MD:Z:125        MC:Z:125M       MQ:i:60 AS:i:125        XS:i:0  RG:Z:SRR7890883.lib1
 SRR7890883.53176591     147     chr17   63425   60      125M    =       63371   -179    ACTTGGCCCCGGGAGGCCGCCGTGGGGGCAAGAGCTGGGCCTGGAGAGGCCCCTGGGAGGCAAGGGCGGGGCCTGCAGAGGCTGTTCTCCAACCAGTGCTAGAACTGTACAGGCCACCAGGAGGC7KAKKKKKAKKKFAKF77KKFF,KKKKKF<KKKKKFKKKKKKKKKKFKKKKKKKKKKKKKFKKKKKKKFKKKKKKKKKKKKKKKKFKKKKFFKKKKKKKKKKKKKKKKKKKKKKKKKKKKFFAAA   NM:i:0  MD:Z:125        MC:Z:125M       MQ:i:60 AS:i:125        XS:i:0  RG:Z:SRR7890883.lib1
 SRR7890883.34059174     99      chr17   63631   60      125M    =       63632   126     AAGAGCTTGCTTACTTGCTGGGAGGCAGGGCCAGGAGAGCCCGACTTCAGGACAACTTGGGCCTGCGGCGGTCGCCGGGAGGCCCAACCTTGGCGTGGAGGAGCCCACCGACCGGAGACCATTTGAAFFFKKKKKKKKKKKKKKKKKKKKKKKK<KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKFKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKFAFKKKKK   NM:i:1  MD:Z:32G92      MC:Z:125M       MQ:i:60 AS:i:120        XS:i:19 RG:Z:SRR7890883.lib1
