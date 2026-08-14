@@ -118,7 +118,7 @@ cat 1>&2 <<END
 To access the RStudio Server, cmd + click for Mac/ctrl + click for Windows the link or copy-paste this to your web browser:
 http://${HOSTNAME}.int.cemm.at:${PORT}
 
-Rstudio user: $(whoami)
+RStudio user: $(whoami)
 RStudio password: ${APPTAINERENV_PASSWORD}
 END
 

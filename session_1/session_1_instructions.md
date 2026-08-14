@@ -249,7 +249,7 @@ wget https://repo.anaconda.com/miniconda/Miniconda3-py314_26.5.3-2-Linux-x86_64.
 2. Install `miniconda`
 
 ```bash
-bash Miniconda3-py314_26.5.3-2-Linux-x86_64.sh`
+bash Miniconda3-py314_26.5.3-2-Linux-x86_64.sh
 ```
 
 Follow the prompts: Enter > yes > Enter > yes (be sure to type `yes` at the last prompt asking you `Do you wish to update your shell profile to automatically initialize conda?`)

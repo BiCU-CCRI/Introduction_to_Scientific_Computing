@@ -1,6 +1,6 @@
-# Running Jupyterlab using your own conda environment on the CeMM cluster
+# Running JupyterLab using your own conda environment on the CeMM cluster
 
-Sometimes you have a specific environment that you want to use for your analysis, which might include some specialist software that is not included in the pre-configured Jupyterlab module. In this case, you can create your own conda environment and run Jupyterlab using that environment.  
+Sometimes you have a specific environment that you want to use for your analysis, which might include some specialist software that is not included in the pre-configured JupyterLab module. In this case, you can create your own conda environment and run JupyterLab using that environment.  
 
 1. Activate your conda environment.  
 

@@ -61,12 +61,12 @@ Below you can find a description of the topics that will be covered in each sess
 
 If you have a CeMM cluster account:  
 
-- Visual Studio Code (VSCode)  
+- Visual Studio Code (VS Code)  
   Newer versions are incompatible with the CeMM cluster so we recommend downloading **version 1.100.3** as a portable version by following the instructions at [Working on the CeMM cluster Analytics/Tips and practical information/VS Code/Supported VS Code versions](https://confluence.ccri.at/spaces/BiKB/pages/119799933/Tips+and+practical+information#Tipsandpracticalinformation-SupportedVSCodeversions)
 
-- "[Remote - SSH](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh)" extension enabled on VSCode  
-  This extension is required to connect to the CeMM cluster - please install and enable it in your VSCode by following these instructions:
-  1. Navigate to the "Extensions" tab in VSCode (`Ctrl + Shift + X` on Windows; `Cmd + Shift + X` on Mac)  
+- "[Remote - SSH](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh)" extension enabled on VS Code  
+  This extension is required to connect to the CeMM cluster - please install and enable it in your VS Code by following these instructions:
+  1. Navigate to the "Extensions" tab in VS Code (`Ctrl + Shift + X` on Windows; `Cmd + Shift + X` on Mac)  
   2. Search for "Remote - SSH"
   3. Click "Install"  
 

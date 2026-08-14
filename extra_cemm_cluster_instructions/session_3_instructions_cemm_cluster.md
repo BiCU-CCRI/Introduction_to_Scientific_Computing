@@ -262,7 +262,7 @@ You can see that the SLURM directives are included at the top of the script, and
 cp hello_ccri.sh ./hello_ccri.sbatch
 ```
 
-3. Modify your `hello_ccri.sbatch` script to include SLURM directives. Open the script in the VSCode text editor and add SLURM directives to your script, similar to the ones in the example script. You can choose your own values for the directives, but make sure to include at least the following: `--job-name`, `--time`, `--mem`, `--nodes`, `--ntasks`, `--cpus-per-task`, `--partition`, and `--qos`. You can also specify output and error files using the `--output` and `--error` directives.  
+3. Modify your `hello_ccri.sbatch` script to include SLURM directives. Open the script in the VS Code text editor and add SLURM directives to your script, similar to the ones in the example script. You can choose your own values for the directives, but make sure to include at least the following: `--job-name`, `--time`, `--mem`, `--nodes`, `--ntasks`, `--cpus-per-task`, `--partition`, and `--qos`. You can also specify output and error files using the `--output` and `--error` directives.  
 
 4. Now, we will submit the `.sbatch` script to SLURM using the `sbatch` command. This will allow SLURM to schedule your job on a compute node and run it in the background.  
 
