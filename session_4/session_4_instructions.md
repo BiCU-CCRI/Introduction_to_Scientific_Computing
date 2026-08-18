@@ -32,15 +32,15 @@ The first step to accessing the CeMM cluster, or any high-performance computing 
 2. Open a terminal on your local machine (Linux or Mac) or use a terminal emulator like [MobaXterm](MobaXterm) or [PuTTY](https://putty.org/index.html) on Windows.  
 
 >[!TIP]
->You can also use [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install) (WSL) if you have it installed on your Windows. 
+>You can also use [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install) (WSL) if you have it installed on your Windows.
 
-3. Use the following command to connect to the CeMM cluster:  
+1. Use the following command to connect to the CeMM cluster:  
 
    ```bash
    ssh <username>@login.int.cemm.at
    ```
 
-4. Enter your CeMM password when prompted.  
+2. Enter your CeMM password when prompted.  
 
 ### Logging onto the CeMM cluster using VS Code  
 
@@ -55,9 +55,9 @@ The first step to accessing the CeMM cluster, or any high-performance computing 
 >
 >![green_button](../images/green_button.png)
 
-4. Enter the following in the input box: `<username>@login.int.cemm.at` and press Enter.  
+1. Enter the following in the input box: `<username>@login.int.cemm.at` and press Enter.  
 
-5. Enter your CeMM password when prompted.  
+2. Enter your CeMM password when prompted.  
 
 Voilà! You are now logged onto the CeMM cluster. You should see a command prompt indicating that you are on the cluster:
 
@@ -267,14 +267,14 @@ Even if disk usage is low, exceeding file-count quotas can prevent new files fro
 cd /nobackup/<lab_name>
 ```
 
-2. If your user doesn't already have a subdirectory here, create a directory with your username and navigate into it:  
+1. If your user doesn't already have a subdirectory here, create a directory with your username and navigate into it:  
 
 ```bash
 mkdir -p "$USER"
 cd "$USER"/
 ```
 
-3. Clone this repository into your workspace:
+1. Clone this repository into your workspace:
 
 ```bash
 git clone https://github.com/BiCU-CCRI/Introduction_to_Scientific_Computing.git
@@ -288,7 +288,7 @@ cd Introduction_to_Scientific_Computing/session_4
 
 **You are done when:**
 
-- You have successfully logged into the CeMM cluster 
+- You have successfully logged into the CeMM cluster
 - You have successfully created a workspace for yourself in your lab's folder in `/nobackup`.
 - You have successfully cloned the `Introduction_to_Scientific_Computing` repository into your workspace and navigated into the `session_4` folder
 
@@ -323,7 +323,7 @@ Many clusters use a module system to manage software environments. This allows u
 Here are some basic commands to get you started with the module system:  
 
 | Command | Description |
-|---------|-------------|
+| --------- | ------------- |
 | `module avail` | List all available modules on the system. Enter `q` to quit. |
 | `module spider <module_name>` | Search for a module and display information about it. Enter `q` to quit. **Tip:** This is a fuzzy search - you don't have to know the exact name of the software or the module. Just type the tool name you want to search for, and it will give you _the best guess_ |
 | `module load <module_name>` | Load a specific module into your environment. |
@@ -353,7 +353,7 @@ Traceback (most recent call last):
 ModuleNotFoundError: No module named 'numpy'
 ```
 
-2. Now, using the commands above, try to find a Python module and load it. Then, try to run the script again.  
+1. Now, using the commands above, try to find a Python module and load it. Then, try to run the script again.  
 
 ```bash
 module spider Python
@@ -427,7 +427,7 @@ Traceback (most recent call last):
 ModuleNotFoundError: No module named 'numpy'
 ```
 
-3. Now, let's try to find a `numpy` library module and load it. Then, try to run the script again.  
+1. Now, let's try to find a `numpy` library module and load it. Then, try to run the script again.  
 
 ```bash
 module spider numpy
@@ -642,7 +642,7 @@ Make `results` and `logs` directories like last time, and this time also make a 
 mkdir -p results logs/slurm_logs
 ```
 
-2. Next, copy the scripts from the variant calling pipeline in Session 2 `../../session_2/variant_calling_examples/example_scripts/` into your working directory:
+1. Next, copy the scripts from the variant calling pipeline in Session 2 `../../session_2/variant_calling_examples/example_scripts/` into your working directory:
 
 ```bash
 cp ../../session_2/variant_calling_examples/example_scripts/* .
@@ -651,7 +651,7 @@ cp ../../session_2/variant_calling_examples/example_scripts/* .
 >[!NOTE]
 >The provided scripts are fairly similar to the scripts you created in Session 2. You could also use the ones you created yourself, but copying between Codespaces and the CeMM cluster isn't straightforward.
 
-3. Now, turn each `.sh` script into a `.sbatch` script. We encourage you to write your own scripts, but if you get really stuck, you can check the example scripts in `../variant_calling_examples_cemm/example_scripts` and copy them to the current working directory. Don't forget to verify that they are correct before you continue. "Trust, but verify" is one of the most important rules!  
+1. Now, turn each `.sh` script into a `.sbatch` script. We encourage you to write your own scripts, but if you get really stuck, you can check the example scripts in `../variant_calling_examples_cemm/example_scripts` and copy them to the current working directory. Don't forget to verify that they are correct before you continue. "Trust, but verify" is one of the most important rules!  
 
 For each script:
 
@@ -669,14 +669,15 @@ For each script:
    on the CeMM cluster.  
 
 >[!IMPORTANT]
+>
 >- Every .sbatch script must load the required software modules itself.
 >- Do not assume modules loaded in your interactive terminal will be available inside SLURM jobs.
 >- Submit pipeline steps sequentially.
 >- Wait for the previous step to complete before submitting the next one because each step depends on the outputs generated by the previous step.
 
-4. Submit the scripts one by one to the SLURM scheduler using the `sbatch` command. You can check the status of your jobs using the `squeue` command. Wait until each job has completed before submitting the next one. You can also see the logs in `logs` and SLURM logs in `logs/slurm_logs` to check the output and error files for each job to see if there were any issues, as we did in Session 2.  This might take some time, but it's ok.
+1. Submit the scripts one by one to the SLURM scheduler using the `sbatch` command. You can check the status of your jobs using the `squeue` command. Wait until each job has completed before submitting the next one. You can also see the logs in `logs` and SLURM logs in `logs/slurm_logs` to check the output and error files for each job to see if there were any issues, as we did in Session 2.  This might take some time, but it's ok.
 
-5. Once you are done, check that all of the results and log files are present.  
+2. Once you are done, check that all of the results and log files are present.  
 
 ```bash
 tree -u -h results
@@ -748,7 +749,7 @@ logs/
 6 directories, 18 files
 ```
 
-6. Now, let's check the actual results files.
+1. Now, let's check the actual results files.
 
 First, let's check the `fastp` HTML file. You have to download the HTML file locally and open it in your web browser. In VS Code, right-click on the `fastp` HTML file and "Download...". If you are using a terminal, you can use the `scp` command to copy the HTML file to your local machine. From a new terminal on your laptop (do **not** log in to the CeMM cluster):  
 
@@ -766,6 +767,7 @@ scp <username>@login.int.cemm.at:/nobackup/<lab_name>/<username>/Introduction_to
 - 100000 -> 99996
 - 125 bp -> 123 bp
 - 2
+
 </details>
 
 Next, check the alignment statistics.
@@ -787,6 +789,7 @@ samtools flagstat results/02_bwa/SRR7890883.chr17_50k.bam
 
 - 100125
 - 97.38%
+
 </details>
 
 Next, check the `MarkDuplicates` metrics table.
@@ -799,6 +802,7 @@ Next, check the `MarkDuplicates` metrics table.
 
 - 47377
 - 0.99%
+
 </details>
 
 Finally, let's check the Mutect2 results.
@@ -866,7 +870,7 @@ The CeMM cluster provides a JupyterLab module that you can load to run a Jupyter
 #SBATCH --job-name=jupyter-lab
 #SBATCH --output=jupyter-lab-%j.log
 
-port=$(shuf -i8000-9000 -n1)
+port=$(shuf -i8000-9999 -n1)
 node="$(hostname).int.cemm.at"
 
 module load JupyterLab-R-autocomplete/4.9.0-foss-2023a-Python-3.11.3-R-4.2.3
@@ -889,7 +893,7 @@ The script:
 - Starts a JupyterLab server on a compute node.
 - Provides a URL that can be opened in a web browser for access.
 
-3. Submit the script to SLURM using `sbatch` and wait for the output file to be created `jupyter-lab-<job-id>.log`. You should see a message like this at the bottom of the log file:
+1. Submit the script to SLURM using `sbatch` and wait for the output file to be created `jupyter-lab-<job-id>.log`. You should see a message like this at the bottom of the log file:
 
 ```bash
 To access the server, open this file in a browser:
@@ -901,11 +905,11 @@ Or copy and paste one of these URLs:
 
 Click on the link starting `http://d021.int.cemm.at:8513/lab?token=...` to access the Jupyter Notebook session in your web browser. You should now be able to use Jupyter Notebook in your web browser!  
 
-4. Let's try running an example analysis with the `example_notebook.ipynb` notebook. You can open the notebook in JupyterLab by simply double-clicking on it. Run the cells to produce the example plot using the "fast-forward" icon at the top and "Restart".
+1. Let's try running an example analysis with the `example_notebook.ipynb` notebook. You can open the notebook in JupyterLab by simply double-clicking on it. Run the cells to produce the example plot using the "fast-forward" icon at the top and "Restart".
 
 ![fastforward](../images/fastforward.png)
 
-5. Do you see any errors? Why? What if we try to install a package that's not included in the pre-configured JupyterLab module? Try running section 6 of the notebook.  
+1. Do you see any errors? Why? What if we try to install a package that's not included in the pre-configured JupyterLab module? Try running section 6 of the notebook.  
 
 If you are interested in using a package that is not included in the pre-configured JupyterLab module, you can create your own conda environment and use it in Jupyter Notebook. Check `extra_cemm_cluster_instructions/jupyterlab_with_custom_env.md` in the main directory for instructions on how to do this.  
 
@@ -1024,12 +1028,12 @@ export APPTAINERENV_USER
 APPTAINERENV_PASSWORD="$(openssl rand -base64 24 | tr -d '/+=' | head -c 20)"
 export APPTAINERENV_PASSWORD
 
-# Get unused socket between 8000 and 9000 (these are accessible within the CCRI network):
+# Get unused socket between 8000 and 9999 (these are accessible within the CCRI network):
 readonly PORT=$(python -c '
 import socket
 import random
 
-def find_port_in_range(start=8000, end=9000):
+def find_port_in_range(start=8000, end=9999):
     while True:
         port = random.randint(start, end)
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
@@ -1102,7 +1106,7 @@ The script works by running an `apptainer` container with RStudio Server install
 >Apptainer is another way to manage software environments, and is more reproducible than Conda or modules, but out of the
  scope of this course. You can find more information about Apptainer [here](https://apptainer.org/).
 
-3. Submit the script to SLURM using `sbatch` and wait for the output file to be created in `rstudio_apptainer_<job-id>.log`.
+1. Submit the script to SLURM using `sbatch` and wait for the output file to be created in `rstudio_apptainer_<job-id>.log`.
     You should see a message like this:
 
 >[!CAUTION]
@@ -1135,13 +1139,13 @@ Job started at: Fri Jul 31 13:32:27 CEST 2026
 
 Click on the link in the output. Log onto the RStudio session using your CeMM cluster username and the password you set in the script. You should now be able to use RStudio in your web browser!  
 
-4. Try to run the `example_script.R` in the RStudio server to produce the example plot. Simply click on the `example_script.R` at the bottom right and keep clicking "Run" on the top until you reach the end. You can also select all the lines in the script with your mouse, then click the "Run" button once (it runs either the current line or all selected lines).
+1. Try to run the `example_script.R` in the RStudio server to produce the example plot. Simply click on the `example_script.R` at the bottom right and keep clicking "Run" on the top until you reach the end. You can also select all the lines in the script with your mouse, then click the "Run" button once (it runs either the current line or all selected lines).
 
 ![run](../images/run.png)
 
 Loading packages and manipulating data in the RStudio session is exactly the same as on your local machine. You can also save your work in the RStudio session, and it will be saved in your home directory on the CeMM cluster.  
 
-5. Remember to `scancel` the job once you close the RStudio session tab in your web browser, as we checked at the beginning of this exercise (checking the JupyterLab job status).  
+1. Remember to `scancel` the job once you close the RStudio session tab in your web browser, as we checked at the beginning of this exercise (checking the JupyterLab job status).  
 
 >[!TIP]
 >We recommend regularly checking and canceling unused jobs. Each running job consumes your [fair share](https://slurm.schedmd.com/SLUG19/Priority_and_Fair_Trees.pdf), which, in the long term, can slow down the execution of your jobs at the CeMM cluster.
