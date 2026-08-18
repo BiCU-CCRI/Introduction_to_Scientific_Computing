@@ -108,7 +108,7 @@ Host login.int.cemm.at
 ```
 
 This resolves a common SSH compatibility issue when connecting to the CeMM cluster through VS Code. For more info, please
- see [BiCU Knowledgebase](https://confluence.ccri.at/spaces/BiKB/pages/119799933/Tips+and+practical+information#Tipsandpracticalinformation-SupportedVSCodeversions).
+ see the [BiCU Knowledgebase](https://confluence.ccri.at/spaces/BiKB/pages/119799933/Tips+and+practical+information#Tipsandpracticalinformation-SupportedVSCodeversions).
 
 ## 2. Understanding the CeMM cluster architecture
 
@@ -187,7 +187,7 @@ lfs quota -h -g <lab_name>
 - **used**: The total amount of disk space currently consumed by your files.​
 - **bquota**: (Block soft limit / Quota): Your soft limit for storage space. You can temporarily exceed this amount, but a
 - **grace**: period timer will start.​
-- **blimit**: (Block hard limit): Your hard limit for storage space. You cannot exceed this value under any circumstances;
+- **blimit**: (Block hard limit): Your hard limit for storage space. You cannot exceed this value under any circumstances.
 - **writes**: will fail immediately if reached.​
 - **bgrace**: (Block grace period): The time remaining to bring your used space back below bquota once you have exceeded it. If this timer expires, your soft limit converts into a hard stop, and you cannot write new data.​
 
@@ -206,7 +206,7 @@ You might have noticed there are storage space quotas and file number quotas. Th
 
 You can also see quotas for `/home`. These are the group's users' home directories. They are kept on a separate partition.
  You can see that the quota is much smaller. You should save as little data as possible in your home directory. For example,
- changing the default Conda installation path.
+ by changing the default Conda installation path.
 
 Your group's data manager is in charge of making sure that the group does not exceed the storage quota. As a user, your main
  responsibility is to make sure that you regularly transfer your data back to Isilon for long-term storage. You should be
@@ -309,10 +309,10 @@ Many clusters use a module system to manage software environments. This allows u
 >If you decide to use Conda, make sure you change the installation directory to `/nobackup/<your_username>`. The default installation directory is your `$HOME` directory (which, as we know, has very limited space), and Conda environments can take up quite a lot of storage.
 
 >[!NOTE]
->CeMM cluster uses a module even for SLURM.
+>The CeMM cluster uses a module even for SLURM.
 ><details><summary>Load SLURM module</summary>
 >
-> If it happens and you unload the SLURM module, you can load it again with:
+> If you inadvertently unload the SLURM module, you can load it again with:
 >
 >```bash
 >module load slurm/slurm/24.05.8​
@@ -462,7 +462,7 @@ Names marked by a trailing (E) are extensions provided by another module.
 -----------------------------------------------------------------------------------------------
 ```
 
-This time, we can see that the `numpy` module is an extension. We can search for modules that include the `numpy` extension
+This time, we can see that the `numpy` module is an extension. We can search for modules that include the `numpy` extension:
 
 ```bash
 module spider numpy/2.3.1
@@ -874,7 +874,7 @@ module load JupyterLab-R-autocomplete/4.9.0-foss-2023a-Python-3.11.3-R-4.2.3
 jupyter lab --no-browser --port=${port} --ip=${node}
 ```
 
-The jupyterlab.sbatch script demonstrates several concepts introduced earlier in the course. Can you recognize the following
+The `jupyterlab.sbatch` script demonstrates several concepts introduced earlier in the course. Can you recognize the following
  concepts we learned about in Sessions 1-3?  
 
 - SLURM directives
@@ -1094,7 +1094,7 @@ You will find the generated password in the job log file.
 </details>
 
 The script works by running an `apptainer` container with RStudio Server installed. It sets up a temporary directory for
- the RStudio session, configures the R environment, and starts the RStudio Server on a random port between 8000 and 9000
+ the RStudio session, configures the R environment, and starts the RStudio Server on a random port between 8000 and 9999
  (these are the ports we can access from the St. Anna CCRI network). The output of the script is a URL that you can use to
  access the RStudio session in your web browser.  
 
