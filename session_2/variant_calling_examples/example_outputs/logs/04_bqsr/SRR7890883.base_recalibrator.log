@@ -1,0 +1,59 @@
+Using GATK jar /home/codespace/miniconda3/envs/somatic_variant_calling/share/gatk4-4.6.2.0-1/gatk-package-4.6.2.0-local.jar
+Running:
+    java -Dsamjdk.use_async_io_read_samtools=false -Dsamjdk.use_async_io_write_samtools=true -Dsamjdk.use_async_io_write_tribble=false -Dsamjdk.compression_level=2 -Xmx5g -jar /home/codespace/miniconda3/envs/somatic_variant_calling/share/gatk4-4.6.2.0-1/gatk-package-4.6.2.0-local.jar BaseRecalibrator -R /workspaces/Introduction_to_Scientific_Computing/example_data/ref/Homo_sapiens_assembly38.chr17.fasta.gz -I /workspaces/Introduction_to_Scientific_Computing/session_2/variant_calling_work_dir/results/03_markdup/SRR7890883.chr17_50k.markdup.bam --known-sites /workspaces/Introduction_to_Scientific_Computing/example_data/known_sites/dbsnp_146.hg38.chr17.vcf.gz --known-sites /workspaces/Introduction_to_Scientific_Computing/example_data/known_sites/Mills_and_1000G_gold_standard.indels.hg38.chr17.vcf.gz -O /workspaces/Introduction_to_Scientific_Computing/session_2/variant_calling_work_dir/results/04_bqsr/SRR7890883.recal.table
+13:44:37.644 INFO  NativeLibraryLoader - Loading libgkl_compression.so from jar:file:/home/codespace/miniconda3/envs/somatic_variant_calling/share/gatk4-4.6.2.0-1/gatk-package-4.6.2.0-local.jar!/com/intel/gkl/native/libgkl_compression.so
+WARNING: A restricted method in java.lang.System has been called
+WARNING: java.lang.System::load has been called by com.intel.gkl.NativeLibraryLoader in an unnamed module (file:/home/codespace/miniconda3/envs/somatic_variant_calling/share/gatk4-4.6.2.0-1/gatk-package-4.6.2.0-local.jar)
+WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+
+13:44:38.106 INFO  BaseRecalibrator - ------------------------------------------------------------
+13:44:38.109 INFO  BaseRecalibrator - The Genome Analysis Toolkit (GATK) v4.6.2.0
+13:44:38.109 INFO  BaseRecalibrator - For support and documentation go to https://software.broadinstitute.org/gatk/
+13:44:38.109 INFO  BaseRecalibrator - Executing as codespace@codespaces-fae5d0 on Linux v6.8.0-1052-azure amd64
+13:44:38.109 INFO  BaseRecalibrator - Java runtime: OpenJDK 64-Bit Server VM v25.0.2-internal-adhoc.conda.src
+13:44:38.109 INFO  BaseRecalibrator - Start Date/Time: August 19, 2026, 1:44:37 PM UTC
+13:44:38.110 INFO  BaseRecalibrator - ------------------------------------------------------------
+13:44:38.110 INFO  BaseRecalibrator - ------------------------------------------------------------
+13:44:38.110 INFO  BaseRecalibrator - HTSJDK Version: 4.2.0
+13:44:38.111 INFO  BaseRecalibrator - Picard Version: 3.4.0
+13:44:38.111 INFO  BaseRecalibrator - Built for Spark Version: 3.5.0
+13:44:38.112 INFO  BaseRecalibrator - HTSJDK Defaults.COMPRESSION_LEVEL : 2
+13:44:38.112 INFO  BaseRecalibrator - HTSJDK Defaults.USE_ASYNC_IO_READ_FOR_SAMTOOLS : false
+13:44:38.112 INFO  BaseRecalibrator - HTSJDK Defaults.USE_ASYNC_IO_WRITE_FOR_SAMTOOLS : true
+13:44:38.112 INFO  BaseRecalibrator - HTSJDK Defaults.USE_ASYNC_IO_WRITE_FOR_TRIBBLE : false
+13:44:38.113 INFO  BaseRecalibrator - Deflater: IntelDeflater
+13:44:38.113 INFO  BaseRecalibrator - Inflater: IntelInflater
+13:44:38.113 INFO  BaseRecalibrator - GCS max retries/reopens: 20
+13:44:38.113 INFO  BaseRecalibrator - Requester pays: disabled
+13:44:38.114 INFO  BaseRecalibrator - Initializing engine
+13:44:38.370 INFO  FeatureManager - Using codec VCFCodec to read file file:///workspaces/Introduction_to_Scientific_Computing/example_data/known_sites/dbsnp_146.hg38.chr17.vcf.gz
+13:44:38.415 INFO  FeatureManager - Using codec VCFCodec to read file file:///workspaces/Introduction_to_Scientific_Computing/example_data/known_sites/Mills_and_1000G_gold_standard.indels.hg38.chr17.vcf.gz
+13:44:38.681 INFO  BaseRecalibrator - Done initializing engine
+13:44:38.689 INFO  BaseRecalibrationEngine - The covariates being used here: 
+13:44:38.690 INFO  BaseRecalibrationEngine - 	ReadGroupCovariate
+13:44:38.690 INFO  BaseRecalibrationEngine - 	QualityScoreCovariate
+13:44:38.690 INFO  BaseRecalibrationEngine - 	ContextCovariate
+13:44:38.690 INFO  BaseRecalibrationEngine - 	CycleCovariate
+13:44:38.694 INFO  ProgressMeter - Starting traversal
+13:44:38.694 INFO  ProgressMeter -        Current Locus  Elapsed Minutes       Reads Processed     Reads/Minute
+13:44:48.889 INFO  ProgressMeter -        chr17:8829644              0.2                 16000          94191.5
+13:44:59.044 INFO  ProgressMeter -       chr17:41818340              0.3                 42000         123845.1
+13:45:09.237 INFO  ProgressMeter -       chr17:75559253              0.5                 73000         143409.1
+13:45:14.449 INFO  BaseRecalibrator - 5035 read(s) filtered by: MappingQualityNotZeroReadFilter 
+0 read(s) filtered by: MappingQualityAvailableReadFilter 
+0 read(s) filtered by: MappedReadFilter 
+37 read(s) filtered by: NotSecondaryAlignmentReadFilter 
+957 read(s) filtered by: NotDuplicateReadFilter 
+0 read(s) filtered by: PassesVendorQualityCheckReadFilter 
+0 read(s) filtered by: WellformedReadFilter 
+6029 total reads filtered out of 100125 reads processed
+13:45:14.454 INFO  ProgressMeter -       chr17:83134604              0.6                 94096         157901.3
+13:45:14.455 INFO  ProgressMeter - Traversal complete. Processed 94096 total reads in 0.6 minutes.
+13:45:14.519 INFO  BaseRecalibrator - Calculating quantized quality scores...
+13:45:14.563 INFO  BaseRecalibrator - Writing recalibration report...
+13:45:17.455 INFO  BaseRecalibrator - ...done!
+13:45:17.476 INFO  BaseRecalibrator - BaseRecalibrator was able to recalibrate 94096 reads
+13:45:17.478 INFO  BaseRecalibrator - Shutting down engine
+[August 19, 2026, 1:45:17 PM UTC] org.broadinstitute.hellbender.tools.walkers.bqsr.BaseRecalibrator done. Elapsed time: 0.67 minutes.
+Runtime.totalMemory()=868220928
