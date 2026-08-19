@@ -685,34 +685,33 @@ tree -u -h results
 
 ```bash
 results
-├── [<username>   4.0K]  01_fastp
-│   ├── [<username>   451K]  SRR7890883.chr17_50k.html
-│   ├── [<username>   111K]  SRR7890883.chr17_50k.json
-│   ├── [<username>    13M]  SRR7890883.chr17_50k_R1_trimmed.fastq
-│   └── [<username>    13M]  SRR7890883.chr17_50k_R2_trimmed.fastq
-├── [<username>   4.0K]  02_bwa
-│   ├── [<username>   7.4M]  SRR7890883.chr17_50k.bam
-│   └── [<username>   104K]  SRR7890883.chr17_50k.bam.bai
-├── [<username>   4.0K]  03_markdup
-│   ├── [<username>   142K]  SRR7890883.chr17_50k.markdup.bai
-│   ├── [<username>    10M]  SRR7890883.chr17_50k.markdup.bam
-│   └── [<username>   3.5K]  SRR7890883.markdup.metrics.txt
-├── [<username>   4.0K]  04_bqsr
-│   ├── [<username>   142K]  SRR7890883.recal.bai
-│   ├── [<username>    13M]  SRR7890883.recal.bam
-│   ├── [<username>   104K]  SRR7890883.recal.bam.bai
-│   └── [<username>   211K]  SRR7890883.recal.table
-└── [<username>   4.0K]  05_mutect2
-    ├── [<username>    97K]  SRR7890883.filtered.vcf.gz
-    ├── [<username>   1.8K]  SRR7890883.filtered.vcf.gz.filteringStats.tsv
-    ├── [<username>    11K]  SRR7890883.filtered.vcf.gz.tbi
-    ├── [<username>    59K]  SRR7890883.pass.vcf.gz
-    ├── [<username>   9.6K]  SRR7890883.pass.vcf.gz.tbi
-    ├── [<username>    86K]  SRR7890883.unfiltered.vcf.gz
-    ├── [<username>     33]  SRR7890883.unfiltered.vcf.gz.stats
-    └── [<username>    11K]  SRR7890883.unfiltered.vcf.gz.tbi
+├── [<username>    4.0K]  01_fastp
+│   ├── [<username>    451K]  SRR7890883.chr17_50k.html
+│   ├── [<username>    111K]  SRR7890883.chr17_50k.json
+│   ├── [<username>    3.3M]  SRR7890883.chr17_50k_R1_trimmed.fastq.gz
+│   └── [<username>    3.6M]  SRR7890883.chr17_50k_R2_trimmed.fastq.gz
+├── [<username>    4.0K]  02_bwa
+│   ├── [<username>    7.4M]  SRR7890883.chr17_50k.bam
+│   └── [<username>    104K]  SRR7890883.chr17_50k.bam.bai
+├── [<username>    4.0K]  03_markdup
+│   ├── [<username>    142K]  SRR7890883.chr17_50k.markdup.bai
+│   ├── [<username>     10M]  SRR7890883.chr17_50k.markdup.bam
+│   └── [<username>    3.5K]  SRR7890883.markdup.metrics.txt
+├── [<username>    4.0K]  04_bqsr
+│   ├── [<username>    142K]  SRR7890883.recal.bai
+│   ├── [<username>     13M]  SRR7890883.recal.bam
+│   └── [<username>    211K]  SRR7890883.recal.table
+└── [<username>    4.0K]  05_mutect2
+    ├── [<username>     97K]  SRR7890883.filtered.vcf.gz
+    ├── [<username>    1.8K]  SRR7890883.filtered.vcf.gz.filteringStats.tsv
+    ├── [<username>     11K]  SRR7890883.filtered.vcf.gz.tbi
+    ├── [<username>     59K]  SRR7890883.pass.vcf.gz
+    ├── [<username>    9.5K]  SRR7890883.pass.vcf.gz.tbi
+    ├── [<username>     86K]  SRR7890883.unfiltered.vcf.gz
+    ├── [<username>      33]  SRR7890883.unfiltered.vcf.gz.stats
+    └── [<username>     11K]  SRR7890883.unfiltered.vcf.gz.tbi
 
-5 directories, 21 files
+5 directories, 20 files
 ```
 
 ```bash
@@ -720,7 +719,7 @@ tree -u -h logs
 ```
 
 ```bash
-logs/
+logs
 ├── [<username>    4.0K]  01_fastp
 │   └── [<username>    1.5K]  SRR7890883.fastp.log
 ├── [<username>    4.0K]  02_bwa
@@ -735,16 +734,16 @@ logs/
 │   ├── [<username>    5.6K]  SRR7890883.mutect2.log
 │   └── [<username>    3.4K]  SRR7890883.select_pass_variants.log
 └── [<username>    4.0K]  slurm_logs
-    ├── [<username>     398]  bqsr_13108580.err
-    ├── [<username>     124]  bqsr_13108580.out
-    ├── [<username>     220]  bwa_13108574.err
-    ├── [<username>      63]  bwa_13108574.out
-    ├── [<username>       0]  fastp_13108573.err
-    ├── [<username>      28]  fastp_13108573.out
-    ├── [<username>       0]  markdup_13108577.err
-    ├── [<username>      46]  markdup_13108577.out
-    ├── [<username>       0]  mutect2_13108581.err
-    └── [<username>     224]  mutect2_13108581.out
+    ├── [<username>     123]  01_fastp_13169642.err
+    ├── [<username>      28]  01_fastp_13169642.out
+    ├── [<username>     401]  02_bwa_13169643.err
+    ├── [<username>      63]  02_bwa_13169643.out
+    ├── [<username>      95]  03_markdup_13169644.err
+    ├── [<username>      46]  03_markdup_13169644.out
+    ├── [<username>     495]  04_bqsr_13169647.err
+    ├── [<username>     101]  04_bqsr_13169647.out
+    ├── [<username>      95]  05_mutect2_13169648.err
+    └── [<username>     224]  05_mutect2_13169648.out
 
 6 directories, 18 files
 ```

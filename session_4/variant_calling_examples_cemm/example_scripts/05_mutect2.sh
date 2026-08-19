@@ -23,7 +23,7 @@ mkdir -p "${OUT_DIR}"
 mkdir -p "${LOG_DIR}"
 
 IN_BAM="${IN_DIR}/${SAMPLE}.recal.bam"
-REF="${REF_DIR}/Homo_sapiens_assembly38.chr17.fasta"
+REF="${REF_DIR}/Homo_sapiens_assembly38.chr17.fasta.gz"
 GERMLINE_RESOURCE="${GERM_DIR}/gnomAD.r2.1.1.GRCh38.chr17.75pct.PASS.AC.AF.only.vcf.gz"
 UNFILTERED_VCF="${OUT_DIR}/${SAMPLE}.unfiltered.vcf.gz"
 FILTERED_VCF="${OUT_DIR}/${SAMPLE}.filtered.vcf.gz"

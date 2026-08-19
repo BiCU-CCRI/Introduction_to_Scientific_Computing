@@ -24,7 +24,7 @@ mkdir -p "${OUT_DIR}"
 mkdir -p "${LOG_DIR}"
 
 IN_BAM="${IN_DIR}/${SAMPLE}.chr17_50k.markdup.bam"
-REF="${REF_DIR}/Homo_sapiens_assembly38.chr17.fasta"
+REF="${REF_DIR}/Homo_sapiens_assembly38.chr17.fasta.gz"
 RECAL_TABLE="${OUT_DIR}/${SAMPLE}.recal.table"
 OUT_BAM="${OUT_DIR}/${SAMPLE}.recal.bam"
 KNOWN_SNPS="${KNOWN_SITES_DIR}/dbsnp_146.hg38.chr17.vcf.gz"

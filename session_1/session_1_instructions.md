@@ -161,13 +161,13 @@ You should see the following output:
 ```bash
 #!/bin/bash
 
-FASTQ_FILE="../example_data/fastq/SRR7890883.chr17_50k_R1.fastq"
+FASTQ_FILE="../example_data/fastq/SRR7890883.chr17_50k_R1.fastq.gz"
 
 echo "First ten lines of the fastq file:"
-cat "$FASTQ_FILE" | head -n 10
+zcat "$FASTQ_FILE" | head -n 10
 
 echo "Counting the number of reads in the fastq file:"
-cat "$FASTQ_FILE" | wc -l | awk '{print $1/4}'
+zcat "$FASTQ_FILE" | wc -l | awk '{print $1/4}'
 ```
 
 Can you figure out what each line of the script is doing?  
@@ -177,13 +177,13 @@ For spoilers, see below.
 ```bash
 #!/bin/bash                                                                               # This line specifies that the script should be run using the bash shell.
 
-FASTQ_FILE="../example_data/fastq/SRR7890883.chr17_50k_R1.fastq"           # This line assigns the file path to a variable
+FASTQ_FILE="../example_data/fastq/SRR7890883.chr17_50k_R1.fastq.gz"           # This line assigns the file path to a variable
 
 echo "First ten lines of the fastq file:"                                                 # This line prints a message to the terminal indicating that the first ten lines of the fastq file will be displayed.
-cat "$FASTQ_FILE" | head -n 10                       # This line uses the `cat` command to concatenate the `.fastq` file in the example data dir, then pipes the output to the `head` command, which displays the first ten lines of the file.
+zcat "$FASTQ_FILE" | head -n 10                       # This line uses the `zcat` command to concatenate the `.fastq.gz` file in the example data dir, then pipes the output to the `head` command, which displays the first ten lines of the file.
 
 echo "Counting the number of reads in the fastq file:"                                    # This line prints a message to the terminal indicating that the number of reads in the `.fastq` file will be counted.
-cat "$FASTQ_FILE" | wc -l | awk '{print $1/4}'        # This line uses `cat` again to concatenate the `.fastq` file in the example data dir, then pipes the output to the `wc -l` command, which counts the number of lines in the file. Since each read in a `.fastq` file is represented by four lines, the output is then piped to `awk`, which divides the line count by 4 to get the number of reads.
+zcat "$FASTQ_FILE" | wc -l | awk '{print $1/4}'        # This line uses `zcat` again to concatenate the `.fastq.gz` file in the example data dir, then pipes the output to the `wc -l` command, which counts the number of lines in the file. Since each read in a `.fastq` file is represented by four lines, the output is then piped to `awk`, which divides the line count by 4 to get the number of reads.
 ```
 
 2. Now that you understand what the script is doing, let's run it.  
