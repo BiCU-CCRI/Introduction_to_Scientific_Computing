@@ -142,36 +142,46 @@ tree --du -h ../../example_data
 ```
 
 ```txt
-[424M]  ../../example_data
-├── [ 26M]  fastq
-│   ├── [ 13M]  SRR7890883.chr17_50k_R1.fastq
-│   └── [ 13M]  SRR7890883.chr17_50k_R2.fastq
-├── [ 82M]  germline_resource
-│   ├── [ 82M]  gnomAD.r2.1.1.GRCh38.chr17.75pct.PASS.AC.AF.only.vcf.gz
-│   └── [ 60K]  gnomAD.r2.1.1.GRCh38.chr17.75pct.PASS.AC.AF.only.vcf.gz.tbi
-├── [ 97M]  known_sites
-│   ├── [596K]  Mills_and_1000G_gold_standard.indels.hg38.chr17.vcf.gz
-│   ├── [ 42K]  Mills_and_1000G_gold_standard.indels.hg38.chr17.vcf.gz.tbi
-│   ├── [ 96M]  dbsnp_146.hg38.chr17.vcf.gz
-│   └── [ 65K]  dbsnp_146.hg38.chr17.vcf.gz.tbi
-└── [219M]  ref
-    ├── [ 202]  Homo_sapiens_assembly38.chr17.dict
-    ├── [ 80M]  Homo_sapiens_assembly38.chr17.fasta
-    ├── [ 710]  Homo_sapiens_assembly38.chr17.fasta.amb
-    ├── [ 141]  Homo_sapiens_assembly38.chr17.fasta.ann
-    ├── [ 79M]  Homo_sapiens_assembly38.chr17.fasta.bwt
-    ├── [  27]  Homo_sapiens_assembly38.chr17.fasta.fai
-    ├── [ 20M]  Homo_sapiens_assembly38.chr17.fasta.pac
-    └── [ 40M]  Homo_sapiens_assembly38.chr17.fasta.sa
+../../example_data
+├── [ 6.9M]  fastq
+│   ├── [ 3.3M]  SRR7890883.chr17_50k_R1.fastq.gz
+│   └── [ 3.6M]  SRR7890883.chr17_50k_R2.fastq.gz
+├── [  82M]  germline_resource
+│   ├── [  82M]  gnomAD.r2.1.1.GRCh38.chr17.75pct.PASS.AC.AF.only.vcf.gz
+│   └── [  60K]  gnomAD.r2.1.1.GRCh38.chr17.75pct.PASS.AC.AF.only.vcf.gz.tbi
+├── [  97M]  known_sites
+│   ├── [  96M]  dbsnp_146.hg38.chr17.vcf.gz
+│   ├── [  65K]  dbsnp_146.hg38.chr17.vcf.gz.tbi
+│   ├── [ 596K]  Mills_and_1000G_gold_standard.indels.hg38.chr17.vcf.gz
+│   └── [  42K]  Mills_and_1000G_gold_standard.indels.hg38.chr17.vcf.gz.tbi
+├── [ 162M]  ref
+│   ├── [  227]  Homo_sapiens_assembly38.chr17.dict
+│   ├── [  23M]  Homo_sapiens_assembly38.chr17.fasta.gz
+│   ├── [  710]  Homo_sapiens_assembly38.chr17.fasta.gz.amb
+│   ├── [  141]  Homo_sapiens_assembly38.chr17.fasta.gz.ann
+│   ├── [  79M]  Homo_sapiens_assembly38.chr17.fasta.gz.bwt
+│   ├── [   27]  Homo_sapiens_assembly38.chr17.fasta.gz.fai
+│   ├── [  20K]  Homo_sapiens_assembly38.chr17.fasta.gz.gzi
+│   ├── [  20M]  Homo_sapiens_assembly38.chr17.fasta.gz.pac
+│   └── [  40M]  Homo_sapiens_assembly38.chr17.fasta.gz.sa
+└── [ 219M]  ref_og
+    ├── [  202]  Homo_sapiens_assembly38.chr17.dict
+    ├── [  80M]  Homo_sapiens_assembly38.chr17.fasta
+    ├── [  710]  Homo_sapiens_assembly38.chr17.fasta.amb
+    ├── [  141]  Homo_sapiens_assembly38.chr17.fasta.ann
+    ├── [  79M]  Homo_sapiens_assembly38.chr17.fasta.bwt
+    ├── [   27]  Homo_sapiens_assembly38.chr17.fasta.fai
+    ├── [  20M]  Homo_sapiens_assembly38.chr17.fasta.pac
+    └── [  40M]  Homo_sapiens_assembly38.chr17.fasta.sa
 
- 849M used in 5 directories, 16 files
+  567M used in 5 directories, 25 files
 ```
 
 6. The input data to the project are stored in the `example_data/fastq/` directory. Let's take a look at the contents of the files to understand what we are working with. We can use the commands we learnt in Session 1:  
 
 ```bash
-cat ../../example_data/fastq/SRR7890883.chr17_50k_R1.fastq | head -n 10  
-cat ../../example_data/fastq/SRR7890883.chr17_50k_R1.fastq | wc -l | awk '{print $1/4}'  
+zcat ../../example_data/fastq/SRR7890883.chr17_50k_R1.fastq.gz | head -n 10  
+zcat ../../example_data/fastq/SRR7890883.chr17_50k_R1.fastq.gz | wc -l | awk '{print $1/4}'  
 ```
 
 Test yourself:  
@@ -195,12 +205,12 @@ Number of reads:
 
 </details>
 
-7. The genomic reference files are in the `../../example_data/ref` directory. The `Homo_sapiens_assembly38.chr17.fasta` is the reference human genome in `fasta` format, subsampled to only chromosome 17. The remaining files in the directory are index or metadata files associated with the genome which are required for the software we are going to be using.  
+7. The genomic reference files are in the `../../example_data/ref` directory. The `Homo_sapiens_assembly38.chr17.fasta.gz` is the reference human genome in `fasta` format, subsampled to only chromosome 17, and compressed with `bgzip`. The remaining files in the directory are index or metadata files associated with the genome which are required for the software we are going to be using.  
 
 Check the beginning of the reference `fasta`:
 
 ```bash
-head ../../example_data/ref/Homo_sapiens_assembly38.chr17.fasta
+zcat ../../example_data/ref/Homo_sapiens_assembly38.chr17.fasta.gz | head
 ```
 
 ```txt
@@ -260,7 +270,7 @@ chr17   79910   rs9747307       A       G       .       .       RS=9747307;RSPOS
 
 - You have created a working directory and output directories for your analysis.  
 - You have activated a conda environment with the required software.  
-- You have familiarized yourself with the input data.   
+- You have familiarized yourself with the input data.  
 
 ## 3. Exercise 2: Read QC and trimming  
 
@@ -302,10 +312,10 @@ LOG_DIR="/workspaces/Introduction_to_Scientific_Computing/session_2/variant_call
 
 mkdir -p "${OUT_DIR}" "${LOG_DIR}"
 
-RAW_R1="${IN_DIR}/${SAMPLE}.chr17_50k_R1.fastq"
-RAW_R2="${IN_DIR}/${SAMPLE}.chr17_50k_R2.fastq"
-TRIMMED_R1="${OUT_DIR}/${SAMPLE}.chr17_50k_R1_trimmed.fastq"
-TRIMMED_R2="${OUT_DIR}/${SAMPLE}.chr17_50k_R2_trimmed.fastq"
+RAW_R1="${IN_DIR}/${SAMPLE}.chr17_50k_R1.fastq.gz"
+RAW_R2="${IN_DIR}/${SAMPLE}.chr17_50k_R2.fastq.gz"
+TRIMMED_R1="${OUT_DIR}/${SAMPLE}.chr17_50k_R1_trimmed.fastq.gz"
+TRIMMED_R2="${OUT_DIR}/${SAMPLE}.chr17_50k_R2_trimmed.fastq.gz"
 FASTP_HTML="${OUT_DIR}/${SAMPLE}.chr17_50k.html"
 FASTP_JSON="${OUT_DIR}/${SAMPLE}.chr17_50k.json"
 LOG="${LOG_DIR}/${SAMPLE}.fastp.log"
@@ -358,8 +368,8 @@ results/01_fastp:
 total 27M
 -rw-rw-rw- 1 codespace codespace 454K Aug  5 13:35 SRR7890883.chr17_50k.html
 -rw-rw-rw- 1 codespace codespace 112K Aug  5 13:35 SRR7890883.chr17_50k.json
--rw-rw-rw- 1 codespace codespace  13M Aug  5 13:35 SRR7890883.chr17_50k_R1_trimmed.fastq
--rw-rw-rw- 1 codespace codespace  13M Aug  5 13:35 SRR7890883.chr17_50k_R2_trimmed.fastq
+-rw-rw-rw- 1 codespace codespace  13M Aug  5 13:35 SRR7890883.chr17_50k_R1_trimmed.fastq.gz
+-rw-rw-rw- 1 codespace codespace  13M Aug  5 13:35 SRR7890883.chr17_50k_R2_trimmed.fastq.gz
 ```
 
 4. Now we can check the quality of the trimmed reads. The HTML report can be opened in a web browser to view the quality metrics and visualizations. The JSON file contains the same information in a machine-readable format. The log file contains information about the trimming process, including any warnings or errors that occurred.  
@@ -409,12 +419,12 @@ bwa mem \
     -t 1 \
     -M \
     -R "${READ_GROUP}" \
-    "Homo_sapiens_assembly38.chr17.fasta" \
-    "sample_R1_trimmed.fastq" \
-    "sample_R2_trimmed.fastq" \
+    "Homo_sapiens_assembly38.chr17.fasta.gz" \
+    "sample_R1_trimmed.fastq.gz" \
+    "sample_R2_trimmed.fastq.gz" \
     2> "bwa.log" |
 samtools sort \
-    --reference "Homo_sapiens_assembly38.chr17.fasta" \
+    --reference "Homo_sapiens_assembly38.chr17.fasta.gz" \
     -o "sample.bam" \
     -
 
@@ -523,7 +533,7 @@ gatk --java-options "-Xmx5g" MarkDuplicates \
     --INPUT "sample.bam" \
     --OUTPUT "sample.markdup.bam" \
     --METRICS_FILE "sample.markdup.metrics.txt" \
-    --REFERENCE_SEQUENCE "Homo_sapiens_assembly38.chr17.fasta" \
+    --REFERENCE_SEQUENCE "Homo_sapiens_assembly38.chr17.fasta.gz" \
     --CREATE_INDEX true \
     --VALIDATION_STRINGENCY SILENT \
     --OPTICAL_DUPLICATE_PIXEL_DISTANCE 2500 \
@@ -578,7 +588,7 @@ You can use the following command for `gatk BaseRecalibrator` and `gatk ApplyBQS
 
 ```bash
 gatk --java-options "-Xmx5g" BaseRecalibrator \
-    -R "Homo_sapiens_assembly38.chr17.fasta" \
+    -R "Homo_sapiens_assembly38.chr17.fasta.gz" \
     -I "sample.markdup.bam" \
     --known-sites "dbsnp_146.hg38.chr17.vcf.gz" \
     --known-sites "Mills_and_1000G_gold_standard.indels.hg38.chr17.vcf.gz" \
@@ -586,7 +596,7 @@ gatk --java-options "-Xmx5g" BaseRecalibrator \
     2> "base_recalibrator.log"
 
 gatk --java-options "-Xmx5g" ApplyBQSR \
-    -R "Homo_sapiens_assembly38.chr17.fasta" \
+    -R "Homo_sapiens_assembly38.chr17.fasta.gz" \
     -I "sample.markdup.bam" \
     --bqsr-recal-file "sample.recal.table" \
     -O "sample.recal.bam" \
@@ -628,20 +638,20 @@ You can use the following commands as a starting point. Remember to change the c
 
 ```bash
 gatk --java-options "-Xmx5g" Mutect2 \
-    -R "Homo_sapiens_assembly38.chr17.fasta" \
+    -R "Homo_sapiens_assembly38.chr17.fasta.gz" \
     -I "sample.recal.bam" \
     --germline-resource "gnomAD.r2.1.1.GRCh38.chr17.75pct.PASS.AC.AF.only.vcf.gz" \
     -O "sample.unfiltered.vcf.gz" \
     2> "mutect2.log"
 
 gatk --java-options "-Xmx5g" FilterMutectCalls \
-    -R "Homo_sapiens_assembly38.chr17.fasta" \
+    -R "Homo_sapiens_assembly38.chr17.fasta.gz" \
     -V "sample.unfiltered.vcf.gz" \
     -O "sample.filtered.vcf.gz" \
     2> "mutect2.filter_mutect_calls.log"
 
 gatk --java-options "-Xmx5g" SelectVariants \
-    -R "Homo_sapiens_assembly38.chr17.fasta" \
+    -R "Homo_sapiens_assembly38.chr17.fasta.gz" \
     -V "sample.filtered.vcf.gz" \
     --exclude-filtered true \
     -O "sample.pass.vcf.gz" \

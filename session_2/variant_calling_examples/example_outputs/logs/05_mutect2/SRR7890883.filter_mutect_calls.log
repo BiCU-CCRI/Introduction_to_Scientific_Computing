@@ -1,49 +1,49 @@
 Using GATK jar /home/codespace/miniconda3/envs/somatic_variant_calling/share/gatk4-4.6.2.0-1/gatk-package-4.6.2.0-local.jar
 Running:
-    java -Dsamjdk.use_async_io_read_samtools=false -Dsamjdk.use_async_io_write_samtools=true -Dsamjdk.use_async_io_write_tribble=false -Dsamjdk.compression_level=2 -Xmx10g -jar /home/codespace/miniconda3/envs/somatic_variant_calling/share/gatk4-4.6.2.0-1/gatk-package-4.6.2.0-local.jar FilterMutectCalls -R /workspaces/Introduction_to_Scientific_Computing/example_data/ref/Homo_sapiens_assembly38.chr17.fasta -V /workspaces/Introduction_to_Scientific_Computing/session_2/variant_calling_work_dir/results/05_mutect2/SRR7890883.unfiltered.vcf.gz -O /workspaces/Introduction_to_Scientific_Computing/session_2/variant_calling_work_dir/results/05_mutect2/SRR7890883.filtered.vcf.gz
-14:49:51.071 INFO  NativeLibraryLoader - Loading libgkl_compression.so from jar:file:/home/codespace/miniconda3/envs/somatic_variant_calling/share/gatk4-4.6.2.0-1/gatk-package-4.6.2.0-local.jar!/com/intel/gkl/native/libgkl_compression.so
+    java -Dsamjdk.use_async_io_read_samtools=false -Dsamjdk.use_async_io_write_samtools=true -Dsamjdk.use_async_io_write_tribble=false -Dsamjdk.compression_level=2 -Xmx5g -jar /home/codespace/miniconda3/envs/somatic_variant_calling/share/gatk4-4.6.2.0-1/gatk-package-4.6.2.0-local.jar FilterMutectCalls -R /workspaces/Introduction_to_Scientific_Computing/example_data/ref/Homo_sapiens_assembly38.chr17.fasta.gz -V /workspaces/Introduction_to_Scientific_Computing/session_2/variant_calling_work_dir/results/05_mutect2/SRR7890883.unfiltered.vcf.gz -O /workspaces/Introduction_to_Scientific_Computing/session_2/variant_calling_work_dir/results/05_mutect2/SRR7890883.filtered.vcf.gz
+13:47:19.038 INFO  NativeLibraryLoader - Loading libgkl_compression.so from jar:file:/home/codespace/miniconda3/envs/somatic_variant_calling/share/gatk4-4.6.2.0-1/gatk-package-4.6.2.0-local.jar!/com/intel/gkl/native/libgkl_compression.so
 WARNING: A restricted method in java.lang.System has been called
 WARNING: java.lang.System::load has been called by com.intel.gkl.NativeLibraryLoader in an unnamed module (file:/home/codespace/miniconda3/envs/somatic_variant_calling/share/gatk4-4.6.2.0-1/gatk-package-4.6.2.0-local.jar)
 WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
 WARNING: Restricted methods will be blocked in a future release unless native access is enabled
 
-14:49:51.271 INFO  FilterMutectCalls - ------------------------------------------------------------
-14:49:51.277 INFO  FilterMutectCalls - The Genome Analysis Toolkit (GATK) v4.6.2.0
-14:49:51.278 INFO  FilterMutectCalls - For support and documentation go to https://software.broadinstitute.org/gatk/
-14:49:51.279 INFO  FilterMutectCalls - Executing as codespace@codespaces-a19c18 on Linux v6.8.0-1052-azure amd64
-14:49:51.279 INFO  FilterMutectCalls - Java runtime: OpenJDK 64-Bit Server VM v25.0.2-internal-adhoc.conda.src
-14:49:51.279 INFO  FilterMutectCalls - Start Date/Time: August 4, 2026, 2:49:50 PM UTC
-14:49:51.279 INFO  FilterMutectCalls - ------------------------------------------------------------
-14:49:51.279 INFO  FilterMutectCalls - ------------------------------------------------------------
-14:49:51.284 INFO  FilterMutectCalls - HTSJDK Version: 4.2.0
-14:49:51.284 INFO  FilterMutectCalls - Picard Version: 3.4.0
-14:49:51.284 INFO  FilterMutectCalls - Built for Spark Version: 3.5.0
-14:49:51.286 INFO  FilterMutectCalls - HTSJDK Defaults.COMPRESSION_LEVEL : 2
-14:49:51.287 INFO  FilterMutectCalls - HTSJDK Defaults.USE_ASYNC_IO_READ_FOR_SAMTOOLS : false
-14:49:51.287 INFO  FilterMutectCalls - HTSJDK Defaults.USE_ASYNC_IO_WRITE_FOR_SAMTOOLS : true
-14:49:51.287 INFO  FilterMutectCalls - HTSJDK Defaults.USE_ASYNC_IO_WRITE_FOR_TRIBBLE : false
-14:49:51.288 INFO  FilterMutectCalls - Deflater: IntelDeflater
-14:49:51.288 INFO  FilterMutectCalls - Inflater: IntelInflater
-14:49:51.288 INFO  FilterMutectCalls - GCS max retries/reopens: 20
-14:49:51.288 INFO  FilterMutectCalls - Requester pays: disabled
-14:49:51.289 INFO  FilterMutectCalls - Initializing engine
-14:49:51.443 INFO  FeatureManager - Using codec VCFCodec to read file file:///workspaces/Introduction_to_Scientific_Computing/session_2/variant_calling_work_dir/results/05_mutect2/SRR7890883.unfiltered.vcf.gz
-14:49:51.496 INFO  FilterMutectCalls - Done initializing engine
-14:49:51.607 INFO  ProgressMeter - Starting traversal
-14:49:51.608 INFO  ProgressMeter -        Current Locus  Elapsed Minutes    Variants Processed  Variants/Minute
-14:49:51.610 INFO  FilterMutectCalls - Starting pass 0 through the variants
-14:49:54.027 INFO  FilterMutectCalls - Finished pass 0 through the variants
-14:49:55.180 INFO  FilterMutectCalls - Starting pass 1 through the variants
-14:49:55.929 INFO  FilterMutectCalls - Finished pass 1 through the variants
-14:49:56.214 INFO  FilterMutectCalls - Starting pass 2 through the variants
-14:49:56.851 INFO  FilterMutectCalls - Finished pass 2 through the variants
-14:49:56.862 INFO  FilterMutectCalls - Starting pass 3 through the variants
-14:49:58.135 INFO  FilterMutectCalls - Finished pass 3 through the variants
-14:49:58.147 INFO  FilterMutectCalls - No variants filtered by: AllowAllVariantsVariantFilter
-14:49:58.149 INFO  FilterMutectCalls - 0 read(s) filtered by: AllowAllReadsReadFilter 
+13:47:19.441 INFO  FilterMutectCalls - ------------------------------------------------------------
+13:47:19.445 INFO  FilterMutectCalls - The Genome Analysis Toolkit (GATK) v4.6.2.0
+13:47:19.445 INFO  FilterMutectCalls - For support and documentation go to https://software.broadinstitute.org/gatk/
+13:47:19.445 INFO  FilterMutectCalls - Executing as codespace@codespaces-fae5d0 on Linux v6.8.0-1052-azure amd64
+13:47:19.446 INFO  FilterMutectCalls - Java runtime: OpenJDK 64-Bit Server VM v25.0.2-internal-adhoc.conda.src
+13:47:19.446 INFO  FilterMutectCalls - Start Date/Time: August 19, 2026, 1:47:18 PM UTC
+13:47:19.446 INFO  FilterMutectCalls - ------------------------------------------------------------
+13:47:19.446 INFO  FilterMutectCalls - ------------------------------------------------------------
+13:47:19.448 INFO  FilterMutectCalls - HTSJDK Version: 4.2.0
+13:47:19.448 INFO  FilterMutectCalls - Picard Version: 3.4.0
+13:47:19.448 INFO  FilterMutectCalls - Built for Spark Version: 3.5.0
+13:47:19.449 INFO  FilterMutectCalls - HTSJDK Defaults.COMPRESSION_LEVEL : 2
+13:47:19.450 INFO  FilterMutectCalls - HTSJDK Defaults.USE_ASYNC_IO_READ_FOR_SAMTOOLS : false
+13:47:19.450 INFO  FilterMutectCalls - HTSJDK Defaults.USE_ASYNC_IO_WRITE_FOR_SAMTOOLS : true
+13:47:19.450 INFO  FilterMutectCalls - HTSJDK Defaults.USE_ASYNC_IO_WRITE_FOR_TRIBBLE : false
+13:47:19.450 INFO  FilterMutectCalls - Deflater: IntelDeflater
+13:47:19.451 INFO  FilterMutectCalls - Inflater: IntelInflater
+13:47:19.451 INFO  FilterMutectCalls - GCS max retries/reopens: 20
+13:47:19.451 INFO  FilterMutectCalls - Requester pays: disabled
+13:47:19.452 INFO  FilterMutectCalls - Initializing engine
+13:47:19.653 INFO  FeatureManager - Using codec VCFCodec to read file file:///workspaces/Introduction_to_Scientific_Computing/session_2/variant_calling_work_dir/results/05_mutect2/SRR7890883.unfiltered.vcf.gz
+13:47:19.856 INFO  FilterMutectCalls - Done initializing engine
+13:47:20.019 INFO  ProgressMeter - Starting traversal
+13:47:20.020 INFO  ProgressMeter -        Current Locus  Elapsed Minutes    Variants Processed  Variants/Minute
+13:47:20.021 INFO  FilterMutectCalls - Starting pass 0 through the variants
+13:47:23.253 INFO  FilterMutectCalls - Finished pass 0 through the variants
+13:47:24.501 INFO  FilterMutectCalls - Starting pass 1 through the variants
+13:47:25.796 INFO  FilterMutectCalls - Finished pass 1 through the variants
+13:47:26.150 INFO  FilterMutectCalls - Starting pass 2 through the variants
+13:47:27.224 INFO  FilterMutectCalls - Finished pass 2 through the variants
+13:47:27.237 INFO  FilterMutectCalls - Starting pass 3 through the variants
+13:47:28.801 INFO  FilterMutectCalls - Finished pass 3 through the variants
+13:47:28.810 INFO  FilterMutectCalls - No variants filtered by: AllowAllVariantsVariantFilter
+13:47:28.812 INFO  FilterMutectCalls - 0 read(s) filtered by: AllowAllReadsReadFilter 
 
-14:49:58.151 INFO  ProgressMeter -       chr17:82177849              0.1                 17084         156686.0
-14:49:58.151 INFO  ProgressMeter - Traversal complete. Processed 17084 total variants in 0.1 minutes.
-14:49:58.164 INFO  FilterMutectCalls - Shutting down engine
-[August 4, 2026, 2:49:58 PM UTC] org.broadinstitute.hellbender.tools.walkers.mutect.filtering.FilterMutectCalls done. Elapsed time: 0.12 minutes.
-Runtime.totalMemory()=335544320
+13:47:28.812 INFO  ProgressMeter -       chr17:82177849              0.1                 17084         116601.1
+13:47:28.813 INFO  ProgressMeter - Traversal complete. Processed 17084 total variants in 0.1 minutes.
+13:47:28.826 INFO  FilterMutectCalls - Shutting down engine
+[August 19, 2026, 1:47:28 PM UTC] org.broadinstitute.hellbender.tools.walkers.mutect.filtering.FilterMutectCalls done. Elapsed time: 0.16 minutes.
+Runtime.totalMemory()=218103808

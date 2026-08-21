@@ -10,20 +10,20 @@ Sometimes you have a specific environment that you want to use for your analysis
 conda install jupyterlab=4.6.2 plotly=6.9.0 matplotlib=3.10.9 pandas=2.3.3
 ```
 
-1. Check that `ipykernel` is installed in your environment - it is a dependency of `jupyterlab` so should be installed automatically when you install `jupyterlab`. If not, install it too.  
+3. Check that `ipykernel` is installed in your environment - it is a dependency of `jupyterlab` so should be installed automatically when you install `jupyterlab`. If not, install it too.  
 
 ```bash
 conda list ipykernel
 ```
 
-1. To add your environment as a kernel, run the following command.
+4. To add your environment as a kernel, run the following command.
 
 ```bash
 python -m ipykernel install --user --name <env_name> --display-name "<env_name>"
 # Installed kernelspec <env_name> in /home/<username>/.local/share/jupyter/kernels/<env_name>
 ```
 
-1. Now, check the contents of the `jupyterlab_customenv.sbatch` script. This script is similar to the `jupyterlab.sbatch` script, but it activates your conda environment, and runs `jupyterlab` using the version installed in your environment as opposed to the module version.  
+5. Now, check the contents of the `jupyterlab_customenv.sbatch` script. This script is similar to the `jupyterlab.sbatch` script, but it activates your conda environment, and runs `jupyterlab` using the version installed in your environment as opposed to the module version.  
 
 ```bash
 #!/bin/bash
@@ -48,6 +48,6 @@ host ${node}
 jupyter lab --no-browser --port=${port} --ip=${node}
 ```
 
-1. Submit the `jupyterlab_customenv.sbatch` to SLURM, and click the link in the output to access the Jupyter Notebook session in your web browser.  
+6. Submit the `jupyterlab_customenv.sbatch` to SLURM, and click the link in the output to access the Jupyter Notebook session in your web browser.  
 
-2. To set your own environment as the kernel, click the `Kernel` menu, then `Change kernel`, and select your environment from the list. You should now be able to use Jupyter Notebook in your web browser with your own conda environment!  
+7. To set your own environment as the kernel, click the `Kernel` menu, then `Change kernel`, and select your environment from the list. You should now be able to use Jupyter Notebook in your web browser with your own conda environment!  

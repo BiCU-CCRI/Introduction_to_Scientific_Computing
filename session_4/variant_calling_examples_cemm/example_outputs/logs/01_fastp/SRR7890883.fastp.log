@@ -45,5 +45,5 @@ Insert size peak (evaluated by paired-end reads): 139
 JSON report: results/01_fastp/SRR7890883.chr17_50k.json
 HTML report: results/01_fastp/SRR7890883.chr17_50k.html
 
-fastp --in1 ../../example_data/fastq/SRR7890883.chr17_50k_R1.fastq --in2 ../../example_data/fastq/SRR7890883.chr17_50k_R2.fastq --out1 results/01_fastp/SRR7890883.chr17_50k_R1_trimmed.fastq --out2 results/01_fastp/SRR7890883.chr17_50k_R2_trimmed.fastq --detect_adapter_for_pe --thread 1 --html results/01_fastp/SRR7890883.chr17_50k.html --json results/01_fastp/SRR7890883.chr17_50k.json 
-fastp v0.23.2, time used: 1 seconds
+fastp --in1 ../../example_data/fastq/SRR7890883.chr17_50k_R1.fastq.gz --in2 ../../example_data/fastq/SRR7890883.chr17_50k_R2.fastq.gz --out1 results/01_fastp/SRR7890883.chr17_50k_R1_trimmed.fastq.gz --out2 results/01_fastp/SRR7890883.chr17_50k_R2_trimmed.fastq.gz --detect_adapter_for_pe --thread 1 --html results/01_fastp/SRR7890883.chr17_50k.html --json results/01_fastp/SRR7890883.chr17_50k.json 
+fastp v0.23.2, time used: 2 seconds

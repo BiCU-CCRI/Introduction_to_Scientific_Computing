@@ -10,10 +10,10 @@ LOG_DIR="/workspaces/Introduction_to_Scientific_Computing/session_2/variant_call
 mkdir -p "${OUT_DIR}"
 mkdir -p "${LOG_DIR}"
 
-RAW_R1="${IN_DIR}/${SAMPLE}.chr17_50k_R1.fastq"
-RAW_R2="${IN_DIR}/${SAMPLE}.chr17_50k_R2.fastq"
-TRIMMED_R1="${OUT_DIR}/${SAMPLE}.chr17_50k_R1_trimmed.fastq"
-TRIMMED_R2="${OUT_DIR}/${SAMPLE}.chr17_50k_R2_trimmed.fastq"
+RAW_R1="${IN_DIR}/${SAMPLE}.chr17_50k_R1.fastq.gz"
+RAW_R2="${IN_DIR}/${SAMPLE}.chr17_50k_R2.fastq.gz"
+TRIMMED_R1="${OUT_DIR}/${SAMPLE}.chr17_50k_R1_trimmed.fastq.gz"
+TRIMMED_R2="${OUT_DIR}/${SAMPLE}.chr17_50k_R2_trimmed.fastq.gz"
 FASTP_HTML="${OUT_DIR}/${SAMPLE}.chr17_50k.html"
 FASTP_JSON="${OUT_DIR}/${SAMPLE}.chr17_50k.json"
 LOG="${LOG_DIR}/${SAMPLE}.fastp.log"
@@ -29,3 +29,6 @@ fastp \
     --html "${FASTP_HTML}" \
     --json "${FASTP_JSON}" \
     > "${LOG}" 2>&1
+
+echo "All done."
+
