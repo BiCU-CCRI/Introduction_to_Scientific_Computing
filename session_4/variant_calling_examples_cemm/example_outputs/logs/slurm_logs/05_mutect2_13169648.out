@@ -5,3 +5,4 @@ Filtering Mutect2 calls
 Selecting PASS variants
 Filtered VCF: results/05_mutect2/SRR7890883.filtered.vcf.gz
 PASS VCF:     results/05_mutect2/SRR7890883.pass.vcf.gz
+All done.

@@ -39,4 +39,3 @@ gatk --java-options "-Xmx5g" MarkDuplicates \
     > "${LOG}" 2>&1
     
 echo "All done."
-

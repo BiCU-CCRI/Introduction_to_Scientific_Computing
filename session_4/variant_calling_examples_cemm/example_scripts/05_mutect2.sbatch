@@ -56,4 +56,3 @@ echo "Filtered VCF: ${FILTERED_VCF}"
 echo "PASS VCF:     ${PASS_VCF}"
 
 echo "All done."
-

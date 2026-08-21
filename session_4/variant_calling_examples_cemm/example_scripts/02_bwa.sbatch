@@ -50,4 +50,3 @@ samtools index \
     "${OUT_BAM}"
  
 echo "All done."
-
