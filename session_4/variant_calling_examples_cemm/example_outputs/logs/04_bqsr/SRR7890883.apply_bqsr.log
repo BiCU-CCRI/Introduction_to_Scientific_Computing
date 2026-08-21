@@ -4,7 +4,7 @@ INFO: Failed to detect whether we are running on Google Compute Engine.
 15:24:58.553 INFO  ApplyBQSR - ------------------------------------------------------------
 15:24:58.553 INFO  ApplyBQSR - The Genome Analysis Toolkit (GATK) v4.1.8.1
 15:24:58.553 INFO  ApplyBQSR - For support and documentation go to https://software.broadinstitute.org/gatk/
-15:24:58.556 INFO  ApplyBQSR - Executing as ccasey@d021.int.cemm.at on Linux v4.18.0-553.144.1.el8_10.x86_64 amd64
+15:24:58.556 INFO  ApplyBQSR - Executing as jdoe@my_node.int.cemm.at on Linux v4.18.0-553.144.1.el8_10.x86_64 amd64
 15:24:58.556 INFO  ApplyBQSR - Java runtime: Java HotSpot(TM) 64-Bit Server VM v1.8.0_311-b11
 15:24:58.557 INFO  ApplyBQSR - Start Date/Time: August 19, 2026 3:24:58 PM CEST
 15:24:58.557 INFO  ApplyBQSR - ------------------------------------------------------------

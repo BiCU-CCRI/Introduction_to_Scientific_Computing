@@ -898,11 +898,11 @@ The script:
 To access the server, open this file in a browser:
     file:///home/<username>/.local/share/jupyter/runtime/jpserver-179870-open.html
 Or copy and paste one of these URLs:
-    http://d0<some_integer>.int.cemm.at:8513/lab?token=1e434bed38321564f9d1953064f260c9e253bc8b67f59e88
+    http://d<some_integer>.int.cemm.at:8513/lab?token=1e434bed38321564f9d1953064f260c9e253bc8b67f59e88
     http://127.0.0.1:8513/lab?token=1e434bed38321564f9d1953064f260c9e253bc8b67f59e88
 ```
 
-Click on the link starting `http://d021.int.cemm.at:8513/lab?token=...` to access the Jupyter Notebook session in your web browser. You should now be able to use Jupyter Notebook in your web browser!  
+Click on the link starting `http://d<some_integer>.int.cemm.at:8513/lab?token=...` to access the Jupyter Notebook session in your web browser. You should now be able to use Jupyter Notebook in your web browser!  
 
 1. Let's try running an example analysis with the `example_notebook.ipynb` notebook. You can open the notebook in JupyterLab by simply double-clicking on it. Run the cells to produce the example plot using the "fast-forward" icon at the top and "Restart".
 
@@ -1131,7 +1131,12 @@ Job node address:      d009.int.cemm.at
 Job node IP address:   10.110.81.9
 ======================
 To access the RStudio Server, cmd + click for Mac/ctrl + click for Windows the link or copy-paste this to your web browser:
-http://d009.int.cemm.at:8779
+Job node name:         d<some_integer>
+Job node address:      d<some_integer>.int.cemm.at
+Job node IP address:   <some_ip_address>
+======================
+To access the RStudio Server, cmd + click for Mac/ctrl + click for Windows the link or copy-paste this to your web browser:
+http://d<some_integer>.int.cemm.at:8779
 ======================
 Job started at: Fri Jul 31 13:32:27 CEST 2026
 ```

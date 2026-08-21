@@ -37,3 +37,6 @@ samtools sort \
 echo "Indexing aligned reads"
 samtools index \
     "${OUT_BAM}"
+ 
+ echo "All done."
+ 

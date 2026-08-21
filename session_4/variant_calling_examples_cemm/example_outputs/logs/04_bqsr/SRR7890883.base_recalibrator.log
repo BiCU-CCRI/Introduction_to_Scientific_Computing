@@ -4,7 +4,7 @@ INFO: Failed to detect whether we are running on Google Compute Engine.
 15:24:31.257 INFO  BaseRecalibrator - ------------------------------------------------------------
 15:24:31.258 INFO  BaseRecalibrator - The Genome Analysis Toolkit (GATK) v4.1.8.1
 15:24:31.258 INFO  BaseRecalibrator - For support and documentation go to https://software.broadinstitute.org/gatk/
-15:24:31.259 INFO  BaseRecalibrator - Executing as ccasey@d021.int.cemm.at on Linux v4.18.0-553.144.1.el8_10.x86_64 amd64
+15:24:31.259 INFO  BaseRecalibrator - Executing as jdoe@my_node.int.cemm.at on Linux v4.18.0-553.144.1.el8_10.x86_64 amd64
 15:24:31.259 INFO  BaseRecalibrator - Java runtime: Java HotSpot(TM) 64-Bit Server VM v1.8.0_311-b11
 15:24:31.259 INFO  BaseRecalibrator - Start Date/Time: August 19, 2026 3:24:30 PM CEST
 15:24:31.259 INFO  BaseRecalibrator - ------------------------------------------------------------
@@ -20,8 +20,8 @@ INFO: Failed to detect whether we are running on Google Compute Engine.
 15:24:31.259 INFO  BaseRecalibrator - GCS max retries/reopens: 20
 15:24:31.259 INFO  BaseRecalibrator - Requester pays: disabled
 15:24:31.259 INFO  BaseRecalibrator - Initializing engine
-15:24:31.565 INFO  FeatureManager - Using codec VCFCodec to read file file:///nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_4/variant_calling_work_dir/../../example_data/known_sites/dbsnp_146.hg38.chr17.vcf.gz
-15:24:31.696 INFO  FeatureManager - Using codec VCFCodec to read file file:///nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_4/variant_calling_work_dir/../../example_data/known_sites/Mills_and_1000G_gold_standard.indels.hg38.chr17.vcf.gz
+15:24:31.565 INFO  FeatureManager - Using codec VCFCodec to read file file:///mypath/Introduction_to_Scientific_Computing/session_4/variant_calling_work_dir/../../example_data/known_sites/dbsnp_146.hg38.chr17.vcf.gz
+15:24:31.696 INFO  FeatureManager - Using codec VCFCodec to read file file:///mypath/Introduction_to_Scientific_Computing/session_4/variant_calling_work_dir/../../example_data/known_sites/Mills_and_1000G_gold_standard.indels.hg38.chr17.vcf.gz
 15:24:31.861 INFO  BaseRecalibrator - Done initializing engine
 15:24:31.908 INFO  BaseRecalibrationEngine - The covariates being used here: 
 15:24:31.908 INFO  BaseRecalibrationEngine - 	ReadGroupCovariate

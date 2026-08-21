@@ -358,6 +358,9 @@ conda env list
 
 Using a conda environment YAML is the most efficient way to record and share software versions and overall setup. It is also very easy to use version control using git.  
 
+>[!WARNING]
+>`somatic_variant_calling.yaml` Conda environment was tested on Fedora 8.10 and Ubuntu 24.04.4 Linux distros. It might not be compatible with other distros or operating systems.
+
 >[!NOTE]
 > git version control will be covered in one of the future courses.
 

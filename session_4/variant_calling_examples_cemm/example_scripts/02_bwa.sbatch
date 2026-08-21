@@ -11,7 +11,7 @@
 set -euo pipefail
 
 module load BWA/0.7.17-GCCcore-11.3.0
-module load SAMtools/1.18-GCC-12.3.0
+module load SAMtools/1.17-GCC-11.3.0
 
 SAMPLE="SRR7890883"
 IN_DIR="results/01_fastp"
@@ -48,3 +48,6 @@ samtools sort \
 echo "Indexing aligned reads"
 samtools index \
     "${OUT_BAM}"
+ 
+echo "All done."
+

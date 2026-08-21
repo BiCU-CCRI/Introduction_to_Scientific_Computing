@@ -29,3 +29,6 @@ fastp \
     --html "${FASTP_HTML}" \
     --json "${FASTP_JSON}" \
     > "${LOG}" 2>&1
+
+echo "All done."
+

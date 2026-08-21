@@ -4,7 +4,7 @@ INFO: Failed to detect whether we are running on Google Compute Engine.
 15:26:11.938 INFO  FilterMutectCalls - ------------------------------------------------------------
 15:26:11.938 INFO  FilterMutectCalls - The Genome Analysis Toolkit (GATK) v4.1.8.1
 15:26:11.938 INFO  FilterMutectCalls - For support and documentation go to https://software.broadinstitute.org/gatk/
-15:26:11.944 INFO  FilterMutectCalls - Executing as ccasey@d021.int.cemm.at on Linux v4.18.0-553.144.1.el8_10.x86_64 amd64
+15:26:11.944 INFO  FilterMutectCalls - Executing as jdoe@my_node.int.cemm.at on Linux v4.18.0-553.144.1.el8_10.x86_64 amd64
 15:26:11.944 INFO  FilterMutectCalls - Java runtime: Java HotSpot(TM) 64-Bit Server VM v1.8.0_311-b11
 15:26:11.944 INFO  FilterMutectCalls - Start Date/Time: August 19, 2026 3:26:11 PM CEST
 15:26:11.944 INFO  FilterMutectCalls - ------------------------------------------------------------
@@ -20,7 +20,7 @@ INFO: Failed to detect whether we are running on Google Compute Engine.
 15:26:11.944 INFO  FilterMutectCalls - GCS max retries/reopens: 20
 15:26:11.945 INFO  FilterMutectCalls - Requester pays: disabled
 15:26:11.945 INFO  FilterMutectCalls - Initializing engine
-15:26:12.151 INFO  FeatureManager - Using codec VCFCodec to read file file:///nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_4/variant_calling_work_dir/results/05_mutect2/SRR7890883.unfiltered.vcf.gz
+15:26:12.151 INFO  FeatureManager - Using codec VCFCodec to read file file:///mypath/Introduction_to_Scientific_Computing/session_4/variant_calling_work_dir/results/05_mutect2/SRR7890883.unfiltered.vcf.gz
 15:26:12.193 INFO  FilterMutectCalls - Done initializing engine
 15:26:12.272 INFO  ProgressMeter - Starting traversal
 15:26:12.272 INFO  ProgressMeter -        Current Locus  Elapsed Minutes    Variants Processed  Variants/Minute

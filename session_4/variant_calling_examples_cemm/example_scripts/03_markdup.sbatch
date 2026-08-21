@@ -37,3 +37,6 @@ gatk --java-options "-Xmx5g" MarkDuplicates \
     --VALIDATION_STRINGENCY SILENT \
     --OPTICAL_DUPLICATE_PIXEL_DISTANCE 2500 \
     > "${LOG}" 2>&1
+    
+echo "All done."
+

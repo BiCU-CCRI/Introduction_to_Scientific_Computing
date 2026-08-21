@@ -4,7 +4,7 @@ INFO: Failed to detect whether we are running on Google Compute Engine.
 15:26:19.134 INFO  SelectVariants - ------------------------------------------------------------
 15:26:19.134 INFO  SelectVariants - The Genome Analysis Toolkit (GATK) v4.1.8.1
 15:26:19.134 INFO  SelectVariants - For support and documentation go to https://software.broadinstitute.org/gatk/
-15:26:19.137 INFO  SelectVariants - Executing as ccasey@d021.int.cemm.at on Linux v4.18.0-553.144.1.el8_10.x86_64 amd64
+15:26:19.137 INFO  SelectVariants - Executing as jdoe@my_node.int.cemm.at on Linux v4.18.0-553.144.1.el8_10.x86_64 amd64
 15:26:19.137 INFO  SelectVariants - Java runtime: Java HotSpot(TM) 64-Bit Server VM v1.8.0_311-b11
 15:26:19.137 INFO  SelectVariants - Start Date/Time: August 19, 2026 3:26:18 PM CEST
 15:26:19.137 INFO  SelectVariants - ------------------------------------------------------------
@@ -20,7 +20,7 @@ INFO: Failed to detect whether we are running on Google Compute Engine.
 15:26:19.138 INFO  SelectVariants - GCS max retries/reopens: 20
 15:26:19.138 INFO  SelectVariants - Requester pays: disabled
 15:26:19.138 INFO  SelectVariants - Initializing engine
-15:26:19.382 INFO  FeatureManager - Using codec VCFCodec to read file file:///nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_4/variant_calling_work_dir/results/05_mutect2/SRR7890883.filtered.vcf.gz
+15:26:19.382 INFO  FeatureManager - Using codec VCFCodec to read file file:///mypath/Introduction_to_Scientific_Computing/session_4/variant_calling_work_dir/results/05_mutect2/SRR7890883.filtered.vcf.gz
 15:26:19.426 INFO  SelectVariants - Done initializing engine
 15:26:19.513 INFO  ProgressMeter - Starting traversal
 15:26:19.513 INFO  ProgressMeter -        Current Locus  Elapsed Minutes    Variants Processed  Variants/Minute

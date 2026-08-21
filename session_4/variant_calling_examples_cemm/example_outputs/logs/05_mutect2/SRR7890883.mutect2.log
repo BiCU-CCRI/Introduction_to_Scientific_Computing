@@ -4,7 +4,7 @@ INFO: Failed to detect whether we are running on Google Compute Engine.
 15:25:21.361 INFO  Mutect2 - ------------------------------------------------------------
 15:25:21.361 INFO  Mutect2 - The Genome Analysis Toolkit (GATK) v4.1.8.1
 15:25:21.361 INFO  Mutect2 - For support and documentation go to https://software.broadinstitute.org/gatk/
-15:25:21.367 INFO  Mutect2 - Executing as ccasey@d021.int.cemm.at on Linux v4.18.0-553.144.1.el8_10.x86_64 amd64
+15:25:21.367 INFO  Mutect2 - Executing as jdoe@my_node.int.cemm.at on Linux v4.18.0-553.144.1.el8_10.x86_64 amd64
 15:25:21.368 INFO  Mutect2 - Java runtime: Java HotSpot(TM) 64-Bit Server VM v1.8.0_311-b11
 15:25:21.368 INFO  Mutect2 - Start Date/Time: August 19, 2026 3:25:21 PM CEST
 15:25:21.368 INFO  Mutect2 - ------------------------------------------------------------
@@ -20,7 +20,7 @@ INFO: Failed to detect whether we are running on Google Compute Engine.
 15:25:21.368 INFO  Mutect2 - GCS max retries/reopens: 20
 15:25:21.368 INFO  Mutect2 - Requester pays: disabled
 15:25:21.368 INFO  Mutect2 - Initializing engine
-15:25:21.615 INFO  FeatureManager - Using codec VCFCodec to read file file:///nobackup/lab_ccri_bicu/internal/ccasey/projects/core/Introduction_to_Scientific_Computing/session_4/variant_calling_work_dir/../../example_data/germline_resource/gnomAD.r2.1.1.GRCh38.chr17.75pct.PASS.AC.AF.only.vcf.gz
+15:25:21.615 INFO  FeatureManager - Using codec VCFCodec to read file file:///mypath/Introduction_to_Scientific_Computing/session_4/variant_calling_work_dir/../../example_data/germline_resource/gnomAD.r2.1.1.GRCh38.chr17.75pct.PASS.AC.AF.only.vcf.gz
 15:25:21.846 INFO  Mutect2 - Done initializing engine
 15:25:21.908 INFO  NativeLibraryLoader - Loading libgkl_utils.so from jar:file:/cm/shared/specific/apps/GATK/4.1.8.1-GCCcore-9.3.0-Java-1.8/gatk-package-4.1.8.1-local.jar!/com/intel/gkl/native/libgkl_utils.so
 15:25:21.916 INFO  NativeLibraryLoader - Loading libgkl_pairhmm_omp.so from jar:file:/cm/shared/specific/apps/GATK/4.1.8.1-GCCcore-9.3.0-Java-1.8/gatk-package-4.1.8.1-local.jar!/com/intel/gkl/native/libgkl_pairhmm_omp.so

@@ -32,7 +32,7 @@ gatk --java-options "-Xmx5g" FilterMutectCalls \
     -R "${REF}" \
     -V "${UNFILTERED_VCF}" \
     -O "${FILTERED_VCF}" \
-    2> "${LOG_DIR}/${SAMPLE}.filter_mutect_calls.log"
+    2> "${LOG_DIR}/${SAMPLE}.filter_mutect2_calls.log"
 
 echo "Selecting PASS variants"
 gatk --java-options "-Xmx5g" SelectVariants \
@@ -44,3 +44,5 @@ gatk --java-options "-Xmx5g" SelectVariants \
 
 echo "Filtered VCF: ${FILTERED_VCF}"
 echo "PASS VCF:     ${PASS_VCF}"
+
+echo "All done."
