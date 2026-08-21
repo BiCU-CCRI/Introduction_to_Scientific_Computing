@@ -13,10 +13,10 @@ mkdir -p "${LOG_DIR}"
 
 LIBRARY="lib1"
 PLATFORM="ILLUMINA"
-FASTP_R1="${IN_DIR}/${SAMPLE}.chr17_50k_R1_trimmed.fastq"
-FASTP_R2="${IN_DIR}/${SAMPLE}.chr17_50k_R2_trimmed.fastq"
+FASTP_R1="${IN_DIR}/${SAMPLE}.chr17_50k_R1_trimmed.fastq.gz"
+FASTP_R2="${IN_DIR}/${SAMPLE}.chr17_50k_R2_trimmed.fastq.gz"
 OUT_BAM="${OUT_DIR}/${SAMPLE}.chr17_50k.bam"
-REF="${REF_DIR}/Homo_sapiens_assembly38.chr17.fasta"
+REF="${REF_DIR}/Homo_sapiens_assembly38.chr17.fasta.gz"
 LOG="${LOG_DIR}/${SAMPLE}.bwa.log"
 READ_GROUP="@RG\tID:${SAMPLE}.${LIBRARY}\tSM:${SAMPLE}\tLB:${LIBRARY}\tPL:${PLATFORM}\tPU:${SAMPLE}.${LIBRARY}"
 
@@ -37,3 +37,6 @@ samtools sort \
 echo "Indexing aligned reads"
 samtools index \
     "${OUT_BAM}"
+ 
+ echo "All done."
+ 

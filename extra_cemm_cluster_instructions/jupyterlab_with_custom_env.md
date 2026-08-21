@@ -1,6 +1,6 @@
-# Running Jupyterlab using your own conda environment on the CeMM cluster
+# Running JupyterLab using your own conda environment on the CeMM cluster
 
-Sometimes you have a specific environment that you want to use for your analysis, which might include some specialist software that is not included in the pre-configured Jupyterlab module. In this case, you can create your own conda environment and run Jupyterlab using that environment.  
+Sometimes you have a specific environment that you want to use for your analysis, which might include some specialist software that is not included in the pre-configured JupyterLab module. In this case, you can create your own conda environment and run JupyterLab using that environment.  
 
 1. Activate your conda environment.  
 
@@ -40,7 +40,7 @@ echo "Activating environment"
 source "${CONDA_PREFIX}/etc/profile.d/conda.sh"
 conda activate "${conda_env_name}"
 
-port=$(shuf -i8000-9000 -n1)
+port=$(shuf -i8000-9999 -n1)
 node=$(hostname).int.cemm.at
 user=$(whoami)
 host ${node}
@@ -51,4 +51,3 @@ jupyter lab --no-browser --port=${port} --ip=${node}
 6. Submit the `jupyterlab_customenv.sbatch` to SLURM, and click the link in the output to access the Jupyter Notebook session in your web browser.  
 
 7. To set your own environment as the kernel, click the `Kernel` menu, then `Change kernel`, and select your environment from the list. You should now be able to use Jupyter Notebook in your web browser with your own conda environment!  
-

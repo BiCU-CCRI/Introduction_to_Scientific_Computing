@@ -161,13 +161,13 @@ You should see the following output:
 ```bash
 #!/bin/bash
 
-FASTQ_FILE="../example_data/fastq/SRR7890883.chr17_50k_R1.fastq"
+FASTQ_FILE="../example_data/fastq/SRR7890883.chr17_50k_R1.fastq.gz"
 
 echo "First ten lines of the fastq file:"
-cat "$FASTQ_FILE" | head -n 10
+zcat "$FASTQ_FILE" | head -n 10
 
 echo "Counting the number of reads in the fastq file:"
-cat "$FASTQ_FILE" | wc -l | awk '{print $1/4}'
+zcat "$FASTQ_FILE" | wc -l | awk '{print $1/4}'
 ```
 
 Can you figure out what each line of the script is doing?  
@@ -177,13 +177,13 @@ For spoilers, see below.
 ```bash
 #!/bin/bash                                                                               # This line specifies that the script should be run using the bash shell.
 
-FASTQ_FILE="../example_data/fastq/SRR7890883.chr17_50k_R1.fastq"           # This line assigns the file path to a variable
+FASTQ_FILE="../example_data/fastq/SRR7890883.chr17_50k_R1.fastq.gz"           # This line assigns the file path to a variable
 
 echo "First ten lines of the fastq file:"                                                 # This line prints a message to the terminal indicating that the first ten lines of the fastq file will be displayed.
-cat "$FASTQ_FILE" | head -n 10                       # This line uses the `cat` command to concatenate the `.fastq` file in the example data dir, then pipes the output to the `head` command, which displays the first ten lines of the file.
+zcat "$FASTQ_FILE" | head -n 10                       # This line uses the `zcat` command to concatenate the `.fastq.gz` file in the example data dir, then pipes the output to the `head` command, which displays the first ten lines of the file.
 
 echo "Counting the number of reads in the fastq file:"                                    # This line prints a message to the terminal indicating that the number of reads in the `.fastq` file will be counted.
-cat "$FASTQ_FILE" | wc -l | awk '{print $1/4}'        # This line uses `cat` again to concatenate the `.fastq` file in the example data dir, then pipes the output to the `wc -l` command, which counts the number of lines in the file. Since each read in a `.fastq` file is represented by four lines, the output is then piped to `awk`, which divides the line count by 4 to get the number of reads.
+zcat "$FASTQ_FILE" | wc -l | awk '{print $1/4}'        # This line uses `zcat` again to concatenate the `.fastq.gz` file in the example data dir, then pipes the output to the `wc -l` command, which counts the number of lines in the file. Since each read in a `.fastq` file is represented by four lines, the output is then piped to `awk`, which divides the line count by 4 to get the number of reads.
 ```
 
 2. Now that you understand what the script is doing, let's run it.  
@@ -233,20 +233,24 @@ So far, we have been using simple shell commands and scripts to run our analyses
 If you are working on several projects, you may want to use the same (or different) versions of the same software for each project. This is where Conda comes in handy. Conda is a package manager that allows you to create isolated "environments" for your projects, each with its own set of dependencies. Using Conda also allows you to more easily share the exact software versions (environment) with others, ensuring analysis reproducibility. It also makes it easier to install all software dependencies with minimal effort.
 
 >[!TIP]
-> It is good practice to create a new Conda environment for each project you work on and keep track of the installed software versions.  
+> It is good practice to create a new conda environment for each project you work on and keep track of the installed software versions.  
 
 Follow these steps to set up conda:  
 
 1. Download `miniconda`
 
-`wget https://repo.anaconda.com/miniconda/Miniconda3-py314_26.5.3-2-Linux-x86_64.sh`
+```bash
+wget https://repo.anaconda.com/miniconda/Miniconda3-py314_26.5.3-2-Linux-x86_64.sh
+```
 
 >[!NOTE]
 > [`miniconda`](https://www.anaconda.com/docs/getting-started/concepts/anaconda-or-miniconda) is an alternative `conda` installed with much smaller space requirements.
 
 2. Install `miniconda`
 
-`bash Miniconda3-py314_26.5.3-2-Linux-x86_64.sh`
+```bash
+bash Miniconda3-py314_26.5.3-2-Linux-x86_64.sh
+```
 
 Follow the prompts: Enter > yes > Enter > yes (be sure to type `yes` at the last prompt asking you `Do you wish to update your shell profile to automatically initialize conda?`)
 
@@ -258,7 +262,7 @@ Once done, open a new terminal to make the Conda installation "visible" to the t
 >If something goes wrong, you can uninstall the Miniconda installation with
 >
 >```bash
->conda deactivate # Make sure your base Conda environment is deactivated
+>conda deactivate # Make sure your base conda environment is deactivated
 >~/miniconda3/uninstall.sh # Uninstall miniconda; This assumes you used the default installation location
 >```
 
@@ -270,7 +274,7 @@ conda config --add channels conda-forge
 conda config --show channels # Verify the channel list
 ```
 
-You should get the following output: 
+You should get the following output:
 
 ```bash
 channels:
@@ -305,7 +309,7 @@ conda activate intro_to_sci_comp
 conda install <package_name>
 ```
 
-You can add multiple packages by separating them with spaces. You can also specify the channel from which the package should be installed with `<channel>::<package_name>`, and you can specify the version of the package you want to install by appending `=<version>` to the package name. 
+You can add multiple packages by separating them with spaces. You can also specify the channel from which the package should be installed with `<channel>::<package_name>`, and you can specify the version of the package you want to install by appending `=<version>` to the package name.
 
 It is **strongly** recommended to install all the software and packages at once. Conda attempts to find an optimal combination of dependencies, which is only possible if it knows everything it should consider at once. **Avoid installing them individually.** Conda would eventually fail due to conflicting dependencies if you install software one at a time.
 
@@ -326,8 +330,8 @@ conda env export > intro_to_sci_comp.yaml
 You should be able to spot your `python` and `numpy` packages, as well as the other dependencies that were automatically installed. At the top of the file, you should see the name of the environment and the version of conda that was used to create it.  
 
 >[!TIP]
-> Using `conda env export` includes system-specific "builds". These are not software versions _per se_ and don't change the software functionality. Reproducing the Conda environment on a **different** server using this export is unlikely to work. To only record the software versions, use:
-> 
+> Using `conda env export` includes system-specific "builds". These are not software versions *per se* and don't change the software functionality. Reproducing the conda environment on a **different** server using this export is unlikely to work. To only record the software versions, use:
+>
 > ```bash
 > conda env export --no-builds > intro_to_sci_comp.yaml
 > ```
@@ -352,7 +356,10 @@ When the environment is created, you should be able to see the `somatic_variant_
 conda env list
 ```
 
-Using a Conda environment YAML is the most efficient way to record and share software versions and overall setup. It is also very easy to use version control using git.  
+Using a conda environment YAML is the most efficient way to record and share software versions and overall setup. It is also very easy to use version control using git.  
+
+>[!WARNING]
+>`somatic_variant_calling.yaml` Conda environment was tested on Fedora 8.10 and Ubuntu 24.04.4 Linux distros. It might not be compatible with other distros or operating systems.
 
 >[!NOTE]
 > git version control will be covered in one of the future courses.
@@ -371,7 +378,7 @@ How do the output software versions compare to the original environment YAML fil
 Here are some useful commands for managing conda environments:  
 
 | Command | Description |
-|---------|-------------|
+| --------- | ------------- |
 | `conda create -n <env_name> <package1> <package2> ...` | Create a new conda environment with the specified packages installed. |
 | `conda env create -f <environment.yaml>` | Create a new conda environment from a `yaml` file. |
 | `conda activate <env_name>` | Activate a specific conda environment. |
@@ -395,9 +402,9 @@ Here are some useful commands for managing conda environments:
 - You have deactivated the `intro_to_sci_comp` environment and returned to the base environment.  
 - You have created a new environment called `somatic_variant_calling` from the provided `somatic_variant_calling.yaml` file and verified the software versions.  
 
-## 5. Optional - Exercise 5: Activating a Conda environment in a script
+## 5. Optional - Exercise 5: Activating a conda environment in a script
 
-Sometimes, you may want to run a script that runs a specific software, and therefore requires a Conda environment to be activated. However, you cannot just use `conda activate <env_name>` in a script because the `conda` command might not be available in non-interactive shells. You have to make the shell aware of your Conda installation. This can be done by sourcing the `conda.sh` script. You can then activate the environment in the script and use the installed software.  
+Sometimes, you may want to run a script that runs a specific software, and therefore requires a conda environment to be activated. However, you cannot just use `conda activate <env_name>` in a script because the `conda` command might not be available in non-interactive shells. You have to make the shell aware of your Conda installation. This can be done by sourcing the `conda.sh` script. You can then activate the environment in the script and use the installed software.  
 
 You can add this to the top of your script (but below `#!/bin/bash`):  
 
@@ -432,7 +439,6 @@ python3 check_numpy_version.py
 
 >[!NOTE]
 > The provided Conda activation code chunk only works if you install Conda as described in this tutorial. It will likely not work if you used regular [Conda/Anaconda](https://www.anaconda.com/download), [Mamba/Miniforge](https://mamba.readthedocs.io/en/latest/installation/mamba-installation.html), or [Micromamba](https://mamba.readthedocs.io/en/latest/installation/micromamba-installation.html) (the other two alternative installers).
-
 
 ## End of Session 1
 

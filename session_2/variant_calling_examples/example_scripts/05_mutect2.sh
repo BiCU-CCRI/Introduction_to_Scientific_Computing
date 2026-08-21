@@ -13,7 +13,7 @@ mkdir -p "${OUT_DIR}"
 mkdir -p "${LOG_DIR}"
 
 IN_BAM="${IN_DIR}/${SAMPLE}.recal.bam"
-REF="${REF_DIR}/Homo_sapiens_assembly38.chr17.fasta"
+REF="${REF_DIR}/Homo_sapiens_assembly38.chr17.fasta.gz"
 GERMLINE_RESOURCE="${GERM_DIR}/gnomAD.r2.1.1.GRCh38.chr17.75pct.PASS.AC.AF.only.vcf.gz"
 UNFILTERED_VCF="${OUT_DIR}/${SAMPLE}.unfiltered.vcf.gz"
 FILTERED_VCF="${OUT_DIR}/${SAMPLE}.filtered.vcf.gz"
@@ -32,7 +32,7 @@ gatk --java-options "-Xmx5g" FilterMutectCalls \
     -R "${REF}" \
     -V "${UNFILTERED_VCF}" \
     -O "${FILTERED_VCF}" \
-    2> "${LOG_DIR}/${SAMPLE}.filter_mutect_calls.log"
+    2> "${LOG_DIR}/${SAMPLE}.filter_mutect2_calls.log"
 
 echo "Selecting PASS variants"
 gatk --java-options "-Xmx5g" SelectVariants \
@@ -44,3 +44,5 @@ gatk --java-options "-Xmx5g" SelectVariants \
 
 echo "Filtered VCF: ${FILTERED_VCF}"
 echo "PASS VCF:     ${PASS_VCF}"
+
+echo "All done."

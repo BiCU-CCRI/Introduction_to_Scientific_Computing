@@ -12,7 +12,7 @@ echo "Activating environment"
 source "${CONDA_PREFIX}/etc/profile.d/conda.sh"
 conda activate "${conda_env_name}"
 
-port=$(shuf -i8000-9000 -n1)
+port=$(shuf -i8000-9999 -n1)
 node="$(hostname).int.cemm.at"
 
-jupyter lab --no-browser --port=${port} --ip=${node}
+jupyter lab --no-browser --port="${port}" --ip="${node}"

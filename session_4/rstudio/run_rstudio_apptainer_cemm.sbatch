@@ -95,12 +95,12 @@ export APPTAINERENV_USER
 APPTAINERENV_PASSWORD="$(openssl rand -base64 24 | tr -d '/+=' | head -c 20)"
 export APPTAINERENV_PASSWORD
 
-# Get unused socket between 8000 and 9000 (these are accessible within the CCRI network):
+# Get unused socket between 8000 and 9999 (these are accessible within the CCRI network):
 readonly PORT=$(python -c '
 import socket
 import random
 
-def find_port_in_range(start=8000, end=9000):
+def find_port_in_range(start=8000, end=9999):
     while True:
         port = random.randint(start, end)
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
@@ -118,7 +118,7 @@ cat 1>&2 <<END
 To access the RStudio Server, cmd + click for Mac/ctrl + click for Windows the link or copy-paste this to your web browser:
 http://${HOSTNAME}.int.cemm.at:${PORT}
 
-Rstudio user: $(whoami)
+RStudio user: $(whoami)
 RStudio password: ${APPTAINERENV_PASSWORD}
 END
 

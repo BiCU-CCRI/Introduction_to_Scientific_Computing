@@ -4,4 +4,6 @@
 *.rstudio_server/
 *.Renviron
 *jupyter-lab*.log
-*ipynb_checkpoints
+*ipynb_checkpoints.DS_Store
+.vscode
+.DS_Store
